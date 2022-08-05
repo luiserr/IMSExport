@@ -1,0 +1,20 @@
+{
+    "name": "vendor/imsexport",
+    "description": "App for export to ims",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "IMSExport\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Luis Rivero"
+        }
+    ],
+    "minimum-stability": "beta",
+    "require": {
+      "ext-xmlwriter": "*"
+    }
+}

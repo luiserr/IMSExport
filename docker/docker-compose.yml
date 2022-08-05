@@ -1,0 +1,19 @@
+version: '2'
+services:
+  app:
+    container_name: IMSExport
+    build:
+      context: ./
+      dockerfile: Dockerfile 
+    volumes:
+      - '../App:/var/www/html/IMSExport'
+      - '../.env:/var/www/.env'
+      - './apache_dev.conf:/etc/apache2/apache2.conf'
+    restart: always
+    ports:
+      - '443:443'
+      - '80:80' 
+      - '6060:6060'
+
+
+  

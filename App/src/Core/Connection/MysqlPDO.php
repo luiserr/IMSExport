@@ -1,6 +1,6 @@
 <?php
 
-namespace IMSExport\Core;
+namespace IMSExport\Core\Connection;
 
 class MysqlPDO {
     /*VARIABLES*/
