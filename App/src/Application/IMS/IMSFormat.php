@@ -22,7 +22,7 @@ class IMSFormat
             function (Generator $generator) use ($title, $description) {
                 $generator
                     ->createElement('schema', null, 'IMS Common Cartridge')
-                    ->createElement('version', null, '1.0.0', null)
+                    ->createElement('schemaversion', null, '1.0.0', null)
                     ->createElement('lom', null, null, function (Generator $generator) use ($title, $description) {
                         $generator->createElement('general', null, null, function (Generator $generator) use ($title, $description) {
                             $generator->createElement('title', null, null, function (Generator $generator) use ($title) {

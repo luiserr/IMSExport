@@ -55,4 +55,31 @@ $app->action('get', '/xml', function () {
     });
 });
 
+$app->action('get', 'xml2', function(){
+
+    $obj = new Generator();
+
+    $obj->createElement('root', ['message' => 'hola mundo'], null, function (Generator $generator) {
+       $generator
+           ->createElement('children1', null, 'Hola mundo 2')
+           ->createElement('children2', null, null, function (Generator $generator) {
+              $generator->createElement('children3', ['attr' => 'hola'], 'texto');
+           });
+    })
+    ->finish();
+
+});
+
+/*
+ *
+ * <root message="hola mundo">
+ *  <children1>Hola mundo 2</children1>
+ *  <children2>
+ *      <children3 attr="hola">texto</children3>
+ *  </children2>
+ * </root>
+ *
+ *
+ * */
+
 return $app->exec();
