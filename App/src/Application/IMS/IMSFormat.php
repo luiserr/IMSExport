@@ -48,7 +48,7 @@ class IMSFormat
 
     }
 
-    public function createItem()
+    public function createItem(string $title, string $identifier, string $identifierRef)
     {
 
     }
