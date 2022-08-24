@@ -6,7 +6,7 @@ use IMSexport\Application\XMLGenerator\Generator;
 
 class IMSFormat
 {
-    protected Generator $XMLGenerator;
+    public Generator $XMLGenerator;
 
     public function __construct()
     {
