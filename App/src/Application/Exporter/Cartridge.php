@@ -10,7 +10,7 @@ use IMSExport\Application\IMS\IMSIdentifier;
 use Imsexport\Application\IMS\IMSIdentifierRef;
 use IMSexport\Application\XMLGenerator\Generator;
 
-class Exporter extends IMSFormat
+class Cartridge extends IMSFormat
 {
     protected IdentifierInterface $identifierCreator;
     protected IdentifierInterface $identifierRefCreator;
