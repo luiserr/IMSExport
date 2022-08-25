@@ -15,6 +15,7 @@
     ],
     "minimum-stability": "beta",
     "require": {
-      "ext-xmlwriter": "*"
+      "ext-xmlwriter": "*",
+        "tightenco/collect": "^9.25"
     }
 }

@@ -8,6 +8,7 @@ use IMSExport\Core\BaseEntity;
 /**
  * @property mixed|null $title
  * @property mixed|null $description
+ * @property array|null $resources
  */
 class Group extends BaseEntity
 {

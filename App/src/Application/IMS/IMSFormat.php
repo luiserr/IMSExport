@@ -13,6 +13,19 @@ class IMSFormat
         $this->XMLGenerator = new Generator();
     }
 
+    public function createManifest($children)
+    {
+        $this->XMLGenerator->createElement('manifest', [
+            'identifier' => 'man00001',
+            'xmlns' => 'http://www.imsglobal.org/xsd/imsccv1p1/imscp_v1p1',
+            'xmlns:lom' => "http://ltsc.ieee.org/xsd/imsccv1p1/LOM/resource",
+            'xmlns:lomimscc' => "http://ltsc.ieee.org/xsd/imsccv1p1/LOM/manifest",
+            'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance"
+        ], null,
+            $children
+        );
+    }
+
     public function createMetadata(string $title, string $description): self
     {
         $this->XMLGenerator->createElement(
@@ -38,17 +51,44 @@ class IMSFormat
         return $this;
     }
 
-    public function createOrganization()
+    public function createOrganization(string $identifier, callable $children)
     {
-
+        $this->XMLGenerator->createElement(
+            'organization',
+            [
+                'identifier' => $identifier,
+                'structure' => 'rooted-hierarchy'
+            ],
+            null,
+            function (Generator $generator) use ($children) {
+                $generator->createElement(
+                    'item',
+                    [
+                        'identifier' => time()
+                    ],
+                    null,
+                    $children
+                );
+            }
+        );
     }
 
-    public function createOrganizations()
+    public function createOrganizations(callable $children)
     {
-
+        $this->XMLGenerator->createElement(
+            'organizations',
+            null,
+            null,
+            $children
+        );
     }
 
-    public function createItem(string $title, string $identifier, string $identifierRef)
+    public function createItem(
+        string        $identifier,
+        string        $identifierRef,
+        string|null   $title,
+        callable|null $children
+    )
     {
 
     }
