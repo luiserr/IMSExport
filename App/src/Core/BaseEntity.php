@@ -44,18 +44,19 @@ class BaseEntity
     public function search($resource, $collection = false): array | null
     {
         $data = $this->repository->getData($resource);
-//        if ($collection) {
-//            return Collection::collection($data);
-//        }
+        if ($collection) {
+            return Collection::collection($data);
+        }
         return $data;
     }
 
-    /**
-     * @param $resource
-     * @return mixed|null
-     */
     public function firstElement($resource): array | null
     {
         return $this->repository->firstElement($resource);
+    }
+
+    public function setData($data): void
+    {
+        $this->data = $data;
     }
 }

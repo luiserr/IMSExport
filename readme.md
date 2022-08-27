@@ -14,3 +14,5 @@ app for export IMS standart, Cartridge, QTI, Discussions
    `docker exec -it IMSExport bash`
 6. Install depdendencies
    `php composer.phar install`
+7. go to http://localhost/IMSExport/xml
+if download ejemplo.xml, then it's work

@@ -1,6 +1,6 @@
 <?php
 
-namespace Imsexport\Application\IMS;
+namespace IMSExport\Application\IMS\Services\Identifier;
 
 class IMSIdentifierRef extends IMSIdentifierBase
 {

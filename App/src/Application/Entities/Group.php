@@ -12,7 +12,6 @@ use IMSExport\Core\BaseEntity;
  */
 class Group extends BaseEntity
 {
-
     public function __construct(public int $groupId)
     {
         $this->repository = new GroupModel();
@@ -20,7 +19,12 @@ class Group extends BaseEntity
 
     public function find()
     {
-        $this->repository->find($this->groupId);
+//        $this->repository->find($this->groupId);
+        $dummyData = [
+            'id' => '0001',
+            'title' => 'Test Course',
+            'description' => 'Test Course Description'
+        ];
     }
 
     public function getFolders()

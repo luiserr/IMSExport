@@ -7,17 +7,14 @@ use PDO;
 
 class BaseModel
 {
-    /**
-     * @var MysqlPDO $connection
-     */
-    protected $connection;
+    protected MysqlPDO $connection;
     protected $params;
 
-    protected $host;
-    protected $port;
-    protected $db;
-    protected $user;
-    protected $pass;
+    protected string  $host;
+    protected string $port;
+    protected string $db;
+    protected string $user;
+    protected string $pass;
 
     const PROCTORING = 'proctoring';
     const EXAM = 'exam';
@@ -29,34 +26,18 @@ class BaseModel
             ->setConnection($this->host, $this->port, $this->user, $this->pass, $this->db);
     }
 
-    /**
-     * @param $server
-     * @return $this
-     */
-    public function getConnectionParams($server)
+    public function getConnectionParams($server): static
     {
-        require _DASHBORAD . 'src/Core/Connection/configuration.php';
-        $config = $ServiceConfiguration;
-        switch ($server) {
-            case self::PROCTORING:
-                $config = $config[self::PROCTORING];
-                break;
-            case self::EXAM:
-                $config = $config[self::EXAM];
-                break;
-            default:
-                $config = $config[self::REPLICA];
-        }
-        $this->host = $config['host'];
-        $this->port = $config['port'];
-        $this->user = $config['user'];
-        $this->pass = $config['pass'];
-        $this->db = $config['db'];
+//        $this->host = $config['host'];
+//        $this->port = $config['port'];
+//        $this->user = $config['user'];
+//        $this->pass = $config['pass'];
+//        $this->db = $config['db'];
         return $this;
     }
 
 
-    public function setConnection($host, $port, $user, $pass, $db)
+    public function setConnection($host, $port, $user, $pass, $db): static
     {
         $mySqlPdo = new MysqlPDO(
             $host,
@@ -78,23 +59,16 @@ class BaseModel
         return null;
     }
 
-    /**
-     * @param $resource
-     * @return null|array
-     */
-    public function getData($resource)
+    public function getData($resource): ?array
     {
         if ($resource && isset($resource['success']) && $resource['success']) {
-            /*
-             * @var PDOStatement $statment;
-             */
             $statment = $resource['data'];
             return $statment->fetchAll(PDO::FETCH_ASSOC);
         }
         return null;
     }
 
-    public function getDataPaginate($resouce)
+    public function getDataPaginate($resouce): array
     {
         return [
             'data' => $this->getData($resouce),
@@ -102,7 +76,7 @@ class BaseModel
         ];
     }
 
-    protected function query($sql, $parameters = [], $pagination = null)
+    protected function query($sql, $parameters = [], $pagination = null): ?array
     {
         $resource = $this
             ->connection
@@ -160,7 +134,7 @@ class BaseModel
         ];
     }
 
-    private function executePaginateQuery($sql, $parameters, $paginator)
+    private function executePaginateQuery($sql, $parameters, $paginator): array
     {
         $newSQL = $this->builderPaginateSQL($sql, $paginator['currentPage'], $paginator['perPage']);
         return $this->connection->runQuery($newSQL, $parameters);
@@ -190,7 +164,7 @@ class BaseModel
      * @return array
      * @throws Exception
      */
-    protected function executeOrFail($sql, $parameters = [])
+    protected function executeOrFail($sql, array $parameters = []): array
     {
         $execution = $this->execute($sql, $parameters);
         if (!$execution['success']) {
@@ -201,7 +175,7 @@ class BaseModel
 
     public function beginTransaction()
     {
-        $this->connection->bTransaction();
+        $this->connection->beginTransaction();
     }
 
     public function commit()

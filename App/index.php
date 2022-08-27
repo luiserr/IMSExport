@@ -37,22 +37,9 @@ use IMSExport\Application\XMLGenerator\Generator;
 $app = new Teeny;
 
 $app->action('get', '/xml', function () {
-    $xml = new Generator();
-    $xml->createElement('manifest', [
-        'identifier' => 'man00001',
-        'xmlns' => 'http://www.imsglobal.org/xsd/imsccv1p1/imscp_v1p1',
-        'xmlns:lom' => "http://ltsc.ieee.org/xsd/imsccv1p1/LOM/resource",
-        'xmlns:lomimscc' => "http://ltsc.ieee.org/xsd/imsccv1p1/LOM/manifest",
-        'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance"
-    ], null, function (Generator $generator) {
-        $generator->createElement('metadata', null, null,
-            static function (Generator $generator) {
-                $generator
-                    ->createElement('schema', null, 'IMS Common Cartridge')
-                    ->createElement('schemaversion', null, '1.0.0', null);
-            })
-            ->finish();
-    });
+    $group = new \IMSExport\Application\Entities\Group(10000);
+    $cartridge = new \IMSExport\Application\IMS\Exporter\Cartridge($group);
+    $cartridge->export();
 });
 
 $app->action('get', 'xml2', function(){

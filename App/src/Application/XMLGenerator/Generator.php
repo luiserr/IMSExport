@@ -8,18 +8,9 @@ class Generator
 {
     protected XMLWriter $xml;
 
-    public function __construct()
+    public function __construct(protected bool $memory = false)
     {
         $this->xml = new XMLWriter();
-        $this->init();
-    }
-
-    protected function init()
-    {
-        $this->xml->openMemory();
-        $this->xml->setIndent(true);
-        $this->xml->setIndentString(' ');
-        $this->xml->startDocument('1.0', 'UTF-8');
     }
 
     public function createElement(
@@ -61,15 +52,19 @@ class Generator
     public function finish()
     {
         $this->xml->endDocument();
-        $content = $this->xml->outputMemory();
-//        ob_end_clean();
-//        ob_start();
-        header('Content-Type: application/xml; charset=UTF-8');
-        header('Content-Encoding: UTF-8');
-        header("Content-Disposition: attachment;filename=ejemplo.xml");
-        header('Expires: 0');
-        header('Pragma: cache');
-        header('Cache-Control: private');
-        echo $content;
+        $content = $this->xml->flush();
+    }
+
+    public function init(string $path = null): Generator
+    {
+        if ($this->memory) {
+            $this->xml->openMemory();
+        } else {
+            $this->xml->openUri($path);
+        }
+        $this->xml->setIndent(true);
+        $this->xml->setIndentString(' ');
+        $this->xml->startDocument('1.0', 'UTF-8');
+        return $this;
     }
 }

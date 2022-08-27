@@ -1,28 +1,21 @@
 <?php
 
-namespace IMSExport\Application\Exporter;
+namespace IMSExport\Application\IMS\Exporter;
 
 use Exception;
 use IMSExport\Application\Entities\Group;
-use IMSExport\Application\IMS\IdentifierInterface;
-use IMSExport\Application\IMS\IMSFormat;
-use IMSExport\Application\IMS\IMSIdentifier;
-use Imsexport\Application\IMS\IMSIdentifierRef;
+use IMSExport\Application\IMS\Services\Formats\Cartridge as Format;
 use IMSexport\Application\XMLGenerator\Generator;
 use IMSExport\Helpers\Collection;
 use function IMSExport\Helpers\createCollection;
 
-class Cartridge extends IMSFormat
+class Cartridge extends Format
 {
-    protected IdentifierInterface $identifierCreator;
-    protected IdentifierInterface $identifierRefCreator;
     protected Collection $resources;
     protected array $queue = [];
 
     public function __construct(public Group $group)
     {
-        $this->identifierCreator = new IMSIdentifier();
-        $this->identifierRefCreator = new IMSIdentifierRef();
         $this->resources = createCollection($this->group->resources);
         parent::__construct();
     }
@@ -33,12 +26,13 @@ class Cartridge extends IMSFormat
             $self = $this;
             $this->createManifest(function () use ($self) {
                 $self
-                    ->createMetadata($self->group->title, $self->group->description)
-                    ->createOrganizationsStructure();
+                    ->createMetadata($self->group->title, $self->group->description);
+//                    ->createOrganizationsStructure();
 
-            });
+            })
+            ->finish();
         } catch (Exception $exception) {
-
+            echo $exception->getMessage();
         }
     }
 
@@ -93,4 +87,20 @@ class Cartridge extends IMSFormat
     }
 
 
+    protected function createResources()
+    {
+        foreach ($this->queue as $resource) {
+
+        }
+    }
+
+    public function getName(): string
+    {
+        return 'imsmanifest.xml';
+    }
+
+    public function getFolderName(): string
+    {
+        return $this->group->groupId;
+    }
 }

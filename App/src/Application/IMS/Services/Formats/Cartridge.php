@@ -1,19 +1,13 @@
 <?php
 
-namespace IMSExport\Application\IMS;
+namespace IMSExport\Application\IMS\Services\Formats;
 
 use IMSexport\Application\XMLGenerator\Generator;
 
-class IMSFormat
+abstract class Cartridge extends BaseFormat
 {
-    public Generator $XMLGenerator;
 
-    public function __construct()
-    {
-        $this->XMLGenerator = new Generator();
-    }
-
-    public function createManifest($children)
+    protected function createManifest($children): self
     {
         $this->XMLGenerator->createElement('manifest', [
             'identifier' => 'man00001',
@@ -24,9 +18,10 @@ class IMSFormat
         ], null,
             $children
         );
+        return $this;
     }
 
-    public function createMetadata(string $title, string $description): self
+    protected function createMetadata(string $title, string $description): self
     {
         $this->XMLGenerator->createElement(
             'metadata',
@@ -51,7 +46,7 @@ class IMSFormat
         return $this;
     }
 
-    public function createOrganization(string $identifier, callable $children)
+    protected function createOrganization(string $identifier, callable $children): self
     {
         $this->XMLGenerator->createElement(
             'organization',
@@ -71,9 +66,10 @@ class IMSFormat
                 );
             }
         );
+        return $this;
     }
 
-    public function createOrganizations(callable $children)
+    protected function createOrganizations(callable $children): self
     {
         $this->XMLGenerator->createElement(
             'organizations',
@@ -81,24 +77,10 @@ class IMSFormat
             null,
             $children
         );
+        return $this;
     }
 
-    public function createItem(
-        string        $identifier,
-        string        $identifierRef,
-        string|null   $title,
-        callable|null $children
-    )
-    {
-
-    }
-
-    public function createResource()
-    {
-
-    }
-
-    public function export()
+    protected function createResource()
     {
 
     }
