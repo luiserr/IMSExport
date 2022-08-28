@@ -6,7 +6,7 @@ use IMSExport\Core\Connection\BaseModel;
 
 class BaseEntity
 {
-    protected array $data;
+    protected array $data = [];
 
     protected BaseModel $repository;
 

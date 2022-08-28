@@ -16,7 +16,7 @@ class Cartridge extends Format
 
     public function __construct(public Group $group)
     {
-        $this->resources = createCollection($this->group->resources);
+        $this->resources = Collection::createCollection($this->group->resources);
         parent::__construct();
     }
 

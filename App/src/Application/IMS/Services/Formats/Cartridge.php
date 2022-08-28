@@ -23,7 +23,8 @@ abstract class Cartridge extends BaseFormat
 
     protected function createMetadata(string $title, string $description): self
     {
-        $this->XMLGenerator->createElement(
+        $this->XMLGenerator
+            ->createElement(
             'metadata',
             null,
             null,

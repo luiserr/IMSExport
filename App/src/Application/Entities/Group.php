@@ -15,6 +15,7 @@ class Group extends BaseEntity
     public function __construct(public int $groupId)
     {
         $this->repository = new GroupModel();
+        $this->find();
     }
 
     public function find()
@@ -25,6 +26,7 @@ class Group extends BaseEntity
             'title' => 'Test Course',
             'description' => 'Test Course Description'
         ];
+        $this->setData($dummyData);
     }
 
     public function getFolders()

@@ -1,22 +1,6 @@
 <?php
 
-
 namespace IMSExport\Helpers;
-
-
-use JetBrains\PhpStorm\Pure;
-
-/**
- * @param array $array
- * @return Collection
- */
-#[Pure] function createCollection($array): Collection
-{
-    if (is_array($array)) {
-        return new Collection($array);
-    }
-    return new Collection([]);
-}
 
 namespace IMSExport\Helpers;
 
@@ -31,6 +15,14 @@ class Collection
     public function __construct($collection)
     {
         $this->collection = $collection;
+    }
+
+    public static function createCollection($array): Collection
+    {
+        if (is_array($array)) {
+            return new Collection($array);
+        }
+        return new Collection([]);
     }
 
     /**
@@ -71,6 +63,11 @@ class Collection
             return new Collection($result);
         }
         return new Collection([]);
+    }
+
+    public function count()
+    {
+        return count($this->collection);
     }
 
     /**
@@ -117,11 +114,6 @@ class Collection
     {
         $newCollection = Collections::columns($this->collection, $keys);
         return new Collection($newCollection);
-    }
-
-    public function count()
-    {
-        return count($this->collection);
     }
 
     /**

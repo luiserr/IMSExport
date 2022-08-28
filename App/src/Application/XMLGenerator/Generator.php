@@ -1,6 +1,6 @@
 <?php
 
-namespace IMSexport\Application\XMLGenerator;
+namespace IMSExport\Application\XMLGenerator;
 
 use XMLWriter;
 
@@ -57,11 +57,13 @@ class Generator
 
     public function init(string $path = null): Generator
     {
+        print_r($path);
         if ($this->memory) {
             $this->xml->openMemory();
         } else {
             $this->xml->openUri($path);
         }
+        echo $path;
         $this->xml->setIndent(true);
         $this->xml->setIndentString(' ');
         $this->xml->startDocument('1.0', 'UTF-8');

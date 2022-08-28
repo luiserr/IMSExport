@@ -10,11 +10,11 @@ class BaseModel
     protected MysqlPDO $connection;
     protected $params;
 
-    protected string  $host;
-    protected string $port;
-    protected string $db;
-    protected string $user;
-    protected string $pass;
+    protected string  $host = '10.9.0.7';
+    protected int $port = 3306;
+    protected string $db = 'territorio2_0';
+    protected string $user = 'territorium';
+    protected string $pass = 'T3rr1t0r1um4zur3';
 
     const PROCTORING = 'proctoring';
     const EXAM = 'exam';
