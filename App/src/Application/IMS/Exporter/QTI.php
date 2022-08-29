@@ -21,9 +21,18 @@ class QTI extends IMSQTIFormat
 
     public function export()
     {
-        $this
-            ->createDummy()
+        try {
+            $self = $this;
+            $this->createQuestestinterop(function () use ($self) {
+                $self
+                    ->createAssessment($this->data['identifier'], $this->data['title'], function () use ($self){
+                        $self->qtimetadata('5');
+                    });
+            })
             ->finish();
+        } catch (Exception $exception) {
+            echo $exception->getMessage();
+        }
     }
 
     protected function finish(): BaseFormat
