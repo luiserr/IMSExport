@@ -1,8 +1,9 @@
 <?php
 
-namespace IMSExport\Application\Exporter;
+namespace IMSExport\Application\IMS\Exporter;
 
 use IMSExport\Application\Entities\Exam;
+use IMSExport\Application\Entities\Group;
 use IMSExport\Application\IMS\Services\Formats\BaseFormat;
 use IMSExport\Application\IMS\Services\Formats\IMSQTIFormat;
 
@@ -10,16 +11,25 @@ class QTI extends IMSQTIFormat
 {
     protected Exam $exam;
 
-    public function __construct(public array $data)
+    public function __construct(protected Group $group, protected array $data)
     {
 //        find exam
-        $this->exam = new Exam();
-        $this->exam->find($data['id']);
+        $this->exam = new Exam($this->data['id']);
+        $this->exam->find();
+        parent::__construct();
     }
 
     public function export()
     {
-        // TODO: Implement export() method.
+        $this
+            ->createDummy()
+            ->finish();
+    }
+
+    protected function finish(): BaseFormat
+    {
+        $this->XMLGenerator->finish();
+        return $this;
     }
 
     public function getName(): string
@@ -29,16 +39,11 @@ class QTI extends IMSQTIFormat
 
     public function getFolderName(): string
     {
-        return $this->data['identifier'];
+        return "{$this->group->groupId}/{$this->data['identifier']}";
     }
 
     public function getType(): string
     {
-        // TODO: Implement getType() method.
-    }
-
-    protected function finish(): \IMSExport\Application\IMS\Services\Formats\BaseFormat
-    {
-        $this->XMLGenerator->finish();
+        return 'imsqti_xmlv1p2/imscc_xmlv1p1/assessment';
     }
 }

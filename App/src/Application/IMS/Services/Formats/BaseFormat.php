@@ -2,31 +2,30 @@
 
 namespace IMSExport\Application\IMS\Services\Formats;
 
+use IMSExport\Application\IMS\Services\Identifier\IMSIdentifier;
+use IMSExport\Application\IMS\Services\Identifier\IMSIdentifierRef;
 use IMSExport\Application\XMLGenerator\Generator;
+use IMSExport\Helpers\File;
 use IMSExport\Helpers\Zip;
 
-abstract class BaseFormat implements Format
+abstract class BaseFormat implements FormatInterface
 {
     const PATH = './storage/export/IMS/';
 
     public Generator $XMLGenerator;
 
+    protected IMSIdentifier $identifierCreator;
+    protected IMSIdentifierRef $identifierRefCreator;
+
     public function __construct()
     {
+        $this->identifierCreator = new IMSIdentifier();
+        $this->identifierRefCreator = new IMSIdentifierRef();
+        File::createDirectory(self::PATH . $this->getFolderName());
         $this->XMLGenerator = new Generator();
-        $this->createDirectory()
+        $this
             ->XMLGenerator
             ->init($this->getFullPath());
-    }
-
-    public function createDirectory(): self
-    {
-        mkdir(
-            self::PATH . $this->getFolderName(),
-            0777,
-            true
-        );
-        return $this;
     }
 
     protected function getFullPath(): string
@@ -37,7 +36,9 @@ abstract class BaseFormat implements Format
     protected function finish(): self
     {
         $this->XMLGenerator->finish();
-        Zip::zip(self::PATH . $this->getFolderName(), self::PATH . $this->getFolderName() . '.zip');
+        $folderName = self::PATH . $this->getFolderName();
+        Zip::zip($folderName, self::PATH . $this->getFolderName() . '.zip');
+//        File::rmDir($folderName);
         return $this;
     }
 }

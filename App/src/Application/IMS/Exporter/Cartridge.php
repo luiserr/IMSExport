@@ -7,7 +7,6 @@ use IMSExport\Application\Entities\Group;
 use IMSExport\Application\IMS\Services\Formats\Cartridge as Format;
 use IMSexport\Application\XMLGenerator\Generator;
 use IMSExport\Helpers\Collection;
-use function IMSExport\Helpers\createCollection;
 
 class Cartridge extends Format
 {
@@ -20,23 +19,45 @@ class Cartridge extends Format
         parent::__construct();
     }
 
+    public function getName(): string
+    {
+        return 'imsmanifest.xml';
+    }
+
+    public function getFolderName(): string
+    {
+        return $this->group->groupId;
+    }
+
+    protected function createResources(): self
+    {
+        foreach ($this->queue as $resource) {
+            $driver = Factory::getDriver($this->group, $resource['typeActivity'], $resource);
+            $driver->export();
+            $href = "{$resource['identifier']}/{$driver->getName()}";
+            $this->createResourceTag($resource['identifier'], $driver->getType(), $href);
+        }
+        return $this;
+    }
+
     public function export(): void
     {
         try {
             $self = $this;
             $this->createManifest(function () use ($self) {
                 $self
-                    ->createMetadata($self->group->title, $self->group->description);
-//                    ->createOrganizationsStructure();
+                    ->createMetadata($self->group->title, $self->group->description)
+                    ->createOrganizationsStructure()
+                    ->createResources();
 
             })
-            ->finish();
+                ->finish();
         } catch (Exception $exception) {
             echo $exception->getMessage();
         }
     }
 
-    protected function createOrganizationsStructure(): void
+    protected function createOrganizationsStructure(): self
     {
         $roots = $this->resources
             ->where('parent_id', 0)
@@ -44,12 +65,15 @@ class Cartridge extends Format
         foreach ($roots as $root) {
             $self = $this;
             $this->createOrganizations(function () use ($self, $root) {
-                $identifier = $this->identifierCreator->getIdentifier('organization');
+                $identifier = $this
+                    ->identifierCreator
+                    ->getIdentifier('organization');
                 $self->createOrganization($identifier, function () use ($self, $root) {
                     $self->createItemResource($root);
                 });
             });
         }
+        return $this;
     }
 
     protected function createItemResource($parent): void
@@ -58,10 +82,14 @@ class Cartridge extends Format
             ->resources
             ->where('parent_id', $parent['id'])
             ->toArray();
-        if (count($resources)) {
+        if ($resources && count($resources)) {
             foreach ($resources as $resource) {
-                $identifier = $this->identifierCreator->getIdentifier('item');
-                $identifierRef = $this->identifierRefCreator->getIdentifier('item');
+                $identifier = $this
+                    ->identifierCreator
+                    ->getIdentifier('item');
+                $identifierRef = $this
+                    ->identifierRefCreator
+                    ->getIdentifier($resource['type']);
                 $resource = array_merge($resource, compact('identifier', 'identifierRef'));
                 $self = $this;
                 $this->XMLGenerator->createElement(
@@ -84,24 +112,6 @@ class Cartridge extends Format
         } else {
             $this->queue[] = $parent;
         }
-    }
-
-
-    protected function createResources()
-    {
-        foreach ($this->queue as $resource) {
-
-        }
-    }
-
-    public function getName(): string
-    {
-        return 'imsmanifest.xml';
-    }
-
-    public function getFolderName(): string
-    {
-        return $this->group->groupId;
     }
 
     public function getType(): string

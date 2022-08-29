@@ -29,6 +29,14 @@ class Group extends BaseEntity
         $this->setData($dummyData);
     }
 
+    public function resources(): array
+    {
+        return [
+            ['id' => 1, 'parent_id' => 0, 'typeActivity' => null, 'type' => 'assets', 'title' => 'Test Exam', 'description' => 'Test Description'],
+            ['id' => 2, 'parent_id' => 1, 'typeActivity' => 'exam', 'type' => 'assets', 'title' => 'Test Exam', 'description' => 'Test Description']
+        ];
+    }
+
     public function getFolders()
     {
         return $this->$this->repository->searchFolders();

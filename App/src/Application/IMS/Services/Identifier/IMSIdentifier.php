@@ -9,10 +9,13 @@ class IMSIdentifier extends IMSIdentifierBase
 
     public function getIdentifier(string $type): string
     {
-        return match ($type) {
-            'organization' => $this->createIdentifier('toc', $this->organizationId),
-            'item' => $this->createIdentifier('itm', $this->itemId),
-            default => '',
-        };
+        switch ($type) {
+            case 'organization':
+                return $this->createIdentifier('toc', $this->organizationId);
+            case 'item':
+                return $this->createIdentifier('item', $this->itemId);
+            default:
+                return '';
+        }
     }
 }

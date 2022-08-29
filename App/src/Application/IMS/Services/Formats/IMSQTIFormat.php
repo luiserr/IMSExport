@@ -4,7 +4,7 @@ namespace IMSExport\Application\IMS\Services\Formats;
 
 abstract class IMSQTIFormat extends BaseFormat
 {
-    public function createDummy()
+    public function createDummy(): self
     {
         $this->XMLGenerator->createElement(
             'Dummy',
@@ -13,5 +13,6 @@ abstract class IMSQTIFormat extends BaseFormat
             ],
             'Hello world'
         );
+        return $this;
     }
 }

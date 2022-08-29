@@ -2,7 +2,7 @@
 
 namespace IMSExport\Application\IMS\Services\Formats;
 
-interface Format
+interface FormatInterface
 {
     public function export();
 

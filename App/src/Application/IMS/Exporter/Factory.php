@@ -2,16 +2,17 @@
 
 namespace IMSExport\Application\IMS\Exporter;
 
-use IMSExport\Application\Exporter\QTI;
-use IMSExport\Application\IMS\Services\Formats\Format;
+use IMSExport\Application\Entities\Group;
+use IMSExport\Application\IMS\Services\Formats\FormatInterface;
 
 class Factory
 {
-    public static function getDriver(string $type, $data): Format
+    public static function getDriver(Group $group, string $type, $data): ?FormatInterface
     {
         switch ($type) {
             case 'exam':
-                return new QTI();
+                return new QTI($group, $data);
         }
+        return null;
     }
 }

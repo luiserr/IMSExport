@@ -25,25 +25,25 @@ abstract class Cartridge extends BaseFormat
     {
         $this->XMLGenerator
             ->createElement(
-            'metadata',
-            null,
-            null,
-            function (Generator $generator) use ($title, $description) {
-                $generator
-                    ->createElement('schema', null, 'IMS Common Cartridge')
-                    ->createElement('schemaversion', null, '1.0.0', null)
-                    ->createElement('lom', null, null, function (Generator $generator) use ($title, $description) {
-                        $generator->createElement('general', null, null, function (Generator $generator) use ($title, $description) {
-                            $generator->createElement('title', null, null, function (Generator $generator) use ($title) {
-                                $generator->createElement('string', null, $title, null);
-                            })
-                                ->createElement('description', null, null, function (Generator $generator) use ($description) {
-                                    $generator->createElement('string', null, $description, null);
-                                });
+                'metadata',
+                null,
+                null,
+                function (Generator $generator) use ($title, $description) {
+                    $generator
+                        ->createElement('schema', null, 'IMS Common Cartridge')
+                        ->createElement('schemaversion', null, '1.0.0', null)
+                        ->createElement('lom', null, null, function (Generator $generator) use ($title, $description) {
+                            $generator->createElement('general', null, null, function (Generator $generator) use ($title, $description) {
+                                $generator->createElement('title', null, null, function (Generator $generator) use ($title) {
+                                    $generator->createElement('string', null, $title, null);
+                                })
+                                    ->createElement('description', null, null, function (Generator $generator) use ($description) {
+                                        $generator->createElement('string', null, $description, null);
+                                    });
+                            });
                         });
-                    });
-            }
-        );
+                }
+            );
         return $this;
     }
 
@@ -81,8 +81,19 @@ abstract class Cartridge extends BaseFormat
         return $this;
     }
 
-    protected function createResource()
+    protected function createResourceTag($identifier, $type, $href): self
     {
-
+        $this->XMLGenerator->createElement(
+            'resource',
+            compact('identifier', $type),
+            null,
+            function (Generator $generator) use ($href) {
+                $generator->createElement(
+                    'file',
+                    compact('href')
+                );
+            }
+        );
+        return $this;
     }
 }

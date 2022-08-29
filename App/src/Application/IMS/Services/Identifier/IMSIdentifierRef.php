@@ -22,6 +22,7 @@ class IMSIdentifierRef extends IMSIdentifierBase
             case 'lti':
                 return $this->createIdentifier('lti', $this->webContentId);
         }
+        return '';
     }
 
 }
