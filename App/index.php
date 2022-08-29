@@ -31,29 +31,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+use IMSExport\Application\Entities\Group;
+use IMSExport\Application\IMS\Exporter\Cartridge;
 use IMSExport\Core\Router\Teeny;
 use IMSExport\Application\XMLGenerator\Generator;
 
 $app = new Teeny;
 
 $app->action('get', '/xml', function () {
-    $group = new \IMSExport\Application\Entities\Group(10000);
-    $cartridge = new \IMSExport\Application\IMS\Exporter\Cartridge($group);
+    $group = new Group(10000);
+    $cartridge = new Cartridge($group);
+    echo '<h1>Curso exportado con éxito!</h1>';
     $cartridge->export();
 });
 
-$app->action('get', 'xml2', function(){
+$app->action('get', 'xml2', function () {
 
     $obj = new Generator();
 
     $obj->createElement('root', ['message' => 'hola mundo'], null, function (Generator $generator) {
-       $generator
-           ->createElement('children1', null, 'Hola mundo 2')
-           ->createElement('children2', null, null, function (Generator $generator) {
-              $generator->createElement('children3', ['attr' => 'hola'], 'texto');
-           });
+        $generator
+            ->createElement('children1', null, 'Hola mundo 2')
+            ->createElement('children2', null, null, function (Generator $generator) {
+                $generator->createElement('children3', ['attr' => 'hola'], 'texto');
+            });
     })
-    ->finish();
+        ->finish();
 
 });
 
