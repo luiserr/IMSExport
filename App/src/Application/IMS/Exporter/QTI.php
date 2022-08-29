@@ -3,16 +3,18 @@
 namespace IMSExport\Application\Exporter;
 
 use IMSExport\Application\Entities\Exam;
+use IMSExport\Application\IMS\Services\Formats\BaseFormat;
 use IMSExport\Application\IMS\Services\Formats\IMSQTIFormat;
 
 class QTI extends IMSQTIFormat
 {
     protected Exam $exam;
 
-    public function __construct()
+    public function __construct(public array $data)
     {
 //        find exam
-        $this->exam->find();
+        $this->exam = new Exam();
+        $this->exam->find($data['id']);
     }
 
     public function export()
@@ -22,16 +24,21 @@ class QTI extends IMSQTIFormat
 
     public function getName(): string
     {
-
+        return "{$this->data['identifier']}.xml";
     }
 
     public function getFolderName(): string
     {
-        // TODO: Implement getFolderName() method.
+        return $this->data['identifier'];
     }
 
     public function getType(): string
     {
         // TODO: Implement getType() method.
+    }
+
+    protected function finish(): \IMSExport\Application\IMS\Services\Formats\BaseFormat
+    {
+        $this->XMLGenerator->finish();
     }
 }
