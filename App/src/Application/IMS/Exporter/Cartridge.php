@@ -19,11 +19,6 @@ class Cartridge extends Format
         parent::__construct();
     }
 
-    public function getName(): string
-    {
-        return 'imsmanifest.xml';
-    }
-
     public function getFolderName(): string
     {
         return $this->group->groupId;
@@ -34,8 +29,28 @@ class Cartridge extends Format
         foreach ($this->queue as $resource) {
             $driver = Factory::getDriver($this->group, $resource['typeActivity'], $resource);
             $driver->export();
-            $href = "{$resource['identifier']}/{$driver->getName()}";
-            $this->createResourceTag($resource['identifier'], $driver->getType(), $href);
+            $href = "{$resource['identifierRef']}/{$driver->getName()}";
+            $this->XMLGenerator->createElement(
+                'resources',
+                null,
+                null,
+                function () use ($resource, $driver, $href) {
+                    $this->XMLGenerator->createElement(
+                        'resource',
+                        [
+                            'identifier' => $resource['identifierRef'],
+                            'type' => $driver->getType()
+                        ],
+                        null,
+                        function (Generator $generator) use ($href) {
+                            $generator->createElement(
+                                'file',
+                                compact('href')
+                            );
+                        }
+                    );
+                }
+            );
         }
         return $this;
     }
@@ -112,6 +127,11 @@ class Cartridge extends Format
         } else {
             $this->queue[] = $parent;
         }
+    }
+
+    public function getName(): string
+    {
+        return 'imsmanifest.xml';
     }
 
     public function getType(): string

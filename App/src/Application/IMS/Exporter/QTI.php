@@ -34,12 +34,12 @@ class QTI extends IMSQTIFormat
 
     public function getName(): string
     {
-        return "{$this->data['identifier']}.xml";
+        return "{$this->data['identifierRef']}.xml";
     }
 
     public function getFolderName(): string
     {
-        return "{$this->group->groupId}/{$this->data['identifier']}";
+        return "{$this->group->groupId}/{$this->data['identifierRef']}";
     }
 
     public function getType(): string
