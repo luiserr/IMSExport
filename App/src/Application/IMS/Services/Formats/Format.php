@@ -9,4 +9,6 @@ interface Format
     public function getName(): string;
 
     public function getFolderName(): string;
+
+    public function getType(): string;
 }

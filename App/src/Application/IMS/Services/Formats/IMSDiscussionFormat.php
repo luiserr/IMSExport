@@ -2,7 +2,7 @@
 
 namespace IMSExport\Application\IMS\Services\Formats;
 
-class IMSDiscussionFormat
+abstract class IMSDiscussionFormat extends BaseFormat
 {
 
 }

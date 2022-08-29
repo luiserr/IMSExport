@@ -17,6 +17,7 @@
     "require": {
       "ext-xmlwriter": "*",
         "tightenco/collect": "^9.25",
-      "ext-pdo": "*"
+      "ext-pdo": "*",
+      "ext-zip": "*"
     }
 }

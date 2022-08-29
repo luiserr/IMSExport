@@ -103,4 +103,9 @@ class Cartridge extends Format
     {
         return $this->group->groupId;
     }
+
+    public function getType(): string
+    {
+        return 'ims_cartridge';
+    }
 }
