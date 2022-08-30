@@ -61,7 +61,7 @@ class QTI extends IMSQTIFormat
                 $this->XMLGenerator->createElement(
                     'section', 
                     [
-                        'ident'=> $identifier
+                        'identii'=> $identifier
                     ], 
                     null, 
                     null
