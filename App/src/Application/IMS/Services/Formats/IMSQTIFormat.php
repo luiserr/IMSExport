@@ -74,6 +74,39 @@ abstract class IMSQTIFormat extends BaseFormat
         return $this;
     }
 
+    protected function createInitPresentationMaterial($configurate): self
+    {
+
+        $instrucciones = $configurate['instrucciones'];
+
+        $this->XMLGenerator
+            ->createElement(
+            'presentation_material',
+            null,
+            null,
+            function (Generator $generator) use ( $instrucciones ) {
+                $generator
+                    ->createElement('flow_mat', null, null, 
+                        function (Generator $generator) use ( $instrucciones ) {
+                            $generator->createElement('material', null, null, 
+                                function (Generator $generator) use ( $instrucciones ) {
+                                    $generator->createElement(
+                                        "mattext", 
+                                        [
+                                            "texttype" => "TEXT/HTML",
+                                            "xml:space" => "preserve"
+                                        ], 
+                                        "<![CDATA[{$instrucciones}]]>"
+                                    );
+                                }
+                            );
+                        }
+                    );  
+            }
+        );
+        return $this;
+    }
+
     public function createDummy(): self
     {
         $this->XMLGenerator->createElement(

@@ -33,13 +33,43 @@ class QTI extends IMSQTIFormat
             $self = $this;
             $this->createQuestestinterop(function () use ($self) {
                 $self
-                    ->createAssessment($this->data['identifier'], $this->data['title'], function () use ($self){
-                        $self->qtimetadata($this->configurate['intentos']);
+                    ->createAssessment($this->data['identifierRef'], $this->data['title'], function () use ($self){
+                        $self
+                            ->qtimetadata($this->configurate['intentos'])
+                            ->createInitPresentationMaterial($this->configurate)
+                            ->createAllSection();
                     });
             })
             ->finish();
         } catch (Exception $exception) {
             echo $exception->getMessage();
+        }
+    }
+
+    protected function createAllSection()
+    {
+        $sections = $this
+            ->section
+            ->toArray();
+        if ($sections && count($sections)) {
+            foreach ($sections as $section) { 
+                $identifier = $this
+                    ->identifierCreator
+                    ->getIdentifier('section');
+                $self = $this;
+
+                $this->XMLGenerator->createElement(
+                    'section', 
+                    [
+                        'ident'=> $identifier
+                    ], 
+                    null, 
+                    null
+                );
+                /*$self->createSection($identifier, function () use ($self, $root) {
+                    $self->createItemSection($root);
+                });*/
+            }
         }
     }
 
