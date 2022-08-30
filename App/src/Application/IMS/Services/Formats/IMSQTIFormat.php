@@ -40,13 +40,13 @@ abstract class IMSQTIFormat extends BaseFormat
             function (Generator $generator) use ($attempt) {
                 $generator
                     ->createElement('qtimetadatafield', null, null, 
-                        function (Generator $generator) use ($attempt) {
+                        function (Generator $generator) {
                             $generator->createElement('fieldlabel', null, 'cc_profile', null);
                             $generator->createElement('fieldentry', null, 'cc.exam.v0p1', null);
                         }
                     )
                     ->createElement('qtimetadatafield', null, null, 
-                        function (Generator $generator) use ($attempt) {
+                        function (Generator $generator) {
                             $generator->createElement('fieldlabel', null, 'qmd_scoretype', null);
                             $generator->createElement('fieldentry', null, 'Percentage', null);
                         }
@@ -54,17 +54,17 @@ abstract class IMSQTIFormat extends BaseFormat
                     ->createElement('qtimetadatafield', null, null, 
                         function (Generator $generator) use ($attempt) {
                             $generator->createElement('fieldlabel', null, 'cc_maxattempts', null);
-                            $generator->createElement('fieldentry', null, '5', null);                
+                            $generator->createElement('fieldentry', null, $attempt, null);                
                         }
                     )
                     ->createElement('qtimetadatafield', null, null, 
-                        function (Generator $generator) use ($attempt) {
+                        function (Generator $generator) {
                             $generator->createElement('fieldlabel', null, 'qmd_assessmenttype', null);
                             $generator->createElement('fieldentry', null, 'Examination', null);
                         }
                     )
                     ->createElement('qtimetadatafield', null, null, 
-                        function (Generator $generator) use ($attempt) {
+                        function (Generator $generator) {
                             $generator->createElement('fieldlabel', null, 'qmd_feedbackpermitted', null);
                             $generator->createElement('fieldentry', null, 'No', null);
                         }

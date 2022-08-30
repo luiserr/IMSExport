@@ -14,4 +14,24 @@ class Exam extends BaseModel
             WHERE e.idpost = :id";
         return $this->query($sql, compact('id'));
     }
+
+    public function getSection(int $id): array|null
+    {
+    	$sql = "SELECT * FROM examen_seccion WHERE idExamen = :id";
+        return $this->query($sql, compact('id'));
+    }
+
+    public function getQuestion(int $id): array|null
+    {
+    	$sql = "SELECT * FROM preguntas WHERE idPost = :id";
+        return $this->query($sql, compact('id'));
+    }
+
+    public function getAnswer(int $id): array|null
+    {
+    	$sql = "SELECT r.* FROM preguntas p
+			INNER JOIN respuestas r ON (p.idPreguntas = r.idPreguntas)
+			WHERE idPost = :id";
+        return $this->query($sql, compact('id'));
+    }
 }
