@@ -6,6 +6,7 @@ use IMSExport\Application\Entities\Exam;
 use IMSExport\Application\Entities\Group;
 use IMSExport\Application\IMS\Services\Formats\BaseFormat;
 use IMSExport\Application\IMS\Services\Formats\IMSQTIFormat;
+use IMSExport\Application\IMS\Services\Question\Factory;
 use IMSExport\Helpers\Collection;
 
 class QTI extends IMSQTIFormat
@@ -75,7 +76,19 @@ class QTI extends IMSQTIFormat
     }
 
     protected function createItemSection($id){
+        $questions = $this
+            ->question
+            ->where('fk_idExamenSeccion', $id)
+            ->toArray();
 
+        if ($questions && count($questions)) {
+            foreach ($questions as $question) { 
+                if($question['tipo']==6) {
+                    $driver = Factory::getDriver($question['tipo'], $question);
+                    $driver->export();
+                }
+            }
+        }
     }
 
     protected function finish(): BaseFormat
