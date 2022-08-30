@@ -61,16 +61,21 @@ class QTI extends IMSQTIFormat
                 $this->XMLGenerator->createElement(
                     'section', 
                     [
-                        'identii'=> $identifier
+                        'ident'=> "{$this->data['identifierRef']}_{$identifier}"
                     ], 
                     null, 
-                    null
+                    function () use ($section, $self) {
+                        $self
+                            ->qtimetadataSection($section['numero_preguntas'], $section['ponderacion'])
+                            ->createItemSection($section['idExamenSeccion']);
+                    }
                 );
-                /*$self->createSection($identifier, function () use ($self, $root) {
-                    $self->createItemSection($root);
-                });*/
             }
         }
+    }
+
+    protected function createItemSection($id){
+
     }
 
     protected function finish(): BaseFormat

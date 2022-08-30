@@ -107,6 +107,35 @@ abstract class IMSQTIFormat extends BaseFormat
         return $this;
     }
 
+    protected function qtimetadataSection( $numberofitems, $weighting ): self
+    {
+
+        $this->XMLGenerator
+            ->createElement(
+            'qtimetadata',
+            null,
+            null,
+            function (Generator $generator) use ( $numberofitems, $weighting ) { 
+                $generator
+                    ->createElement('qtimetadatafield', null, null, 
+                        function (Generator $generator) use ( $numberofitems ) {
+                            $generator->createElement('fieldlabel', null, 'qmd_numberofitems', null);
+                            $generator->createElement('fieldentry', null, $numberofitems, null);
+                        }
+                    )
+                    ->createElement('qtimetadatafield', null, null, 
+                        function (Generator $generator) use ( $weighting ) {
+                            $generator->createElement('fieldlabel', null, 'cc_weighting', null);
+                            $generator->createElement('fieldentry', null, $weighting, null);
+                        }
+                    );
+            }
+        );
+
+        return $this;
+
+    }
+
     public function createDummy(): self
     {
         $this->XMLGenerator->createElement(
