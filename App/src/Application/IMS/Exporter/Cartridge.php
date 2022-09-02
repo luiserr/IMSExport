@@ -15,13 +15,13 @@ class Cartridge extends Format
 
     public function __construct(public Group $group)
     {
-        $this->resources = Collection::createCollection($this->group->resources);
+        $this->resources = Collection::createCollection($this->group->scaffolding());
         parent::__construct();
     }
 
     public function getFolderName(): string
     {
-        return $this->group->groupId;
+        return $this->group->seedId;
     }
 
     protected function createResources(): self

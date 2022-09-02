@@ -12,21 +12,18 @@ use IMSExport\Core\BaseEntity;
  */
 class Group extends BaseEntity
 {
-    public function __construct(public int $groupId)
+    public function __construct(public string $seedId)
     {
         $this->repository = new GroupModel();
         $this->find();
     }
 
-    public function find()
+    public function find(): self
     {
-//        $this->repository->find($this->groupId);
-        $dummyData = [
-            'id' => '0001',
-            'title' => 'Test Course',
-            'description' => 'Test Course Description'
-        ];
-        $this->setData($dummyData);
+        $this->repository->firstElement(
+            $this->repository->find($this->seedId)
+        );
+        return $this;
     }
 
     public function resources(): array
@@ -37,8 +34,47 @@ class Group extends BaseEntity
         ];
     }
 
-    public function getFolders()
+    public function scaffolding()
     {
-        return $this->$this->repository->searchFolders();
+        if (!$this->getAttribute('scaffolding')) {
+            $scaffolding = $this
+                ->getScaffolding();
+            $newScaffolding = array_map(function ($resource) {
+                if ($resource['resourceType'] !== null) {
+                    switch ((int)$resource['resourceType']) {
+                        case 0:
+                            $resource['resourceType'] = 'post';
+                            break;
+                        case 1:
+                            $resource['resourceType'] = 'exam';
+                            break;
+                        case 2:
+                            $resource['resourceType'] = 'task';
+                            break;
+                        case 3:
+                            $resource['resourceType'] = 'anuncio';
+                            break;
+                        case 4:
+                            $resource['resourceType'] = 'scorm';
+                            break;
+                        case 5:
+                            $resource['resourceType'] = 'probe';
+                            break;
+                    }
+                }
+                return $resource;
+            }, $scaffolding);
+            $this
+                ->setAttribute('scaffolding', $newScaffolding)
+                ->getAttribute('scaffolding');
+        }
+        return $this->getAttribute('scaffolding');
+    }
+
+    protected function getScaffolding(): ?array
+    {
+        return $this->repository->getData(
+            $this->repository->getScaffolding($this->getAttribute('id'))
+        );
     }
 }
