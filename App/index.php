@@ -45,31 +45,76 @@ $app->action('get', '/xml', function () {
     $cartridge->export();
 });
 
+/*
 $app->action('get', 'xml2', function () {
 
     $obj = new Generator();
 
     $obj->createElement('root', ['message' => 'hola mundo'], null, function (Generator $generator) {
-        $generator
-            ->createElement('children1', null, 'Hola mundo 2')
-            ->createElement('children2', null, null, function (Generator $generator) {
-                $generator->createElement('children3', ['attr' => 'hola'], 'texto');
-            });
+       $generator
+           ->createElement('children1', null, 'Hola mundo 1')
+           ->createElement('children2', null, 'Hola mundo 2')
+           ->createElement('children3', null, null, function (Generator $generator) {
+              $generator->createElement('children4', ['attr' => 'hola'], 'texto');
+           });
     })
-        ->finish();
+    ->finish();
 
 });
+/*
 
 /*
- *
- * <root message="hola mundo">
- *  <children1>Hola mundo 2</children1>
- *  <children2>
- *      <children3 attr="hola">texto</children3>
- *  </children2>
- * </root>
- *
- *
- * */
+<?xml version="1.0" encoding="UTF-8"?>
+<root message="hola mundo">
+    <children1>Hola mundo 1</children1>
+    <children2>Hola mundo 2</children2>
+    <children3>
+        <children4 attr="hola">texto</children4>
+    </children3>
+</root>
+*/
+
+/*
+$app->action('get', 'discussion', function() {
+    $dis = new Generator();
+    $dis->createElement(
+        'dt:topic', 
+        ['xmlns:dt'  => 'http://www.imsglobal.org/xsd/imsccv1p1/imscp_v1p1',
+         'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance'], 
+        null, 
+        function(Generator $generator) {
+        $generator
+            ->createElement('dt:title', null, 'S1: Foro de consultas')
+            ->createElement('dt:text', ['textype' => 'text/html'], htmlentities('TEXTO HTML', ENT_QUOTES, "UTF-8")) //Convertirá tanto las comillas dobles como las simples
+            ->createElement('dt:attachments', null, null, function (Generator $generator) {
+                $generator->createElement('dt:attachment', ['href' => 'archivo2.xml'], null);
+            });
+    })
+    ->finish();
+ });
+ */
+
+/*
+https://www.imsglobal.org/cc/ccv1p0/imscc_profilev1p0.html#toc-32
+
+http://localhost/IMSExport/discussion
+
+discussion_topic00001/discussion_topic00001.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<dt:topic xmlns:dt="http://www.imsglobal.org/xsd/imsccv1p1/imscp_v1p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <dt:title>S1: Foro de consultas</dt:title>
+	<dt:text texttype="text/html">TEXTO HTML
+    </dt:text>
+    <dt:attachments>
+        <dt:attachment href="archivo2.xml"/>
+    </dt:attachments>
+</dt:topic>
+
+$carpeta = '/ruta/miserver/public_html/carpeta';
+if (!file_exists($carpeta))
+   if (!mkdir($carpeta, 0777, true))
+      die('Fallo al crear las carpetas...');
+*/
 
 return $app->exec();

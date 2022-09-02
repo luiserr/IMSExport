@@ -32,8 +32,13 @@ class Group extends BaseEntity
     public function resources(): array
     {
         return [
-            ['id' => 1, 'parent_id' => 0, 'typeActivity' => null, 'type' => 'assets', 'title' => 'Test Exam', 'description' => 'Test Description'],
-            ['id' => 2, 'parent_id' => 1, 'typeActivity' => 'exam', 'type' => 'assets', 'title' => 'Test Exam', 'description' => 'Test Description']
+          /*['id' => 1, 'parent_id' => 0, 'typeActivity' => null, 'type' => 'assets', 'title' => 'Test Exam', 'description' => 'Test Description'],
+            ['id' => 152228607, 'parent_id' => 1, 'typeActivity' => 'exam', 'type' => 'assets', 'title' => 'Test Exam', 'description' => 'Test Description'],*/
+            ['id' => 2, 'parent_id' => 0, 'typeActivity' => null, 'type' => 'discussion', 'title' => 'Test Exam', 'description' => 'Test Description'],
+            ['id' => 101357094, 'parent_id' => 2, 'typeActivity' => 'forum', 'type' => 'discussion', 'title' => 'S1: Foro de consultas', 'description' => 'TEXTO HTML'] 
+//101357054 0 Attach
+//101357092 1 Attach
+//101357094 2 Attach
         ];
     }
 
