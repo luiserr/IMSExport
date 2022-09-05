@@ -86,7 +86,7 @@ class QTI extends IMSQTIFormat
         if ($questions && count($questions)) {
             $root = $this;
             foreach ($questions as $question) { 
-                if($question['tipo']==6) {
+                if($question['tipo']==6 || $question['tipo']==1 || $question['tipo']==5 || $question['tipo']==4 || $question['tipo']==9) {
 
                     $question = array_merge($question, compact('identifier'));
 

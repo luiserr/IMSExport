@@ -8,13 +8,12 @@ use IMSExport\Helpers\Collection;
 abstract class BaseQuestion 
 {	
 	protected Answer $answer;
-	protected Collection $answerAll;
-	protected array $corrects;
+	protected Collection $answerCollection;
 
 	public function __construct(public $data, public $root)
     {
     	$this->answer = new Answer($this->data['idPreguntas']);
-		$this->answerAll = Collection::createCollection($this->answer->find());
+		$this->answerCollection = Collection::createCollection($this->answer->find());
     }
 
     protected function createItem($children): self
@@ -22,25 +21,10 @@ abstract class BaseQuestion
         $this->root->XMLGenerator->createElement(
         	'item', 
         	[
-            'ident' => "{$this->data['identifier']}_{$this->data['idPreguntas']}",
+            'ident' => "{$this->data['identifier']}_{$this->data['idPreguntas']}"
         	], 
         	null,
             $children
-        );
-        return $this;
-    }
-
-    protected function createPresentation($children): self
-    {
-    	$self = $this;
-        $this->root->XMLGenerator->createElement(
-            'presentation',
-            null,
-            null,
-            function (Generator $generator) use ( $children ) {
-            	$generator
-                        ->createElement('flow', null, null, $children);
-            }
         );
         return $this;
     }
@@ -96,19 +80,15 @@ abstract class BaseQuestion
     protected function createAnswerChoice()
     {
     	$answers = $this
-            ->answerAll
+            ->answerCollection
             ->toArray();
 
         $self = $this;
-        $self->corrects = [];
        	if ($answers && count($answers)) {
             foreach ($answers as $key=>$value) 
             {
 
-            	$ident = "response_{$this->data['idPreguntas']}_{$key}";
-
-            	if($value['Correcta']==1) 
-            		array_push($self->corrects, $ident);
+            	$ident = "response_{$this->data['idPreguntas']}_{$value['idRespuesta']}";
 
             	$response = $value['Respuesta'];
             	$textoEnriquecido = $value['textoEnriquecido'];
@@ -210,10 +190,40 @@ abstract class BaseQuestion
         return $this;
     }
 
+    protected function response_str($ident, $rcardinality, $maxchars): void 
+    {
+
+        $this->root->XMLGenerator->createElement(
+            'response_str',
+            [
+                "ident" => $ident, 
+                "rcardinality" => $rcardinality
+            ], 
+            null,
+            function () use ($maxchars) {
+                $this->root->XMLGenerator->createElement(
+                    'render_fib',
+                    [
+                        "fibtype" => "String", 
+                        "prompt" => "Dashline", 
+                        "maxchars" => $maxchars
+                    ], 
+                    null,
+                    function () {
+                        $this->root->XMLGenerator->createElement('response_label', [
+                        "ident" => "A"], null, null);
+                    }
+                );
+            }
+        );
+    }
+
     protected function getText(): string
     {
         return $this->data['Pregunta'];
     }
 
     protected abstract function export();
+
+    protected abstract function answersCorrect();
 }
