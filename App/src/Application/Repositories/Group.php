@@ -10,7 +10,8 @@ class Group extends BaseModel
     {
         $sql = "select 
 			g.idgrupo as id,
-			g.nombre as name,
+			g.nombre as title,
+			g.nombre as description,
 			g.siglas as seedId,
 			g.fk_idusuarioSocial as socialId
 			from grupo g where siglas = :id;";

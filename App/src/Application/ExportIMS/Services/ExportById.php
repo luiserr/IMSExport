@@ -11,5 +11,6 @@ class ExportById extends BaseExport
         $processId = $this->registerProcess($group);
         $this->init($group);
         $this->finishProcess($processId);
+        print_r(['success' => true, 'message' => 'curso exportado con éxito']);
     }
 }

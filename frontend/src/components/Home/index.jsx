@@ -4,7 +4,7 @@ import {Outlet} from 'react-router-dom';
 
 const Body = () => {
   return (
-    <Container sx={{marginTop: '6em', border: '1px solid red'}}>
+    <Container sx={{marginTop: '6em'}}>
       <Card elevation={3}>
         <CardContent>
           <Grid container spacing={2}>

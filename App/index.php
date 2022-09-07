@@ -32,17 +32,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 require_once __DIR__ . '/vendor/autoload.php';
 
 use IMSExport\Application\Entities\Group;
-use IMSExport\Application\IMS\Exporter\Cartridge;
+use IMSExport\Application\ExportIMS\Handlers\ExportIMS;
 use IMSExport\Core\Router\Teeny;
 
 $app = new Teeny;
 
-$app->action('get', '/xml', function () {
-    $export = new \IMSExport\Application\ExportIMS\Handlers\ExportIMS('id', ['seedId' => '51250023_3_VIRTUAL_1']);
-});
-
-$app->action('get', '/group/<groupId:num>', function ($params) {
-    $group = new Group($params['groupId']);
+$app->action('get', '/export/<seedId:noslash>', function ($params) {
+//    $export = new ExportIMS('id', ['seedId' => '51250023_3_VIRTUAL_1']);
+    $export = new ExportIMS('id', $params);
+    $export->run();
 });
 
 /*

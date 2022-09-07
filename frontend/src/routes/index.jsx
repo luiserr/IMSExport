@@ -7,7 +7,7 @@ const MyRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Body/>}>
-        <Route path="export" element={<Export/>}/>
+        <Route path="/" element={<Export/>}/>
       </Route>
     </Routes>
   );

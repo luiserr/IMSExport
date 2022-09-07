@@ -2,6 +2,7 @@
 
 namespace IMSExport\Application\Entities;
 
+use Exception;
 use IMSExport\Application\Repositories\Group as GroupModel;
 use IMSExport\Core\BaseEntity;
 
@@ -18,12 +19,20 @@ class Group extends BaseEntity
         $this->find();
     }
 
+    /**
+     * @throws Exception
+     */
     public function find(): self
     {
-        $this->repository->firstElement(
+        $group = $this->repository->firstElement(
             $this->repository->find($this->seedId)
         );
-        return $this;
+        print_r($group);
+        if ($group) {
+            $this->setData($group);
+            return $this;
+        }
+        throw new Exception('Grupo no encontrado');
     }
 
     public function resources(): array
@@ -43,9 +52,6 @@ class Group extends BaseEntity
             $newScaffolding = array_map(function ($resource) {
                 if ($resource['resourceType'] !== null) {
                     switch ((int)$resource['resourceType']) {
-                        case 0:
-                            $resource['resourceType'] = 'post';
-                            break;
                         case 1:
                             $resource['resourceType'] = 'exam';
                             break;
@@ -60,6 +66,9 @@ class Group extends BaseEntity
                             break;
                         case 5:
                             $resource['resourceType'] = 'probe';
+                            break;
+                        default:
+                            $resource['resourceType'] = 'post';
                             break;
                     }
                 }
