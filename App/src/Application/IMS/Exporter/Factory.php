@@ -7,9 +7,11 @@ use IMSExport\Application\IMS\Services\Formats\FormatInterface;
 
 class Factory
 {
-    public static function getDriver(Group $group, string $type, $data): ?FormatInterface
+    public static function getDriver(Group $group, ?string $type, $data): ?FormatInterface
     {
         switch ($type) {
+            case '_exam':
+                return new QTI($group, $data);
           /*case 'exam':
                 return new QTI($group, $data);*/
             case 'forum':
