@@ -51,7 +51,7 @@ class QTI extends IMSQTIFormat
             ->section
             ->toArray();
         if ($sections && count($sections)) {
-            foreach ($sections as $section) { 
+            foreach ($sections as $section) {
                 $identifier = $this
                     ->identifierCreator
                     ->getIdentifier('section');
@@ -60,11 +60,11 @@ class QTI extends IMSQTIFormat
                 $identifierall = "{$this->data['identifierRef']}_{$identifier}";
 
                 $this->XMLGenerator->createElement(
-                    'section', 
+                    'section',
                     [
                         'ident'=> $identifierall
-                    ], 
-                    null, 
+                    ],
+                    null,
                     function () use ($section, $self, $identifierall) {
                         $self
                             ->qtimetadataSection($section['numero_preguntas'], $section['ponderacion'])
@@ -85,14 +85,14 @@ class QTI extends IMSQTIFormat
 
         if ($questions && count($questions)) {
             $root = $this;
-            foreach ($questions as $question) { 
+            foreach ($questions as $question) {
                 if($question['tipo']==6 || $question['tipo']==1 || $question['tipo']==5 || $question['tipo']==4 || $question['tipo']==9) {
 
                     $question = array_merge($question, compact('identifier'));
 
                     $driver = Factory::getDriver(
-                        $question['tipo'], 
-                        $question, 
+                        $question['tipo'],
+                        $question,
                         $root
                     );
                     $driver->export();
