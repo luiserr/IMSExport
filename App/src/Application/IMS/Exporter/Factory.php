@@ -13,8 +13,10 @@ class Factory
           /*case 'exam':
                 return new QTI($group, $data);*/
             case 'forum':
-                return new Discussion($group, $data); //RACH: Factory.php discussion->forum y generar o crear recurso
-        }
+                return new Discussion($group, $data);
+            case 'evidence':
+                return new Evidence($group, $data);
+            }
         return null;
     }
 }
