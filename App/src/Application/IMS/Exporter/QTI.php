@@ -15,7 +15,6 @@ class QTI extends IMSQTIFormat
     protected $configurate;
     protected Collection $section;
     protected Collection $question;
-    protected Collection $answer;
 
     public function __construct(protected Group $group, protected array $data)
     {
@@ -24,7 +23,6 @@ class QTI extends IMSQTIFormat
         $this->configurate = $this->exam->find();
         $this->section = Collection::createCollection($this->exam->getSection);
         $this->question = Collection::createCollection($this->exam->getQuestion);
-        $this->answer = Collection::createCollection($this->exam->getAnswer);
         parent::__construct();
     }
 
@@ -53,45 +51,57 @@ class QTI extends IMSQTIFormat
             ->section
             ->toArray();
         if ($sections && count($sections)) {
-            foreach ($sections as $section) { 
+            foreach ($sections as $section) {
                 $identifier = $this
                     ->identifierCreator
                     ->getIdentifier('section');
                 $self = $this;
 
+                $identifierall = "{$this->data['identifierRef']}_{$identifier}";
+
                 $this->XMLGenerator->createElement(
-                    'section', 
+                    'section',
                     [
-                        'ident'=> "{$this->data['identifierRef']}_{$identifier}"
-                    ], 
-                    null, 
-                    function () use ($section, $self) {
+                        'ident'=> $identifierall
+                    ],
+                    null,
+                    function () use ($section, $self, $identifierall) {
                         $self
                             ->qtimetadataSection($section['numero_preguntas'], $section['ponderacion'])
-                            ->createItemSection($section['idExamenSeccion']);
+                            ->createItemSection($section['idExamenSeccion'], $identifierall);
                     }
                 );
             }
         }
     }
 
-    protected function createItemSection($id){
+    protected function createItemSection($id, $identifierall){
         $questions = $this
             ->question
             ->where('fk_idExamenSeccion', $id)
             ->toArray();
 
+        $identifier = $identifierall;
+
         if ($questions && count($questions)) {
-            foreach ($questions as $question) { 
-                if($question['tipo']==6) {
-                    $driver = Factory::getDriver($question['tipo'], $question);
+            $root = $this;
+            foreach ($questions as $question) {
+                if($question['tipo']==6 || $question['tipo']==1 || $question['tipo']==5 || $question['tipo']==4 || $question['tipo']==9) {
+
+                    $question = array_merge($question, compact('identifier'));
+
+                    $driver = Factory::getDriver(
+                        $question['tipo'],
+                        $question,
+                        $root
+                    );
                     $driver->export();
                 }
             }
         }
     }
 
-    protected function finish(): BaseFormat
+    public function finish(): BaseFormat
     {
         $this->XMLGenerator->finish();
         return $this;

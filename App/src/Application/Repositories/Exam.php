@@ -29,9 +29,7 @@ class Exam extends BaseModel
 
     public function getAnswer(int $id): array|null
     {
-    	$sql = "SELECT r.* FROM preguntas p
-			INNER JOIN respuestas r ON (p.idPreguntas = r.idPreguntas)
-			WHERE idPost = :id";
+    	$sql = "SELECT * FROM respuestas WHERE idPreguntas = :id";
         return $this->query($sql, compact('id'));
     }
 }
