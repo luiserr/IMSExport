@@ -58,7 +58,7 @@ class Cartridge extends Format
         return $this;
     }
 
-    public function export(): void
+    public function export(): bool
     {
         try {
             $self = $this;
@@ -70,8 +70,10 @@ class Cartridge extends Format
 
             })
                 ->finish();
+            return true;
         } catch (Exception $exception) {
             echo $exception->getMessage();
+            return false;
         }
     }
 
@@ -107,7 +109,7 @@ class Cartridge extends Format
                     ->getIdentifier('item');
                 $identifierRef = $this
                     ->identifierRefCreator
-                    ->getIdentifier($resource['type']);
+                    ->getIdentifier($resource['resourceType']);
                 $resource = array_merge($resource, compact('identifier', 'identifierRef'));
                 $self = $this;
                 $this->XMLGenerator->createElement(

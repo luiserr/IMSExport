@@ -15,12 +15,14 @@ if (isset($_SERVER['HTTP_ORIGIN'])) {
 // Access-Control headers are received during OPTIONS requests
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
-    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
-        // may also be using PUT, PATCH, HEAD etc
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'])) {
         header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+    }
+    // may also be using PUT, PATCH, HEAD etc
 
-    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])) {
         header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+    }
 
     exit(0);
 }
@@ -31,15 +33,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use IMSExport\Application\Entities\Group;
 use IMSExport\Application\ExportIMS\Handlers\ExportIMS;
 use IMSExport\Core\Router\Teeny;
 
 $app = new Teeny;
 
 $app->action('get', '/export/<seedId:noslash>', function ($params) {
-//    $export = new ExportIMS('id', ['seedId' => '51250023_3_VIRTUAL_1']);
-    $export = new ExportIMS('id', $params);
+    $export = new ExportIMS('id', ['seedId' => '51250023_3_VIRTUAL_1']);
+//    $export = new ExportIMS('id', $params);
+    $export->run();
+});
+
+$app->action('get', '/test', function () {
+    $export = new ExportIMS('id', ['seedId' => '51250023_3_VIRTUAL_1']);
     $export->run();
 });
 

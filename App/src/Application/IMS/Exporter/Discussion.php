@@ -16,7 +16,7 @@ class Discussion extends IMSDiscussionFormat
 
     public function __construct(protected Group $group, protected array $data)
     {
-//        find Foro
+//      find Foro
         $this->foro = new Foro($this->data['id']);
 //      $this->foro->forumByPost($this->data['id']);
         $this->archivos = Collection::createCollection($this->foro->forumFile);
@@ -24,7 +24,7 @@ class Discussion extends IMSDiscussionFormat
         parent::__construct();
     }
 
-    public function export()
+    public function export(): bool
     {
         try {
             $self = $this;
@@ -33,8 +33,9 @@ class Discussion extends IMSDiscussionFormat
                     ->createDetail($self->group->title, $self->group->description, $self->archivos);
             });
             $this->finish();
+            return true;
         } catch (Exception $exception) {
-    
+            return false;
         }
     }
 
@@ -51,7 +52,7 @@ class Discussion extends IMSDiscussionFormat
 
     public function getFolderName(): string
     {
-        return "{$this->group->groupId}/{$this->data['identifierRef']}";
+        return "{$this->group->seedId}/{$this->data['identifierRef']}";
     }
 
     public function getType(): string
