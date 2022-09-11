@@ -40,7 +40,7 @@ $app = new Teeny;
 
 $app->action('get', '/export/<seedId:noslash>', function ($params) {
     $export = new ExportIMS('id', ['seedId' => '51250023_3_VIRTUAL_1']);
-//    $export = new ExportIMS('id', $params);
+    //    $export = new ExportIMS('id', $params);
     $export->run();
 });
 
@@ -48,6 +48,25 @@ $app->action('get', '/test', function () {
     $export = new ExportIMS('id', ['seedId' => '51250023_3_VIRTUAL_1']);
     $export->run();
 });
+
+use IMSExport\Application\Entities\WebContents;
+//http://localhost/IMSExport/webContents
+$app->action('get', 'webContents', function () {
+    $proceso = new WebContents();
+    $registro = 1;
+    $salida = $proceso->generaContent("Evidence", 101357095); //Identificador de Post - Evidencia
+    $dir = "web_content_{$registro}";
+    $proceso->grabaContent($dir, $salida);
+
+    $idgrupo = 188713; //188713 Grupo 2216 QA en Development
+    // ----------------------------- Extracción de información de Blogs para Contents
+    //Observar web_content_50
+    $proceso->contentGrupo("Blog", $idgrupo, $registro);
+    // ----------------------------- Extracción de información de Wikis para Contents
+    //Observar web_content_194
+    $proceso->contentGrupo("Wiki", $idgrupo, $registro);
+});
+
 
 /*
  *
