@@ -1,6 +1,7 @@
 <?php
 
 namespace IMSExport\Application\Entities;
+
 use PDO;
 use PDOException;
 use IMSExport\Core\Connection\Conexion;
@@ -15,6 +16,9 @@ use IMSExport\Core\Connection\Conexion;
 
 class WebContents
 {
+    public function __construct(protected array $data, protected int $counter)
+    {
+    }
 
     function generaContent(string $type, int $id)
     {
@@ -43,16 +47,13 @@ class WebContents
 
         try {
             $sql->execute();
-            $error = $sql->errorInfo(); //$error[0]=00000; todo bien.
+            $error = $sql->errorInfo();
             if ($error[0] != "00000") {
                 print_r($error);
                 exit();
             }
-            //header("HTTP/1.1 200 OK");
-            //echo "\nRegistros: " . $sql->rowCount() . "<br />\n";
         } catch (PDOException $e) {
             echo 'Error: ' . $e->getMessage() . "<br />\n";
-            //header("HTTP/1.1 400 Bad Request"); //405 Method Not Allowed
             exit();
         }
 
@@ -64,7 +65,9 @@ class WebContents
         while ($row = $sql->fetch(PDO::FETCH_ASSOC))
             $salida = $this->Plantilla($row['title'], $row['description']);
 
-        return $salida;
+        $this->grabaContent($salida);
+
+        return true;
     }
 
     function Plantilla($title, $description)
@@ -122,24 +125,33 @@ class WebContents
         return $plantilla;
     }
 
-    function grabaContent($dir, $salida)
+    //Enviar a Helpers como FileContents
+    const PATH = './storage/export/IMS/';
+    function grabaContent($salida)
     {
-        $file = $dir . ".html";
-        if (file_exists($dir)) {
-            unlink($dir . DIRECTORY_SEPARATOR . $file);
-            rmDir($dir);
+//      print_r($this->data['seedId']); //51250023_3_VIRTUAL_1
+        $this->counter++;
+        $file="web_content_{$this->counter}";
+        $dirName = self::PATH . $this->data['seedId'] . DIRECTORY_SEPARATOR . $file;
+        $fileName = $dirName . DIRECTORY_SEPARATOR . $file . ".html";
+
+        if (file_exists($dirName)) {
+            unlink($fileName);
+            rmDir($dirName);
         }
 
-        if (!mkdir($dir, 0777, true))
-            die('Fallo al crear las carpetas...');
+        if (!mkdir($dirName, 0777, true))
+            die('Fallo al crear las carpetas...'); //Quizas por falta de permisos
 
-        $fp = fopen($dir . DIRECTORY_SEPARATOR . $file, "w");
+        $fp = fopen($fileName, "w");
         fwrite($fp, $salida);
         fclose($fp);
     }
 
-
-    function contentGrupo(string $type, int $idgrupo, int &$record)
+    /**
+     * Funcion solo para obtener, mediante el idGrupo, los Blogs y Wikis contenidos en el
+     */
+    function contentGrupo(string $type, int $idgrupo)
     {
         if (!isset($idgrupo))
             die("Parámetro id Inválido");
@@ -176,9 +188,6 @@ class WebContents
             else //Wiki
                 $salida = $this->generaContent("Wiki", $row['idWiki']); //Identificador de Wiki
 
-            $record++;
-            $dir = "web_content_" . $record;
-            $this->grabaContent($dir, $salida);
         }
 
         return true;

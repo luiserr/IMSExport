@@ -50,21 +50,25 @@ $app->action('get', '/test', function () {
 });
 
 use IMSExport\Application\Entities\WebContents;
-//http://localhost/IMSExport/webContents
+//http://localhost/IMSExport/WebContents
 $app->action('get', 'webContents', function () {
-    $proceso = new WebContents();
-    $registro = 1;
-    $salida = $proceso->generaContent("Evidence", 101357095); //Identificador de Post - Evidencia
-    $dir = "web_content_{$registro}";
-    $proceso->grabaContent($dir, $salida);
+    $counter = 0;
+    $export = new WebContents(['seedId' => '51250023_3_VIRTUAL_1'], $counter);
+
+    // ----------------------------- Extracción de información de Evidncias para Contents
+    //Observar web_content_1
+    $id = 101357095;
+    $export->generaContent("Evidence", $id); //Identificador de Post - Evidencia
 
     $idgrupo = 188713; //188713 Grupo 2216 QA en Development
     // ----------------------------- Extracción de información de Blogs para Contents
     //Observar web_content_50
-    $proceso->contentGrupo("Blog", $idgrupo, $registro);
+    $export->contentGrupo("Blog", $idgrupo);
+
     // ----------------------------- Extracción de información de Wikis para Contents
     //Observar web_content_194
-    $proceso->contentGrupo("Wiki", $idgrupo, $registro);
+    $export->contentGrupo("Wiki", $idgrupo);
+    echo "<h1>WebContents concluido";
 });
 
 
