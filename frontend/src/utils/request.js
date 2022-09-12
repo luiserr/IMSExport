@@ -45,11 +45,11 @@ export const get = async (url, showMessage = false) => {
  * @param showMessage
  * @returns {Promise<*>}
  */
-export const post = async (url, payload = {}, method = 'POST', replaceAPI = true, showMessage = false) => {
+export const post = async (url, payload = {}, method = 'POST', replaceAPI = false, showMessage = false) => {
   const body = JSON.stringify(payload);
   loading();
   // const urlAPI = replaceAPI ? url : `${api}/${prefix}/${url}`;
-  const urlAPI = replaceAPI ? url : `${api}/`;
+  const urlAPI = replaceAPI ? url : `${api}/${url}`;
   const options = {
     headers: myHeaders,
     method: method ? method : 'POST',

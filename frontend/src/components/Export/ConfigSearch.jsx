@@ -2,8 +2,8 @@ import {FormControl, Grid, InputLabel, MenuItem, Select} from "@mui/material";
 
 const ConfigSearch = (
   {
-    seedId,
-    setSeedId,
+    typeId,
+    setTypeId,
     sourceType,
     setSourceType
   }
@@ -15,9 +15,9 @@ const ConfigSearch = (
           <InputLabel id="label-seedId">Buscar por:</InputLabel>
           <Select
             labelId="label-seedId"
-            value={seedId}
+            value={typeId}
             label="Buscar por:"
-            onChange={(e) => setSeedId(e.target.value)}
+            onChange={(e) => setTypeId(e.target.value)}
           >
             <MenuItem value="seedId">Id de semilla</MenuItem>
             <MenuItem value="groupId">Id de grupo</MenuItem>

@@ -1,27 +1,27 @@
-import {Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField} from "@mui/material";
-import {get} from "../../utils/request";
+import {Button, Grid} from "@mui/material";
+import {get, post} from "../../utils/request";
 import {useState} from "react";
 import ConfigSearch from "../Export/ConfigSearch";
 import useSearch from "../Export/searchHook";
 
 const Export = () => {
 
-  const [seedId, setSeedId] = useState('');
+  const [typeId, setTypeId] = useState('');
   const [sourceType, setSourceType] = useState('simple');
   const [payload, setPayload] = useState(null);
 
   const component = useSearch(sourceType, payload, setPayload);
 
   const handleSearch = async () => {
-    const response = await get(`export/${seedId}`);
-    alert(response.message);
+    const response = await post(`export`, {typeId, payload});
+    console.log(response);
   };
 
   return (
     <>
       <ConfigSearch
-        seedId={seedId}
-        setSeedId={setSeedId}
+        typeId={typeId}
+        setTypeId={setTypeId}
         sourceType={sourceType}
         setSourceType={setSourceType}
       />

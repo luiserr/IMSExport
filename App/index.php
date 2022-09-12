@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ERROR | E_PARSE);
 
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 
@@ -38,9 +39,9 @@ use IMSExport\Core\Router\Teeny;
 
 $app = new Teeny;
 
-$app->action('get', '/export/<seedId:noslash>', function ($params) {
-//    $export = new ExportIMS('id', ['seedId' => '51250023_3_VIRTUAL_1']);
-    $export = new ExportIMS('id', $params);
+$app->action('post', '/export', function ($params, $body) {
+    $seedId= $body['payload'];
+    $export = new ExportIMS('id', compact('seedId'));
     $export->run();
 });
 
