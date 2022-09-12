@@ -6,6 +6,11 @@ use IMSExport\Core\BaseEntity;
 
 class Foro extends BaseEntity
 {
+    /**
+     * @var mixed|null
+     */
+    private mixed $forumFile;
+
     public function __construct(public string $id)
     {
         $this->repository = new ForumModel();
@@ -15,12 +20,18 @@ class Foro extends BaseEntity
 
     public function forumByPost()
     {
-        return $this->repository->firstElement($this->repository->forumByPost($this->id));
+        $data = $this->repository->firstElement($this->repository->forumByPost($this->id));
+        $this->setData($data);
     }
 
-    public function forumFile()
+    public function forumFile(): ?array
     {
-        return $this->repository->getData($this->repository->forumFile($this->id));
+        $files = $this->repository->getData($this->repository->forumFile($this->id));
+        if($files) {
+            $this->setAttribute('forumFile', $files);
+            return $files;
+        }
+        return [];
     }
 /*
     public function getQuestion()

@@ -39,8 +39,8 @@ use IMSExport\Core\Router\Teeny;
 $app = new Teeny;
 
 $app->action('get', '/export/<seedId:noslash>', function ($params) {
-    $export = new ExportIMS('id', ['seedId' => '51250023_3_VIRTUAL_1']);
-//    $export = new ExportIMS('id', $params);
+//    $export = new ExportIMS('id', ['seedId' => '51250023_3_VIRTUAL_1']);
+    $export = new ExportIMS('id', $params);
     $export->run();
 });
 
@@ -48,17 +48,5 @@ $app->action('get', '/test', function () {
     $export = new ExportIMS('id', ['seedId' => '51250023_3_VIRTUAL_1']);
     $export->run();
 });
-
-/*
- *
- * <root message="hola mundo">
- *  <children1>Hola mundo 2</children1>
- *  <children2>
- *      <children3 attr="hola">texto</children3>
- *  </children2>
- * </root>
- *
- *
- * */
 
 return $app->exec();

@@ -21,7 +21,7 @@ class QTI extends IMSQTIFormat
     {
 //        find exam
         $this->exam = new Exam($this->data['id']);
-        $this->configurate = $this->exam->find();
+        $this->configurate = $this->exam->toArray();
         $this->section = Collection::createCollection($this->exam->getSection);
         $this->question = Collection::createCollection($this->exam->getQuestion);
         parent::__construct();
