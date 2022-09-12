@@ -5,17 +5,12 @@ namespace IMSExport\Application\Entities;
 use IMSExport\Application\Repositories\Exam as ExamModel;
 use IMSExport\Core\BaseEntity;
 
+/**
+ * @property mixed|null $getSection
+ * @property mixed|null $getQuestion
+ */
 class Exam extends BaseEntity
 {
-    /**
-     * @var mixed|null
-     */
-    private mixed $getSection;
-    /**
-     * @var mixed|null
-     */
-    private mixed $getQuestion;
-
     public function __construct(public string $id)
     {
         $this->repository = new ExamModel();
@@ -25,7 +20,9 @@ class Exam extends BaseEntity
     public function find()
     {
         $data = $this->repository->firstElement($this->repository->find($this->id));
-        $this->setData($data);
+        if ($data) {
+            $this->setData($data);
+        }
     }
 
     public function getSection(): ?array

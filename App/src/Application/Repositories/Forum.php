@@ -18,8 +18,7 @@ class Forum extends BaseModel
     public function forumByPost($id): array|null
     {
         $sql = "SELECT post.titulo AS title, post.contenido AS description 
-                FROM post INNER JOIN foro_preguntas ON post.idPost = foro_preguntas.fk_idpost 
-                WHERE foro_preguntas.fk_idpost = :id;";
+                FROM post WHERE post.idpost = :id;";
         return $this->query($sql, ['id' => $id]);
     }
 

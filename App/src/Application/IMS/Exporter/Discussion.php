@@ -30,7 +30,7 @@ class Discussion extends IMSDiscussionFormat
             $self = $this;
             $this->createDiscussion(function () use ($self) {
                 $self
-                    ->createDetail($self->group->title, $self->group->description, $self->archivos);
+                    ->createDetail($self->foro->title, $self->foro->description, $self->archivos);
             });
             $this->finish();
             return true;

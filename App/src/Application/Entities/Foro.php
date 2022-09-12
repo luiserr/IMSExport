@@ -4,12 +4,13 @@ namespace IMSExport\Application\Entities;
 use IMSExport\Application\Repositories\Forum as ForumModel;
 use IMSExport\Core\BaseEntity;
 
+/**
+ * @property mixed|null $forumFile
+ * @property mixed|null $title
+ * @property mixed|null $description
+ */
 class Foro extends BaseEntity
 {
-    /**
-     * @var mixed|null
-     */
-    private mixed $forumFile;
 
     public function __construct(public string $id)
     {
@@ -21,7 +22,9 @@ class Foro extends BaseEntity
     public function forumByPost()
     {
         $data = $this->repository->firstElement($this->repository->forumByPost($this->id));
-        $this->setData($data);
+        if($data) {
+            $this->setData($data);
+        }
     }
 
     public function forumFile(): ?array
