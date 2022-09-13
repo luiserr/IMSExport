@@ -49,4 +49,26 @@ $app->action('get', '/test', function () {
     $export->run();
 });
 
+use IMSExport\Application\Entities\WebContents;
+//http://localhost/IMSExport/WebContents
+$app->action('get', 'webContents', function () {
+    $counter = 0;
+    $export = new WebContents(['seedId' => '51250023_3_VIRTUAL_1'], $counter);
+
+    // ----------------------------- Extracción de información de Evidncias para Contents
+    //Observar web_content_1
+    $id = 101357095;
+    $export->generaContent("Evidence", $id); //Identificador de Post - Evidencia
+
+    $idgrupo = 188713; //188713 Grupo 2216 QA en Development
+    // ----------------------------- Extracción de información de Blogs para Contents
+    //Observar web_content_50
+    $export->contentGrupo("Blog", $idgrupo);
+
+    // ----------------------------- Extracción de información de Wikis para Contents
+    //Observar web_content_194
+    $export->contentGrupo("Wiki", $idgrupo);
+    echo "<h1>WebContents concluido";
+});
+
 return $app->exec();

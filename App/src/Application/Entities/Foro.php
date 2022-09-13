@@ -22,9 +22,8 @@ class Foro extends BaseEntity
     public function forumByPost()
     {
         $data = $this->repository->firstElement($this->repository->forumByPost($this->id));
-        if($data) {
+        if($data)
             $this->setData($data);
-        }
     }
 
     public function forumFile(): ?array
@@ -35,16 +34,6 @@ class Foro extends BaseEntity
             return $files;
         }
         return [];
+//      return $this->repository->getData($this->repository->forumFile($this->id));
     }
-/*
-    public function getQuestion()
-    {
-        return $this->repository->getData($this->repository->getQuestion($this->id));
-    }
-
-    public function getAnswer()
-    {
-        return $this->repository->getData($this->repository->getAnswer($this->id));
-    }
-*/
 }
