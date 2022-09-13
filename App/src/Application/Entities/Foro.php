@@ -16,21 +16,18 @@ class Foro extends BaseEntity
     public function forumByPost()
     {
         return $this->repository->firstElement($this->repository->forumByPost($this->id));
+        //print_r("<br />Data: ".$data."<br />"); exit;
+        $this->setData($data);
     }
 
-    public function forumFile()
+    public function forumFile()//: ?array
     {
-        return $this->repository->getData($this->repository->forumFile($this->id));
-    }
-/*
-    public function getQuestion()
-    {
-        return $this->repository->getData($this->repository->getQuestion($this->id));
-    }
+        $files = $this->repository->getData($this->repository->forumByPost($this->id));
+        if ($files)
+            $this->setAttribute('forumfile', $files);
 
-    public function getAnswer()
-    {
-        return $this->repository->getData($this->repository->getAnswer($this->id));
+        return [];
+
+//      return $this->repository->getData($this->repository->forumFile($this->id));
     }
-*/
 }
