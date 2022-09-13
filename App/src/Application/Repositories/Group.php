@@ -6,7 +6,7 @@ use IMSExport\Core\Connection\BaseModel;
 
 class Group extends BaseModel
 {
-    public function find($id): array|null
+    public function findBySeedId($id): array|null
     {
         $sql = "select 
 			g.idgrupo as id,
@@ -15,6 +15,18 @@ class Group extends BaseModel
 			g.siglas as seedId,
 			g.fk_idusuarioSocial as socialId
 			from grupo g where siglas = :id;";
+        return $this->query($sql, ['id' => $id]);
+    }
+
+    public function findGroupId($id): array|null
+    {
+        $sql = "select 
+			g.idgrupo as id,
+			g.nombre as title,
+			g.nombre as description,
+			g.siglas as seedId,
+			g.fk_idusuarioSocial as socialId
+			from grupo g where g.idgrupo = :id;";
         return $this->query($sql, ['id' => $id]);
     }
 

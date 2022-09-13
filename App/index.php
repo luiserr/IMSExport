@@ -40,8 +40,7 @@ use IMSExport\Core\Router\Teeny;
 $app = new Teeny;
 
 $app->action('post', '/export', function ($params, $body) {
-    $seedId= $body['payload'];
-    $export = new ExportIMS('id', compact('seedId'));
+    $export = new ExportIMS($params, $body);
     $export->run();
 });
 

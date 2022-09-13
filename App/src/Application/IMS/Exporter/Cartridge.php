@@ -58,6 +58,10 @@ class Cartridge extends Format
         return $this;
     }
 
+    /**
+     * @return bool
+     * @throws Exception
+     */
     public function export(): bool
     {
         try {
@@ -72,8 +76,7 @@ class Cartridge extends Format
                 ->finish();
             return true;
         } catch (Exception $exception) {
-            echo $exception->getMessage();
-            return false;
+            throw new $exception;
         }
     }
 
