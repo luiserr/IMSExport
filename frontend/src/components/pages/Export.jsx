@@ -13,8 +13,7 @@ const Export = () => {
   const component = useSearch(sourceType, payload, setPayload);
 
   const handleSearch = async () => {
-    const response = await post(`export`, {typeId, payload});
-    console.log(response);
+    const response = await post(`export`, {typeId, payload, sourceType}, 'post', false, true);
   };
 
   return (
@@ -29,7 +28,7 @@ const Export = () => {
         component
       }
       <Grid item xs={3}>
-        <Button variant="outlined" onClick={handleSearch}>Exportar</Button>
+        <Button variant="outlined" onClick={handleSearch}>Crear</Button>
       </Grid>
     </>
   );

@@ -14,7 +14,7 @@ class Export extends BaseModel
      * @return array
      * @throws Exception
      */
-    public function init(string $groupId, string $typeId, string $status): array
+    public function create(string $groupId, string $typeId, string $status): array
     {
         $sql = "             
            insert into group_exports (groupId, typeId, status) values (:groupId, :typeId, :status);
@@ -28,12 +28,25 @@ class Export extends BaseModel
      * @return array
      * @throws Exception
      */
-    public function finish(int $processId, string $status)
+    public function finish(int $processId, string $status): array
     {
         $sql = "
             update group_exports set finishedAt = current_timestamp() , status = :status where id = :processId ;
         ";
         return $this->executeOrFail($sql, compact('status', 'processId'));
+    }
+
+    /**
+     * @param string $status
+     * @return array
+     * @throws Exception
+     */
+    public function init(string $status = 'inProgress'): array
+    {
+        $sql = "
+            update group_exports set status = :status where status = 'ready';
+        ";
+        return $this->executeOrFail($sql, compact('status'));
     }
 
     public function getInProgress(): ?array

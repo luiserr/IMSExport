@@ -7,7 +7,7 @@ abstract class BaseHandler
     const ERROR = 'Error al hacer la operación';
     const SUCCESS = 'Operación exitosa';
 
-    public function __construct(public array $params = [], public array $body = [])
+    public function __construct(public ?array $params = [], public ?array $body = [])
     {
     }
 

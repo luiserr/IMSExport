@@ -18,6 +18,7 @@
       "ext-xmlwriter": "*",
         "tightenco/collect": "^9.25",
       "ext-pdo": "*",
-      "ext-zip": "*"
+      "ext-zip": "*",
+        "nesbot/carbon": "^2.62"
     }
 }

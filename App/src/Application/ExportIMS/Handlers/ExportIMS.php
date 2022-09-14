@@ -11,9 +11,10 @@ class ExportIMS extends BaseHandler
 {
     protected Model $model;
 
-    public function __construct(array $params = [], array $body = [])
+    public function __construct(?array $params = [], ?array $body = [])
     {
         parent::__construct($params, $body);
+        $this->model = new Model();
     }
 
     public function run(): bool|string
@@ -27,13 +28,14 @@ class ExportIMS extends BaseHandler
             }
             $this->model->commit();
             return self::response(
-                self::SUCCESS,
-                $this->body
+                true,
+                $this->body,
+                self::SUCCESS
             );
         } catch (Exception $exception) {
             $this->model->rollback();
             return self::response(
-                self::ERROR,
+                false,
                 null,
                 $exception->getMessage()
             );
@@ -42,13 +44,13 @@ class ExportIMS extends BaseHandler
 
     public function simple()
     {
-        $this->model->init($this->params['payload'], $this->body['typeId'], ExportExecutor::inProgress);
+        $this->model->init($this->body['payload'], $this->body['typeId'], ExportExecutor::ready);
     }
 
     public function csv()
     {
         foreach ($this->body['payload'] as $item) {
-            $this->model->init($item, $this->body['typeId'], ExportExecutor::inProgress);
+            $this->model->init($item, $this->body['typeId'], ExportExecutor::ready);
         }
     }
 }

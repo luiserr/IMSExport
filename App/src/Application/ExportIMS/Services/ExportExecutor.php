@@ -9,6 +9,7 @@ use IMSExport\Application\IMS\Exporter\Cartridge;
 
 class ExportExecutor
 {
+    const ready = 'ready';
     const inProgress = 'inProgress';
     const finished = 'finished';
     const error = 'error';
