@@ -15,8 +15,15 @@ class Factory
             case Activities::probe:
                 return new QTI($group, $data);
             case Activities::post:
-                return new Discussion($group, $data); //RACH: Factory.php discussion->forum y generar o crear recurso
+                return new Discussion($group, $data);
+            case Activities::task:
+                return new Tasks($group, $data);
+            case Activities::blog:
+                return new Blogs($group, $data);
+            case Activities::wiki:
+                return new Wikis($group, $data);
+            default:
+                return null;
         }
-        return null;
     }
 }

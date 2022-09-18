@@ -27,7 +27,6 @@ class Cartridge extends Format
     protected function createResources(): self
     {
         foreach ($this->queue as $resource) {
-            print_r($resource);
             $driver = Factory::getDriver($this->group, $resource['resourceType'], $resource);
             if ($driver) {
                 $driver->export();
@@ -83,7 +82,8 @@ class Cartridge extends Format
     protected function createOrganizationsStructure(): self
     {
         $roots = $this->resources
-            ->where('parent_id', 0)
+            ->where('parentId', null)
+            ->where('resourceType', 'folder')
             ->toArray();
         foreach ($roots as $root) {
             $self = $this;
@@ -103,7 +103,7 @@ class Cartridge extends Format
     {
         $resources = $this
             ->resources
-            ->where('parent_id', $parent['id'])
+            ->where('parentId', $parent['id'])
             ->toArray();
         if ($resources && count($resources)) {
             foreach ($resources as $resource) {

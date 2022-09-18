@@ -41,12 +41,16 @@ $app = new Teeny;
 
 $app->action('post', '/export', function ($params, $body) {
     $export = new ExportIMS($params, $body);
-    $export->run();
+    $export->create();
+});
+
+$app->action('get', '/export', function ($params, $body) {
+    $export = new ExportIMS($params, $body);
+    $export->getReady();
 });
 
 $app->action('get', '/test', function () {
     $export = new ExportIMS('id', ['seedId' => '51250023_3_VIRTUAL_1']);
-    $export->run();
 });
 
 return $app->exec();

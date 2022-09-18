@@ -81,33 +81,8 @@ class Group extends BaseEntity
         if (!$this->getAttribute('scaffolding')) {
             $scaffolding = $this
                 ->getScaffolding();
-            $newScaffolding = array_map(function ($resource) {
-                if ($resource['resourceType'] !== null) {
-                    switch ((int)$resource['resourceType']) {
-                        case 1:
-                            $resource['resourceType'] = Activities::exam;
-                            break;
-                        case 2:
-                            $resource['resourceType'] = Activities::task;
-                            break;
-                        case 3:
-                            $resource['resourceType'] = Activities::announcement;
-                            break;
-                        case 4:
-                            $resource['resourceType'] = Activities::scorm;
-                            break;
-                        case 5:
-                            $resource['resourceType'] = Activities::probe;
-                            break;
-                        default:
-                            $resource['resourceType'] = Activities::post;
-                            break;
-                    }
-                }
-                return $resource;
-            }, $scaffolding);
             $this
-                ->setAttribute('scaffolding', $newScaffolding)
+                ->setAttribute('scaffolding', $scaffolding)
                 ->getAttribute('scaffolding');
         }
         return $this->getAttribute('scaffolding');
@@ -115,8 +90,18 @@ class Group extends BaseEntity
 
     protected function getScaffolding(): ?array
     {
-        return $this->repository->getData(
-            $this->repository->getScaffolding($this->getAttribute('id'))
+        $folders = $this->repository->getData(
+            $this->repository->getFolders($this->getAttribute('id'))
         );
+        $post = $this->repository->getData(
+            $this->repository->getPost($this->getAttribute('id'))
+        );
+        $blogs = $this->repository->getData(
+            $this->repository->getBlogs($this->getAttribute('id'))
+        );
+        $wikis = $this->repository->getData(
+            $this->repository->getWikis($this->getAttribute('id'))
+        );
+        return array_merge($folders, $post, $wikis, $blogs);
     }
 }

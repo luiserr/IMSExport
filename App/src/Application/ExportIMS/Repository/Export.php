@@ -41,15 +41,15 @@ class Export extends BaseModel
      * @return array
      * @throws Exception
      */
-    public function init(string $status = 'inProgress'): array
+    public function init(int $exportId, string $status = 'inProgress'): array
     {
         $sql = "
-            update group_exports set status = :status where status = 'ready';
+            update group_exports set status = :status where id = ;
         ";
         return $this->executeOrFail($sql, compact('status'));
     }
 
-    public function getInProgress(): ?array
+    public function getNext(): ?array
     {
         $sql = "
             select 
@@ -58,8 +58,24 @@ class Export extends BaseModel
 			ge.createdAt,
 			ge.typeId,
 			ge.sourceType			
-			from group_exports ge where ge.status = 'inProgress';
+			from group_exports ge where ge.status = 'ready' 
+			order by ge.id asc;
         ";
         return $this->query($sql);
+    }
+
+    public function getInProgress(string $status = 'ready'): ?array
+    {
+        $sql = "
+            select 
+			ge.id,
+			ge.groupId,
+			ge.createdAt,
+			ge.typeId,
+			ge.sourceType			
+			from group_exports ge where ge.status = :status;
+            order by ge.id asc 
+        ";
+        return $this->query($sql, compact('status'));
     }
 }

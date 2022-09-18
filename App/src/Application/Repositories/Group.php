@@ -38,64 +38,93 @@ class Group extends BaseModel
         return $this->query($sql, compact('groupId'));
     }
 
-    public function getScaffolding($groupId): ?array
+    public function getFolders($groupId): ?array
     {
         $sql = "
-            (SELECT idTema as id, nombre as title, idPadre as parent_id, 'link' as link, 'folder' as `type`, null as resourceType
-			FROM temas_clase WHERE idClase={$groupId} 
-			AND (fechaApertura IS NULL or fechaApertura<DATE_SUB(NOW(), INTERVAL 5 HOUR))  )					
-			union					
-		  	(SELECT idarchivo as id, p.contenido as title, p.fk_idTema as parent_id, 'link' as link, 'file' as `type`, null as resourceType
-			FROM (post as p, archivo a)
-			inner join  temas_clase as  tc on (p.fk_idTema=tc.idtema AND tc.idclase={$groupId})
-			inner join grupo g on (p.fk_usuariosocial_destino = g.fk_idusuarioSocial AND g.idgrupo = {$groupId})
-			WHERE
-			p.idpost=a.post_idpost
-			group by p.idpost)			
-			union			
-		  	(SELECT p.idpost as id, e.titulo as title, p.fk_idTema as parent_id, 'link' as link, 'file' as `type`, null as resourceType
-			FROM (post as p, examen e)
-			inner join temas_clase tc on (p.fk_idTema = tc.idtema AND tc.idclase={$groupId})
-			inner join grupo g on (p.fk_usuarioSocial_destino = g.fk_idusuarioSocial AND g.idgrupo={$groupId})
-			WHERE p.idpost=e.idpost and p.enlace != 2 and e.tipoExamen='exams'
-			AND p.idpost NOT IN (SELECT tm.fk_idPost FROM post p INNER JOIN tcu_modulo tm ON tm.fk_idContenido = p.idpost WHERE p.fk_usuarioSocial_destino = (SELECT fk_idusuarioSocial FROM grupo WHERE idgrupo = {$groupId}))
-			group by e.titulo)			
-			union			
-		  	(SELECT p.idpost as id, e.titulo as title, p.fk_idTema as parent_id, 'link' as link, 'file' as `type`, null as resourceType
-			FROM (post as p, examen e)
-			inner join temas_clase tc on (p.fk_idTema = tc.idtema AND tc.idclase={$groupId})
-			inner join grupo g on (p.fk_usuarioSocial_destino = g.fk_idusuarioSocial AND g.idgrupo={$groupId})
-			INNER JOIN examen_sondeo as exs ON (exs.fk_examen_has_sondeo = e.idPost )
-			WHERE p.idpost=e.idpost and p.enlace != 2 and e.tipoExamen='sondeo' AND exs.sondeo_disponible = '1'
-			AND p.idpost NOT IN (SELECT tm.fk_idPost FROM post p INNER JOIN tcu_modulo tm ON tm.fk_idContenido = p.idpost WHERE p.fk_usuarioSocial_destino = (SELECT fk_idusuarioSocial FROM grupo WHERE idgrupo = {$groupId}))
-			group by e.titulo)			
-			union			
-			(SELECT
-			p.idpost as id,
-			IF(t.titulo IS NULL OR t.titulo = '', p.contenido,t.titulo) as title,
-			p.fk_idTema as parent_id, 'link' as link, 'file' as `type`, null as resourceType
-			FROM (post as p, tarea t)
-			inner join temas_clase tc on (p.fk_idTema = tc.idtema AND tc.idclase={$groupId})
-			inner join grupo g on (p.fk_usuarioSocial_destino = g.fk_idusuarioSocial AND g.idgrupo={$groupId})
-			WHERE p.idpost=t.fk_idpost
-			AND t.respuestaAlumno IS NULL 
-            AND p.idpost NOT IN (SELECT tm.fk_idPost FROM post p 
-            INNER JOIN tcu_modulo tm ON tm.fk_idContenido = p.idpost 
-            WHERE p.fk_usuarioSocial_destino = (SELECT fk_idusuarioSocial FROM grupo WHERE idgrupo = {$groupId}))
-			group by p.idpost)				
-			union			
-			(SELECT p.idPost, p.contenido, p.fk_idTema as parent_id, 'link' as link, 'tcu' as `type`, tm.tipo as resourceType
-			FROM (post as p, tcu_modulo tm, grupo g)
-		  	inner join tcu_contenido tcc on (p.idPost=tcc.idContenido) 		  	
-		  	WHERE fk_idTema IN(select idtema from temas_clase where idclase={$groupId})
-			and tm.fk_idContenido = p.idPost
-			AND p.fk_usuarioSocial_destino = g.fk_idusuarioSocial
-		    AND (tcc.fechaDisponibleInicio<'2022-08-23 15:59:30' OR (tcc.fechaDisponibleInicio IS NULL OR tcc.fechaDisponibleInicio='0000-00-00 00:00:00'))
- 			AND (ADDTIME(tcc.fechaDisponibleFin,'23:59:59')>='2022-08-23 15:59:30' OR (tcc.fechaDisponibleFin IS NULL OR tcc.fechaDisponibleFin='0000-00-00 00:00:00'))
-			and g.idgrupo={$groupId})
-			ORDER BY id            
+           SELECT 
+			idTema as id, 
+			nombre as title, 
+			if(idPadre = 0, null, idPadre) as parentId,
+			'folder' as resourceType
+            FROM temas_clase
+            WHERE idClase = :groupId        
         ";
-        return $this->query($sql);
+        return $this->query($sql, compact('groupId'));
+    }
+
+    public function getPost($groupId){
+        $sql = "
+            SELECT 
+			p.idPost as id,
+			if(p.titulo != '', p.titulo, p.contenido) as title,
+			p.contenido as content, 
+			if (
+				p.fk_idTema is not null and p.fk_idTema != 0, 
+				p.fk_idTema,
+				(
+				select tc2.idContenido from tcu_modulo tm
+				inner join tcu_contenido tc2 on tc2.idContenido = tm.fk_idContenido
+				where tm.fk_idPost = p.idPost 
+				limit 1
+				)
+			) as parentId,
+			(SELECT
+					IF(t.fk_idPost IS NOT NULL, 'task',
+					IF(ex.idPost IS NOT NULL,
+					IF(STRCMP(ex.tipoExamen, 'exams')=0,'exam', 'probe'),
+					IF(sco.fk_idPost IS NOT NULL, 'scorm', 
+					IF(tcu.idContenido IS NOT NULL, 'tcu','resource')))) as tipo
+					FROM post p2
+					LEFT JOIN tarea t ON (t.fk_idpost = p2.idpost)
+					LEFT JOIN examen ex ON (ex.idPost = p2.idPost)
+					LEFT JOIN scorm sco ON (sco.fk_idPost = p2.idPost)
+					LEFT JOIN tcu_contenido tcu ON (tcu.idContenido = p2.idpost)
+					WHERE p2.idPost = p.idPost
+					limit 1
+			) as resourceType 
+            FROM post as p
+            left JOIN tcu_contenido tc ON (tc.idContenido = p.idpost)                                   
+            WHERE 
+            fk_usuarioSocial_destino = (Select fk_idusuarioSocial From grupo where idgrupo = :groupId limit 1)                        
+            order by idPost desc
+        ";
+        return $this->query($sql, compact('groupId'));
+    }
+
+    public function getBlogs($groupId)
+    {
+        $sql = "
+            SELECT
+            b.idBlog as id,
+            b.titulo as title,   
+            b.titulo as content,   
+            null as parentId,
+            'blog' as `resourceType`                
+            FROM blog b            
+            WHERE b.fk_idGrupo = :groupId
+            AND b.estado = 1 
+        ";
+        return $this->query($sql, compact('groupId'));
+    }
+
+    public function getWikis($groupId)
+    {
+        $sql = "
+            SELECT
+                w.idWiki as id,                                
+                wl.titulo as title,   
+                w.descripcion as content,
+                null as parentId,
+                'wiki' as `resourceType`                
+                FROM wiki w
+                LEFT JOIN categoriaswiki cw on cw.idCategoria = w.fk_idCategoria
+                INNER JOIN grupo g on g.idgrupo = cw.idGrupo
+                INNER JOIN wikilog wl on wl.fk_idWiki = w.idWiki                             
+                WHERE w.wiki_disponible = 1 and wl.fk_idWiki is not null
+                and g.idgrupo = :groupId
+                GROUP BY w.idWiki
+        ";
+        return $this->query($sql, compact('groupId'));
     }
 
 }

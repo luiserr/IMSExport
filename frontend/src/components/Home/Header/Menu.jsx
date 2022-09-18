@@ -5,8 +5,11 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import Box from "@mui/material/Box";
 import * as PropTypes from 'prop-types';
+import {useNavigate} from "react-router-dom";
 
 const Menu = ({show, setShow}) => {
+
+  const navigate = useNavigate();
 
   const list = () => (
     <Box
@@ -15,29 +18,33 @@ const Menu = ({show, setShow}) => {
       onKeyDown={() => setShow(false)}
     >
       <List>
-        {['Exportar', 'En progreso'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
-              </ListItemIcon>
-              <ListItemText primary={text}/>
-            </ListItemButton>
-          </ListItem>
-        ))}
+
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <MailIcon/>
+            </ListItemIcon>
+            <ListItemText
+              primary="Crear exportación"
+              onClick={() => navigate('/')}
+            />
+          </ListItemButton>
+        </ListItem>
+
       </List>
       <Divider/>
       <List>
-        {['Fallidos', 'Completados'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
-              </ListItemIcon>
-              <ListItemText primary={text}/>
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <InboxIcon/>
+            </ListItemIcon>
+            <ListItemText
+              primary="Exportaciones en progreso"
+              onClick={() => navigate('/inProgress')}
+            />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );

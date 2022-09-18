@@ -17,7 +17,7 @@ class ExportIMS extends BaseHandler
         $this->model = new Model();
     }
 
-    public function run(): bool|string
+    public function create(): bool|string
     {
         try {
             $this->model->beginTransaction();
@@ -44,13 +44,24 @@ class ExportIMS extends BaseHandler
 
     public function simple()
     {
-        $this->model->init($this->body['payload'], $this->body['typeId'], ExportExecutor::ready);
+        $this->model->create($this->body['payload'], $this->body['typeId'], ExportExecutor::ready);
     }
 
     public function csv()
     {
         foreach ($this->body['payload'] as $item) {
-            $this->model->init($item, $this->body['typeId'], ExportExecutor::ready);
+            $this->model->create($item, $this->body['typeId'], ExportExecutor::ready);
         }
+    }
+
+    public function getReady(): bool|string
+    {
+        $exports = $this->model->getData(
+            $this->model->getInProgress()
+        );
+        return self::response(
+            true,
+            $exports
+        );
     }
 }

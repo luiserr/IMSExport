@@ -20,16 +20,15 @@ class ExecuteExport extends Script
 
     public function run()
     {
-
         self::log('*************************');
         self::log('*** Inicio el proceso ***');
         self::log('*************************');
-        $this->model->init();
         $inProgress = $this->model->getInProgress();
         if ($inProgress) {
             foreach ($inProgress as $item) {
                 try {
                     self::log("Ejecutando {$item['id']}");
+                    $this->model->init($item['id'], ExportExecutor::inProgress);
                     (new ExportExecutor($item))
                         ->export();
                 } catch (Exception $exception) {
