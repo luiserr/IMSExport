@@ -28,7 +28,9 @@ class ExportExecutor
     {
         $group = $this->createGroup($this->data['groupId'], $this->data['typeId']);
         $this->init($group);
-        $this->finishProcess($this->data['id']);
+        if ($this->data['id']) {
+            $this->finishProcess($this->data['id']);
+        }
     }
 
     /**
@@ -43,16 +45,6 @@ class ExportExecutor
     }
 
     /**
-     * @param $processId
-     * @return void
-     * @throws Exception
-     */
-    protected function finishProcess($processId)
-    {
-        $this->repository->finish($processId, self::finished);
-    }
-
-    /**
      * @param Group $group
      * @return bool
      * @throws Exception
@@ -60,5 +52,15 @@ class ExportExecutor
     protected function init(Group $group): bool
     {
         return (new Cartridge($group))->export();
+    }
+
+    /**
+     * @param $processId
+     * @return void
+     * @throws Exception
+     */
+    protected function finishProcess($processId)
+    {
+        $this->repository->finish($processId, self::finished);
     }
 }

@@ -50,7 +50,10 @@ $app->action('get', '/export', function ($params, $body) {
 });
 
 $app->action('get', '/test', function () {
-    $export = new ExportIMS('id', ['seedId' => '51250023_3_VIRTUAL_1']);
+    $export = new \IMSExport\Application\ExportIMS\Services\ExportExecutor(
+        ['groupId' => '51250023_3_VIRTUAL_1', 'typeId' => 'seedId']
+    );
+    $export->export();
 });
 
 return $app->exec();

@@ -42,7 +42,7 @@ abstract class WebContents extends BaseFormat
             throw new Exception('No se encontró el contenido');
         }
         $template = $this->template($content['title'], $content['description']);
-        $this->record($template);
+        return $this->record($template);
     }
 
     protected abstract function find();
@@ -114,5 +114,6 @@ abstract class WebContents extends BaseFormat
         $fp = fopen($fileName, "w");
         fwrite($fp, $salida);
         fclose($fp);
+        return true;
     }
 }
