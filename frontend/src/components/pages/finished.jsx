@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {get} from "../../utils/request";
 import MyTable from "../commons/table";
-import {Container, Grid, Typography} from "@mui/material";
+import {Button, Grid} from "@mui/material";
 import Layout from "../commons/Layuot";
 
 const headers = {
   'groupId': 'Id de curso',
   'createdAt': 'Fecha de creación',
-  'startedAt': 'Fecha de inicio'
+  'finishedAt': 'Fecha de finalizado'
 };
 
-const InProgress = () => {
+const Finished = () => {
 
   const [exports, setExports] = useState([]);
 
@@ -19,22 +19,29 @@ const InProgress = () => {
   }, []);
 
   const getExports = async () => {
-    const response = await get('export/inProgress');
+    const response = await get('export/finished');
     if (response.success) {
       setExports(response.data);
     }
   }
 
+  const actions = [
+    <Button
+      onClick={() => console.log('joder')}
+    />
+  ];
+
   return (
-    <Layout title="Exportaciones de cursos">
+    <Layout title="Exportaciones finalizadas">
       <Grid xs={12}>
         <MyTable
           data={exports}
           headers={headers}
+          actions={actions}
         />
       </Grid>
     </Layout>
   );
 }
 
-export default InProgress;
+export default Finished;

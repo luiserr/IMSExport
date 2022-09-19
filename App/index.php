@@ -49,6 +49,16 @@ $app->action('get', '/export', function ($params, $body) {
     $export->getReady();
 });
 
+$app->action('get', '/export/inProgress', function ($params, $body) {
+    $export = new ExportIMS($params, $body);
+    $export->getInProgress();
+});
+
+$app->action('get', '/export/finished', function ($params, $body) {
+    $export = new ExportIMS($params, $body);
+    $export->getInProgress();
+});
+
 $app->action('get', '/test', function () {
     $export = new \IMSExport\Application\ExportIMS\Services\ExportExecutor(
         ['groupId' => '51250023_3_VIRTUAL_1', 'typeId' => 'seedId']

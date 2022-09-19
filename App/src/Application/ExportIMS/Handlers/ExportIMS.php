@@ -64,4 +64,26 @@ class ExportIMS extends BaseHandler
             $exports
         );
     }
+
+    public function getInProgress(): bool|string
+    {
+        $exports = $this->model->getData(
+            $this->model->getInProgress(ExportExecutor::inProgress)
+        );
+        return self::response(
+            true,
+            $exports
+        );
+    }
+
+    public function getFinished(): bool|string
+    {
+        $exports = $this->model->getData(
+            $this->model->getInProgress(ExportExecutor::finished)
+        );
+        return self::response(
+            true,
+            $exports
+        );
+    }
 }

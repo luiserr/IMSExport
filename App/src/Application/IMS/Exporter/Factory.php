@@ -17,6 +17,7 @@ class Factory
             case Activities::post:
                 return new Discussion($group, $data);
             case Activities::task:
+            case Activities::resource:
                 return new Tasks($group, $data);
             case Activities::blog:
                 return new Blogs($group, $data);

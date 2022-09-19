@@ -3,6 +3,7 @@
 namespace IMSExport\Application\IMS\Exporter;
 
 use Exception;
+use IMSExport\Application\Constants\Activities;
 use IMSExport\Application\Entities\Group;
 use IMSExport\Application\IMS\Services\Formats\Cartridge as Format;
 use IMSexport\Application\XMLGenerator\Generator;
@@ -107,12 +108,16 @@ class Cartridge extends Format
             ->toArray();
         if ($resources && count($resources)) {
             foreach ($resources as $resource) {
-                $identifier = $this
-                    ->identifierCreator
-                    ->getIdentifier('item');
-                $identifierRef = $this
-                    ->identifierRefCreator
-                    ->getIdentifier($resource['resourceType']);
+                $identifier = null;
+                $identifierRef = null;
+                if ($resource['resourceType'] !== Activities::tcu) {
+                    $identifier = $this
+                        ->identifierCreator
+                        ->getIdentifier('item');
+                    $identifierRef = $this
+                        ->identifierRefCreator
+                        ->getIdentifier($resource['resourceType']);
+                }
                 $resource = array_merge($resource, compact('identifier', 'identifierRef'));
                 $self = $this;
                 $this->XMLGenerator->createElement(

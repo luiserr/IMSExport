@@ -71,6 +71,8 @@ class Export extends BaseModel
 			ge.id,
 			ge.groupId,
 			ge.createdAt,
+			ge.startedAt,
+			ge.finishedAt,
 			ge.typeId,
 			ge.sourceType			
 			from group_exports ge where ge.status = :status;

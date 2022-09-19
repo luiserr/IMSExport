@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, CardContent, Container, Grid} from "@mui/material";
+import {Card, CardContent, Container} from "@mui/material";
 import {Outlet} from 'react-router-dom';
 import Header from "./Header";
 
@@ -10,9 +10,7 @@ const Body = () => {
       <Container sx={{marginTop: '2em'}}>
         <Card elevation={3}>
           <CardContent>
-            <Grid container spacing={2}>
-              <Outlet/>
-            </Grid>
+            <Outlet/>
           </CardContent>
         </Card>
       </Container>

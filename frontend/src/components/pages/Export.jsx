@@ -3,6 +3,7 @@ import {get, post} from "../../utils/request";
 import {useState} from "react";
 import ConfigSearch from "../Export/ConfigSearch";
 import useSearch from "../Export/searchHook";
+import Layout from "../commons/Layuot";
 
 const Export = () => {
 
@@ -17,7 +18,7 @@ const Export = () => {
   };
 
   return (
-    <>
+    <Layout title="Crear exportaciones">
       <ConfigSearch
         typeId={typeId}
         setTypeId={setTypeId}
@@ -30,7 +31,7 @@ const Export = () => {
       <Grid item xs={3}>
         <Button variant="outlined" onClick={handleSearch}>Crear</Button>
       </Grid>
-    </>
+    </Layout>
   );
 }
 

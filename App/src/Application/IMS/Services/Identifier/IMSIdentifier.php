@@ -9,7 +9,7 @@ class IMSIdentifier extends IMSIdentifierBase
     protected int $sectionIdQti = 0;
     protected int $itemIdQti = 0;
 
-    public function getIdentifier(string $type): string
+    public function getIdentifier(string $type): ?string
     {
         switch ($type) {
             case 'organization':
@@ -21,7 +21,7 @@ class IMSIdentifier extends IMSIdentifierBase
             case 'sectionItem':
                 return $this->createIdentifier('item', $this->itemIdQti);
             default:
-                return '';
+                return null;
         }
     }
 }
