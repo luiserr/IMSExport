@@ -44,44 +44,41 @@ $app->action('get', '/export/<seedId:noslash>', function ($params) {
     $export->run();
 });
 
+//http://localhost/IMSExport/test
 $app->action('get', '/test', function () {
     $export = new ExportIMS('id', ['seedId' => '51250023_3_VIRTUAL_1']);
     $export->run();
 });
 
-use IMSExport\Application\Entities\WebContents;
-//http://localhost/IMSExport/WebContents
-$app->action('get', 'webContents', function () {
-    $counter = 0;
-    $export = new WebContents(['seedId' => '51250023_3_VIRTUAL_1'], $counter);
 
-    // ----------------------------- Extracción de información de Evidncias para Contents
+
+use IMSExport\Application\Entities\Content;
+//http://localhost/IMSExport/webContents
+$app->action('get', 'web', function () {
+/*
+    // ----------------------------- Extracción de información de Evidencias para Contents
+    //  $export = new Content("Evidence", 101357095); OK
+    // ----------------------------- Extracción de información Individual de Wikis para Contents
+    //  $export = new Content("Wiki", 78410); OK
+    // ----------------------------- Extracción de información Individual de Blogs para Contents
+    //  $export = new Content("Blog", 120624); OK
+*/
+    $counter = 0;
+    $export = new Content(['seedId' => '51250023_3_VIRTUAL_1'], $counter);
+    // ----------------------------- Extracción de información de Evidencias para Contents
     //Observar web_content_1
     $id = 101357095;
     $export->generaContent("Evidence", $id); //Identificador de Post - Evidencia
 
     $idgrupo = 188713; //188713 Grupo 2216 QA en Development
     // ----------------------------- Extracción de información de Blogs para Contents
-    //Observar web_content_50
+    //Observar web_content_49
     $export->contentGrupo("Blog", $idgrupo);
-
     // ----------------------------- Extracción de información de Wikis para Contents
-    //Observar web_content_194
+    //Observar web_content_94
     $export->contentGrupo("Wiki", $idgrupo);
+
     echo "<h1>WebContents concluido";
 });
-
-
-/*
- *
- * <root message="hola mundo">
- *  <children1>Hola mundo 2</children1>
- *  <children2>
- *      <children3 attr="hola">texto</children3>
- *  </children2>
- * </root>
- *
- *
- * */
 
 return $app->exec();

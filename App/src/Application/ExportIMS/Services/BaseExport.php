@@ -16,6 +16,7 @@ abstract class BaseExport
 
     public function __construct(public array $data)
     {
+        //print_r("<br />3 Services/BaseExport __construct <br />->data: ") . var_dump($this->data) . "<br />";exit;
         $this->repository = new Export();
     }
 

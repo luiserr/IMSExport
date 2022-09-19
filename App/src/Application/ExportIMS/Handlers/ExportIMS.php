@@ -13,6 +13,7 @@ class ExportIMS
 
     public function run()
     {
+        print_r("1 Handlers/ExportIMS run <br />->method: "); var_dump($this->method) . print_r("<br />->data: ")  . var_dump($this->data) . "<br />";
         if($this->method == 'id') {
             (new ExportById($this->data))->export();
         }
