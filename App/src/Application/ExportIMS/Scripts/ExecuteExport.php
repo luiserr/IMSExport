@@ -23,7 +23,8 @@ class ExecuteExport extends Script
         self::log('*************************');
         self::log('*** Inicio el proceso ***');
         self::log('*************************');
-        $inProgress = $this->model->getInProgress();
+        $inProgress = $this->model->getData($this->model->getInProgress());
+        self::log('Exportaciones por iniciar: ' . count($inProgress));
         if ($inProgress) {
             foreach ($inProgress as $item) {
                 try {

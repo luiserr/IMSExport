@@ -14,7 +14,7 @@ use IMSExport\Application\ExportIMS\Scripts\ExecuteExport;
 $now = Carbon::now();
 
 (new ExecuteExport($now))
-    ->atMinute(0)
-    ->atMinute(15)
-    ->atMinute(30)
-    ->atMinute(45);
+    ->atHour(15)
+    ->atHour(16)
+    ->atHour(20)
+    ->atHour(21);

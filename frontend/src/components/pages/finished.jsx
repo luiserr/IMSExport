@@ -3,6 +3,7 @@ import {get} from "../../utils/request";
 import MyTable from "../commons/table";
 import {Button, Grid} from "@mui/material";
 import Layout from "../commons/Layuot";
+import DownloadIcon from '@mui/icons-material/Download';
 
 const headers = {
   'groupId': 'Id de curso',
@@ -25,10 +26,13 @@ const Finished = () => {
     }
   }
 
-  const actions = [
-    <Button
+  const actions = [{
+    title: 'Descargar',
+    component: () => <Button
       onClick={() => console.log('joder')}
+      startIcon={<DownloadIcon/>}
     />
+  }
   ];
 
   return (

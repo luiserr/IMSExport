@@ -56,7 +56,7 @@ $app->action('get', '/export/inProgress', function ($params, $body) {
 
 $app->action('get', '/export/finished', function ($params, $body) {
     $export = new ExportIMS($params, $body);
-    $export->getInProgress();
+    $export->getFinished();
 });
 
 $app->action('get', '/test', function () {

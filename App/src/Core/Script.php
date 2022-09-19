@@ -36,6 +36,7 @@ abstract class Script
     public function atHour(int $hour): static
     {
         $currentHour = $this->now->hour;
+        self::log($currentHour . '=' . $hour);
         if ($currentHour === $hour) {
             $this->run();
         }

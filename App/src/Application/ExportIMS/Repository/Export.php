@@ -44,9 +44,9 @@ class Export extends BaseModel
     public function init(int $exportId, string $status = 'inProgress'): array
     {
         $sql = "
-            update group_exports set status = :status where id = ;
+            update group_exports set status = :status, startedAt = current_timestamp() where id = :exportId;
         ";
-        return $this->executeOrFail($sql, compact('status'));
+        return $this->executeOrFail($sql, compact('status', 'exportId'));
     }
 
     public function getNext(): ?array
@@ -75,7 +75,7 @@ class Export extends BaseModel
 			ge.finishedAt,
 			ge.typeId,
 			ge.sourceType			
-			from group_exports ge where ge.status = :status;
+			from group_exports ge where ge.status = :status
             order by ge.id asc 
         ";
         return $this->query($sql, compact('status'));
