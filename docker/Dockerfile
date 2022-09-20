@@ -8,9 +8,11 @@ RUN apt-get update  \
         zlib1g-dev \
         libzip-dev \
         nano \
+        cron \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install zip
 RUN a2enmod rewrite \
-    && /etc/init.d/apache2 restart
+    && /etc/init.d/apache2 restart \
+    && service cron start \

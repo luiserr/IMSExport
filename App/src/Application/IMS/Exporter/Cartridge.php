@@ -3,6 +3,7 @@
 namespace IMSExport\Application\IMS\Exporter;
 
 use Exception;
+use IMSExport\Application\Constants\Activities;
 use IMSExport\Application\Entities\Group;
 use IMSExport\Application\IMS\Services\Formats\Cartridge as Format;
 use IMSexport\Application\XMLGenerator\Generator;
@@ -27,7 +28,6 @@ class Cartridge extends Format
     protected function createResources(): self
     {
         foreach ($this->queue as $resource) {
-            print_r($resource);
             $driver = Factory::getDriver($this->group, $resource['resourceType'], $resource);
             if ($driver) {
                 $driver->export();
@@ -58,6 +58,10 @@ class Cartridge extends Format
         return $this;
     }
 
+    /**
+     * @return bool
+     * @throws Exception
+     */
     public function export(): bool
     {
         try {
@@ -72,15 +76,15 @@ class Cartridge extends Format
                 ->finish();
             return true;
         } catch (Exception $exception) {
-            echo $exception->getMessage();
-            return false;
+            throw new $exception;
         }
     }
 
     protected function createOrganizationsStructure(): self
     {
         $roots = $this->resources
-            ->where('parent_id', 0)
+            ->where('parentId', null)
+            ->where('resourceType', 'folder')
             ->toArray();
         foreach ($roots as $root) {
             $self = $this;
@@ -100,16 +104,20 @@ class Cartridge extends Format
     {
         $resources = $this
             ->resources
-            ->where('parent_id', $parent['id'])
+            ->where('parentId', $parent['id'])
             ->toArray();
         if ($resources && count($resources)) {
             foreach ($resources as $resource) {
-                $identifier = $this
-                    ->identifierCreator
-                    ->getIdentifier('item');
-                $identifierRef = $this
-                    ->identifierRefCreator
-                    ->getIdentifier($resource['resourceType']);
+                $identifier = null;
+                $identifierRef = null;
+                if ($resource['resourceType'] !== Activities::tcu) {
+                    $identifier = $this
+                        ->identifierCreator
+                        ->getIdentifier('item');
+                    $identifierRef = $this
+                        ->identifierRefCreator
+                        ->getIdentifier($resource['resourceType']);
+                }
                 $resource = array_merge($resource, compact('identifier', 'identifierRef'));
                 $self = $this;
                 $this->XMLGenerator->createElement(

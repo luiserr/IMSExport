@@ -12,4 +12,6 @@ class Activities
     public const exam = 'exam';
     public const scorm = 'scorm';
     public const probe = 'probe';
+    public const resource = 'resource';
+    public const tcu = 'tcu';
 }

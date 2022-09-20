@@ -9,6 +9,7 @@ services:
       - '../App:/var/www/html/IMSExport'
       - '../.env:/var/www/.env'
       - './apache_dev.conf:/etc/apache2/apache2.conf'
+      - './crontab:/etc/crontab'
     restart: always
     ports:
       - '443:443'

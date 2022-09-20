@@ -12,7 +12,7 @@ class IMSIdentifierRef extends IMSIdentifierBase
     protected int $discussionId = 0;
 
 
-    public function getIdentifier(?string $type): string
+    public function getIdentifier(?string $type): ?string
     {
         switch ($type) {
             case Activities::exam:
@@ -22,10 +22,11 @@ class IMSIdentifierRef extends IMSIdentifierBase
                 return $this->createIdentifier('discussion_topic', $this->discussionId);
             case Activities::task:
             case Activities::blog:
+            case Activities::resource:
             case Activities::wiki:
                 return $this->createIdentifier('web_content', $this->webContentId);
         }
-        return '';
+        return null;
     }
 
 }

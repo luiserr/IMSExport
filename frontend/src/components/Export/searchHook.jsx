@@ -10,30 +10,26 @@ const useSearch = (sourceType, payload, setPayload) => {
   }, [sourceType]);
 
 
-  const handleHeader = (rows = []) => {
-    const emails = [];
+  const handleReader = (rows = []) => {
+    const groups = [];
     if (rows[0].length > 1000) {
-      return myAlert('Ha excedido el límite máximo de correos. El límite es 1000 correos')
+      return myAlert('Ha excedido el límite máximo de cursos a exportar. El límite es 1000 cursos')
     }
     for (let i = 0; i < rows[0].length; i++) {
-      if (!emails.find(email => email.email === rows[1][i])) {
-        const name = rows[0][i];
-        const email = rows[1][i];
-        if (name !== '' && email !== '') {
-          emails.push({
-            name: utf8Decode(name),
-            email
-          });
+      if (!groups.find(group => group === rows[0][i])) {
+        const groupId = rows[0][i];
+        if (groupId !== '') {
+          groups.push(groupId);
         }
       }
     }
-    setPayload(emails)
+    setPayload(groups);
   }
 
 
   if (sourceType === 'csv') {
     return (<Grid item xs={4}>
-      <CSVReader handleReader={handleHeader}/>
+      <CSVReader handleReader={handleReader}/>
     </Grid>)
   }
   return (<Grid item xs={4}>

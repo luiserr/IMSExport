@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ERROR | E_PARSE);
 
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 
@@ -38,15 +39,31 @@ use IMSExport\Core\Router\Teeny;
 
 $app = new Teeny;
 
-$app->action('get', '/export/<seedId:noslash>', function ($params) {
-//    $export = new ExportIMS('id', ['seedId' => '51250023_3_VIRTUAL_1']);
-    $export = new ExportIMS('id', $params);
-    $export->run();
+$app->action('post', '/export', function ($params, $body) {
+    $export = new ExportIMS($params, $body);
+    $export->create();
+});
+
+$app->action('get', '/export', function ($params, $body) {
+    $export = new ExportIMS($params, $body);
+    $export->getReady();
+});
+
+$app->action('get', '/export/inProgress', function ($params, $body) {
+    $export = new ExportIMS($params, $body);
+    $export->getInProgress();
+});
+
+$app->action('get', '/export/finished', function ($params, $body) {
+    $export = new ExportIMS($params, $body);
+    $export->getFinished();
 });
 
 $app->action('get', '/test', function () {
-    $export = new ExportIMS('id', ['seedId' => '51250023_3_VIRTUAL_1']);
-    $export->run();
+    $export = new \IMSExport\Application\ExportIMS\Services\ExportExecutor(
+        ['groupId' => '51250023_3_VIRTUAL_1', 'typeId' => 'seedId']
+    );
+    $export->export();
 });
 
 return $app->exec();

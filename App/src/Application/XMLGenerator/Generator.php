@@ -43,7 +43,9 @@ class Generator
     {
         if (is_array($attributes)) {
             foreach ($attributes as $key => $value) {
-                $this->xml->writeAttribute($key, $value);
+                if($value) {
+                    $this->xml->writeAttribute($key, $value);
+                }
             }
         }
         return $this;
