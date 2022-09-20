@@ -13,9 +13,12 @@ class Factory
             case QuestionTypes::_multiple:
             	return new MultipleResponse($data, $self);
             case QuestionTypes::_spaces:
+            case QuestionTypes::_columns:
             	return new Fib($data, $self);
             case QuestionTypes::_opened:
             case QuestionTypes::_file:
+            case QuestionTypes::_brief:
+            case QuestionTypes::_zone:
                 return new Essay($data, $self);
 
         }
