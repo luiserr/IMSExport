@@ -19,9 +19,7 @@ class QTI extends IMSQTIFormat
 
     public function __construct(protected Group $group, protected array $data)
     {
-//        find exam
         $this->exam = new Exam($this->data['id']);
-        $this->configurate = $this->exam->toArray();
         $this->section = Collection::createCollection($this->exam->getSection);
         $this->question = Collection::createCollection($this->exam->getQuestion);
         parent::__construct();
@@ -35,8 +33,8 @@ class QTI extends IMSQTIFormat
                 $self
                     ->createAssessment($this->data['identifierRef'], $this->data['title'], function () use ($self) {
                         $self
-                            ->qtimetadata($this->configurate['intentos'])
-                            ->createInitPresentationMaterial($this->configurate)
+                            ->qtimetadata($this->exam->intentos)
+                            ->createInitPresentationMaterial($this->exam->instrucciones)
                             ->createAllSection();
                     });
             })
@@ -96,17 +94,14 @@ class QTI extends IMSQTIFormat
         if ($questions && count($questions)) {
             $root = $this;
             foreach ($questions as $question) {
-                if ($question['tipo'] == 6 || $question['tipo'] == 1 || $question['tipo'] == 5 || $question['tipo'] == 4 || $question['tipo'] == 9) {
+                $question = array_merge($question, compact('identifier'));
 
-                    $question = array_merge($question, compact('identifier'));
-
-                    $driver = Factory::getDriver(
-                        $question['tipo'],
-                        $question,
-                        $root
-                    );
-                    $driver->export();
-                }
+                $driver = Factory::getDriver(
+                    $question['tipo'],
+                    $question,
+                    $root
+                );
+                $driver->export();
             }
         }
     }

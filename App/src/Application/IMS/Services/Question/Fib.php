@@ -11,7 +11,8 @@ class Fib extends BaseQuestion
 {
 	public function export()
     {
-    	try {
+
+	   	try {
             $self = $this;
             $this->createItem(function () use ( $self ) {
                 $self
@@ -31,7 +32,10 @@ class Fib extends BaseQuestion
 		                						'flow', 
 		                						function () use ( $self )
 		                						{
-						                			$self->questionsText();
+		                							if($self->getType()==5)
+						                				$self->questionsText();
+						                			else 
+						                				$self->questionsTextColumn();
 		                						}
 		                					);
 			                			
@@ -68,7 +72,7 @@ class Fib extends BaseQuestion
 				                				"conditionvar",
 							                	function () use ( $self )
 							                	{
-							                		$self->answersCorrect();
+						                			$self->answersCorrect();
 							                	}
 				                			)
 				                			->setvar("Set", 1);
@@ -173,6 +177,16 @@ class Fib extends BaseQuestion
         }    	
     }
 
+    public function questionsTextColumn() {
+
+		$ident = "FIB_{$this->data['idPreguntas']}";
+
+		$this
+			->createMaterial($this->getText(), 1)
+			->response_str($ident, "Single", null);
+
+    }
+
     public function notVarEqual() 
     { 
     	$self = $this;
@@ -238,19 +252,51 @@ class Fib extends BaseQuestion
 
     	$self = $this;
 
-        preg_match_all('/\{([^}]*)\}/s', $self->getText(), $matches);
+    	if($self->getType()==5) {
 
-        if (isset($matches[1])) {
-            $matches = $matches[1];
-            foreach ($matches as $key => $value) {
-       			$ident = "FIB_{$this->data['idPreguntas']}_{$key}";
-       			$self->varequal(
-       				$ident, 
-       				$value
-       			);
-       		}
+    		preg_match_all('/\{([^}]*)\}/s', $self->getText(), $matches);
 
-        }
+	        if (isset($matches[1])) {
+	            $matches = $matches[1];
+	            foreach ($matches as $key => $value) {
+	       			$ident = "FIB_{$this->data['idPreguntas']}_{$key}";
+	       			$self->varequal(
+	       				$ident, 
+	       				$value
+	       			);
+	       		}
+
+	        }
+
+    	} else {
+    		$answerRows = $this->answerCollection
+						->toArray();
+
+			$not = '';
+			$self = $this; 
+			if($answerRows && count($answerRows))
+			{	
+				foreach ($answerRows as $key => $value) {
+					$id = $value['idRespuesta'];
+
+					if($value['Correcta']==1){
+						$self->varequal("FIB_{$self->data['idPreguntas']}", $value['Respuesta']);
+					} else {
+
+						$self
+							->tagParent
+			                		(
+			                			"not",
+					                	function () use ( $self, $id)
+					                	{
+					                		$self->varequal("FIB_{$self->data['idPreguntas']}", $value['Respuesta']);
+					                	}
+					                );
+					}	
+
+				}
+			}
+    	}
     	
     }
     

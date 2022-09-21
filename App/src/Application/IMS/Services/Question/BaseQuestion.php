@@ -192,7 +192,11 @@ abstract class BaseQuestion
 
     protected function response_str($ident, $rcardinality, $maxchars): void
     {
-
+        $attribute = ["fibtype" => "String", "prompt" => "Dashline" ];
+        if($maxchars) {
+            $attribute["maxchars"] = $maxchars;
+        }
+                        
         $this->root->XMLGenerator->createElement(
             'response_str',
             [
@@ -200,20 +204,18 @@ abstract class BaseQuestion
                 "rcardinality" => $rcardinality
             ],
             null,
-            function () use ($maxchars) {
+            function () use ($attribute) {
+
                 $this->root->XMLGenerator->createElement(
                     'render_fib',
-                    [
-                        "fibtype" => "String",
-                        "prompt" => "Dashline",
-                        "maxchars" => $maxchars
-                    ],
+                    $attribute,
                     null,
                     function () {
                         $this->root->XMLGenerator->createElement('response_label', [
                         "ident" => "A"], null, null);
                     }
                 );
+                
             }
         );
     }
@@ -221,6 +223,11 @@ abstract class BaseQuestion
     protected function getText(): string
     {
         return $this->data['Pregunta'];
+    }
+
+    protected function getType(): string
+    {
+        return $this->data['tipo'];
     }
 
     protected abstract function export();

@@ -74,10 +74,8 @@ abstract class IMSQTIFormat extends BaseFormat
         return $this;
     }
 
-    protected function createInitPresentationMaterial($configurate): self
+    protected function createInitPresentationMaterial($instrucciones): self
     {
-
-        $instrucciones = $configurate['instrucciones'];
 
         $this->XMLGenerator
             ->createElement(
