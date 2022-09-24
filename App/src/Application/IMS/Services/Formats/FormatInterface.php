@@ -4,11 +4,11 @@ namespace IMSExport\Application\IMS\Services\Formats;
 
 interface FormatInterface
 {
-    public function export(): bool;
+    public function export();
 
-    public function getName(): string;
+    public function getName();
 
-    public function getFolderName(): string;
+    public function getFolderName();
 
-    public function getType(): string;
+    public function getType();
 }

@@ -13,4 +13,9 @@ class Boolean extends BaseQuestion
     {
     	print_r('save');
     }
+
+    protected function answersCorrect()
+    {
+        // TODO: Implement answersCorrect() method.
+    }
 }

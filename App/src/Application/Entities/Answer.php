@@ -7,8 +7,11 @@ use IMSExport\Core\BaseEntity;
 
 class Answer extends BaseEntity
 {
-    public function __construct(public string $id)
+    public $id;
+
+    public function __construct($id)
     {
+        $this->id = $id;
         $this->repository = new ExamModel();
     }
 

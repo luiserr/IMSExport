@@ -4,12 +4,12 @@ namespace IMSExport\Application\IMS\Services\Identifier;
 
 class IMSIdentifier extends IMSIdentifierBase
 {
-    protected int $organizationId = 0;
-    protected int $itemId = 0;
-    protected int $sectionIdQti = 0;
-    protected int $itemIdQti = 0;
+    protected $organizationId = 0;
+    protected $itemId = 0;
+    protected $sectionIdQti = 0;
+    protected $itemIdQti = 0;
 
-    public function getIdentifier(string $type): ?string
+    public function getIdentifier($type)
     {
         switch ($type) {
             case 'organization':

@@ -29,7 +29,7 @@ class File
         }
     }
 
-    public static function downloadFile(string $url, string $directory = ''): bool
+    public static function downloadFile($url, $directory = '')
     {
         $fileName = $directory . '/' . basename($url);;
         if (file_put_contents($fileName, file_get_contents($url))) {
@@ -38,7 +38,7 @@ class File
         return false;
     }
 
-    public static function getFileNameFromUrl(string $url): string
+    public static function getFileNameFromUrl(string $url)
     {
         $split = explode('/', $url);
         return $split[(count($split) - 1)];

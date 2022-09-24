@@ -9,15 +9,15 @@ use IMSExport\Core\BaseHandler;
 
 class ExportIMS extends BaseHandler
 {
-    protected Model $model;
+    protected $model;
 
-    public function __construct(?array $params = [], ?array $body = [])
+    public function __construct($params = [], $body = [])
     {
         parent::__construct($params, $body);
         $this->model = new Model();
     }
 
-    public function create(): bool|string
+    public function create()
     {
         try {
             $this->model->beginTransaction();
@@ -54,7 +54,7 @@ class ExportIMS extends BaseHandler
         }
     }
 
-    public function getReady(): bool|string
+    public function getReady()
     {
         $exports = $this->model->getData(
             $this->model->getInProgress()
@@ -65,7 +65,7 @@ class ExportIMS extends BaseHandler
         );
     }
 
-    public function getInProgress(): bool|string
+    public function getInProgress()
     {
         $exports = $this->model->getData(
             $this->model->getInProgress(ExportExecutor::inProgress)
@@ -76,7 +76,7 @@ class ExportIMS extends BaseHandler
         );
     }
 
-    public function getFinished(): bool|string
+    public function getFinished()
     {
         $exports = $this->model->getData(
             $this->model->getInProgress(ExportExecutor::finished)
@@ -87,7 +87,7 @@ class ExportIMS extends BaseHandler
         );
     }
 
-    public function delete(): bool|string
+    public function delete()
     {
         $this->model->delete($this->body['id']);
         return self::response(

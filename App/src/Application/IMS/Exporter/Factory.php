@@ -8,7 +8,7 @@ use IMSExport\Application\IMS\Services\Formats\FormatInterface;
 
 class Factory
 {
-    public static function getDriver(Group $group, ?string $type, $data): ?FormatInterface
+    public static function getDriver($group, $type, $data)
     {
         switch ($type) {
             case Activities::exam:

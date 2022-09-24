@@ -24,7 +24,7 @@ class PDOResultRecord extends PDOResult
         }
     }
 
-    public function count(): int
+    public function count()
     {
         if (!is_null($this->result))
             return $this->result->rowCount();

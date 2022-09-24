@@ -7,14 +7,17 @@ use PDO;
 
 class BaseModel
 {
-    protected MysqlPDO $connection;
+    /**
+     * @var MysqlPDO
+     */
+    protected $connection;
     protected $params;
 
-    protected string  $host = '10.9.0.9';
-    protected int $port = 13306;
-    protected string $db = 'territorio2_0';
-    protected string $user = 'territorium';
-    protected string $pass = 'T3rr1t0r1um4zur3';
+    protected $host = '10.9.0.9';
+    protected $port = 13306;
+    protected $db = 'territorio2_0';
+    protected $user = 'territorium';
+    protected $pass = 'T3rr1t0r1um4zur3';
 
     const PROCTORING = 'proctoring';
     const EXAM = 'exam';
@@ -26,7 +29,7 @@ class BaseModel
             ->setConnection($this->host, $this->port, $this->user, $this->pass, $this->db);
     }
 
-    public function getConnectionParams($server): static
+    public function getConnectionParams($server)
     {
 //        $this->host = $config['host'];
 //        $this->port = $config['port'];
@@ -37,7 +40,7 @@ class BaseModel
     }
 
 
-    public function setConnection($host, $port, $user, $pass, $db): static
+    public function setConnection($host, $port, $user, $pass, $db)
     {
         $mySqlPdo = new MysqlPDO(
             $host,
@@ -59,7 +62,7 @@ class BaseModel
         return null;
     }
 
-    public function getData($resource): ?array
+    public function getData($resource)
     {
         if ($resource && isset($resource['success']) && $resource['success']) {
             $statment = $resource['data'];
@@ -68,7 +71,7 @@ class BaseModel
         return null;
     }
 
-    public function getDataPaginate($resouce): array
+    public function getDataPaginate($resouce)
     {
         return [
             'data' => $this->getData($resouce),
@@ -76,7 +79,7 @@ class BaseModel
         ];
     }
 
-    protected function query($sql, $parameters = [], $pagination = null): ?array
+    protected function query($sql, $parameters = [], $pagination = null)
     {
         $resource = $this
             ->connection
@@ -134,7 +137,7 @@ class BaseModel
         ];
     }
 
-    private function executePaginateQuery($sql, $parameters, $paginator): array
+    private function executePaginateQuery($sql, $parameters, $paginator)
     {
         $newSQL = $this->builderPaginateSQL($sql, $paginator['currentPage'], $paginator['perPage']);
         return $this->connection->runQuery($newSQL, $parameters);
@@ -164,7 +167,7 @@ class BaseModel
      * @return array
      * @throws Exception
      */
-    protected function executeOrFail($sql, array $parameters = []): array
+    protected function executeOrFail($sql, array $parameters = [])
     {
         $execution = $this->execute($sql, $parameters);
         if (!$execution['success']) {

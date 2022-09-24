@@ -14,11 +14,13 @@ class ExportExecutor
     const inProgress = 'inProgress';
     const finished = 'finished';
     const error = 'error';
-    protected Group $group;
-    protected Export $repository;
+    public $data;
+    protected $group;
+    protected $repository;
 
-    public function __construct(public array $data)
+    public function __construct($data)
     {
+        $this->data = $data;
         $this->repository = new Export();
     }
 
@@ -44,7 +46,7 @@ class ExportExecutor
      * @return Group
      * @throws Exception
      */
-    protected function createGroup(string $groupId, string $typeId): Group
+    protected function createGroup($groupId, $typeId)
     {
         return new Group($groupId, $typeId);
     }

@@ -20,7 +20,7 @@ abstract class IMSDiscussionFormat extends BaseFormat
             $children);
     }
 
-    public function createDetail(string $title, string $description, $attach): self
+    public function createDetail($title, $description, $attach)
     {
         $this->XMLGenerator->createElement('dt:title', null, $title ?? $description)
             ->createElement('dt:text', ['textype' => 'text/html'], htmlentities($description, ENT_QUOTES, "UTF-8"));

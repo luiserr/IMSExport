@@ -6,9 +6,15 @@ use IMSExport\Core\Connection\BaseModel;
 
 class BaseEntity
 {
-    protected array $data = [];
+    /**
+     * @var array
+     */
+    protected $data = [];
 
-    protected BaseModel $repository;
+    /**
+     * @var BaseModel
+     */
+    protected $repository;
 
     public function __get($name)
     {
@@ -30,23 +36,23 @@ class BaseEntity
         $this->data[$name] = $value;
     }
 
-    public function setAttribute($key, $value): BaseEntity
+    public function setAttribute($key, $value)
     {
         $this->data[$key] = $value;
         return $this;
     }
 
-    public function getAttribute(string $attribute) : mixed
+    public function getAttribute(string $attribute)
     {
         return $this->data[$attribute];
     }
 
-    public function toArray(): array
+    public function toArray()
     {
         return $this->data;
     }
 
-    public function search($resource, $collection = false): array | null
+    public function search($resource, $collection = false)
     {
         $data = $this->repository->getData($resource);
         if ($collection) {
@@ -55,12 +61,12 @@ class BaseEntity
         return $data;
     }
 
-    public function firstElement($resource): array | null
+    public function firstElement($resource)
     {
         return $this->repository->firstElement($resource);
     }
 
-    public function setData($data): void
+    public function setData($data)
     {
         $this->data = $data;
     }

@@ -14,7 +14,7 @@ class Export extends BaseModel
      * @return array
      * @throws Exception
      */
-    public function create(string $groupId, string $typeId, string $status): array
+    public function create($groupId, $typeId, $status)
     {
         $sql = "             
            insert into group_exports (groupId, typeId, status) values (:groupId, :typeId, :status);
@@ -29,7 +29,7 @@ class Export extends BaseModel
      * @return array
      * @throws Exception
      */
-    public function finish(int $processId, string $status, $exportPath): array
+    public function finish($processId, $status, $exportPath)
     {
         $sql = "
             update group_exports set finishedAt = current_timestamp() , status = :status, exportPath = :exportPath where id = :processId ;
@@ -42,7 +42,7 @@ class Export extends BaseModel
      * @return array
      * @throws Exception
      */
-    public function init(int $exportId, string $status = 'inProgress'): array
+    public function init($exportId, $status = 'inProgress')
     {
         $sql = "
             update group_exports set status = :status, startedAt = current_timestamp() where id = :exportId;
@@ -50,7 +50,7 @@ class Export extends BaseModel
         return $this->executeOrFail($sql, compact('status', 'exportId'));
     }
 
-    public function getNext(): ?array
+    public function getNext()
     {
         $sql = "
             select 
@@ -65,7 +65,7 @@ class Export extends BaseModel
         return $this->query($sql);
     }
 
-    public function getInProgress(string $status = 'ready'): ?array
+    public function getInProgress($status = 'ready')
     {
         $sql = "
             select 
@@ -82,7 +82,7 @@ class Export extends BaseModel
         return $this->query($sql, compact('status'));
     }
 
-    public function delete(int $exportId): array
+    public function delete($exportId)
     {
         $sql = "
             update group_exports set deletedAt = current_timestamp() where id = :exportId;

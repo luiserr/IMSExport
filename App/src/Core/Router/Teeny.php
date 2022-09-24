@@ -1,5 +1,8 @@
 <?php
+
 namespace IMSExport\Core\Router;
+
+use Closure;
 
 /**
  * Based on Inphinit\Routing\Route class
@@ -16,8 +19,6 @@ class Teeny
 
     private $code = 200;
     private $pathinfo;
-
-
 
     private $hasParams = false;
     private $paramPatterns = array(
@@ -67,17 +68,17 @@ class Teeny
     /**
      * Get or set HTTP status
      *
-     * @param int $code
+     * @param int|null $code
      * @return int
      */
-    public function status($code = null)
+    public function status(int $code = null)
     {
         if (function_exists('http_response_code')) {
-            return $code ? http_response_code($code) : http_response_code();
+            return http_response_code($code);
         }
 
         if ($code === null && preg_match('#/RESERVED\.TEENY-(\d{3})\.html#', $_SERVER['PHP_SELF'], $match)) {
-            $this->code = (int) $match[1];
+            $this->code = (int)$match[1];
         }
 
         if ($code === null || $this->code === $code) {
@@ -98,9 +99,9 @@ class Teeny
     /**
      * Register a callback or script for a route
      *
-     * @param string|array     $methods
-     * @param string           $path
-     * @param string|\Closure  $callback
+     * @param string|array $methods
+     * @param string $path
+     * @param string|Closure $callback
      * @return void
      */
     public function action($methods, $path, $callback)
@@ -131,8 +132,8 @@ class Teeny
     /**
      * Handler HTTP status code
      *
-     * @param array     $codes
-     * @param callable  $callback
+     * @param array $codes
+     * @param callable $callback
      * @return void
      */
     public function handlerCodes(array $codes, $callback)
@@ -151,7 +152,6 @@ class Teeny
     {
         $code = $this->status();
         $callback = null;
-        $method = null;
 
         if ($code === 200) {
             $path = $this->path();
@@ -281,14 +281,14 @@ class Teeny
 
             if (isset($this->codes[$code])) {
                 $callback = $this->codes[$code];
-                echo $callback($code);
+                echo $callback($code, $body, $method);
             }
         } elseif (is_string($callback) && strpos($callback, '.') !== false) {
             TeenyLoader($this, $callback);
         } elseif ($params !== null) {
-            echo $callback($params, $body);
+            echo $callback($params, $body, $method);
         } else {
-            echo $callback(null, $body);
+            echo $callback(null, $body, $method);
         }
     }
 

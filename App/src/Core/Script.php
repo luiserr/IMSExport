@@ -8,21 +8,17 @@ use DateTime;
 
 abstract class Script
 {
+    protected $now;
 
     /**
      * @param Carbon $now
      */
-    public function __construct(protected Carbon $now)
+    public function __construct($now)
     {
+        $this->now = $now;
     }
 
-    public static function log($message)
-    {
-        $datetime = (new DateTime())->format('d-m-Y H:i:s');
-        echo "[{$datetime}]   : $message \n";
-    }
-
-    public function atMinute(int $minute): static
+    public function atMinute($minute)
     {
         $currentMinute = $this->now->minute;
         if ($currentMinute === $minute) {
@@ -33,7 +29,7 @@ abstract class Script
 
     public abstract function run();
 
-    public function atHour(int $hour): static
+    public function atHour($hour)
     {
         $currentHour = $this->now->hour;
         self::log($currentHour . '=' . $hour);
@@ -41,6 +37,12 @@ abstract class Script
             $this->run();
         }
         return $this;
+    }
+
+    public static function log($message)
+    {
+        $datetime = (new DateTime())->format('d-m-Y H:i:s');
+        echo "[{$datetime}]   : $message \n";
     }
 
     public function everyMinute()

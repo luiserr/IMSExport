@@ -7,19 +7,24 @@ use PDOException;
 
 class MysqlPDO
 {
-    /*VARIABLES*/
-    public PDO|null $dbLink;
-    public string $debug;
-    protected string $dbIp;
-    protected string $dbPort;
-    protected string $dbUser;
-    protected string $dbPassword;
-    protected string $dbDatabaseName;
-    protected string $dbDatabase;
-    protected PDOResultInterface $sentencia;
-    protected string $fechaConexion;
-    protected string $ipConexion;
-    protected string $transaction;
+    /**
+     * @var PDO|null
+     */
+    public $dbLink;
+    public $debug;
+    protected $dbIp;
+    protected $dbPort;
+    protected $dbUser;
+    protected $dbPassword;
+    protected $dbDatabaseName;
+    protected $dbDatabase;
+    /**
+     * @var PDOResultInterface
+     */
+    protected $sentencia;
+    protected $fechaConexion;
+    protected $ipConexion;
+    protected $transaction;
 
     public function __construct($dbIp, $dbPort, $dbUser, $dbPassword, $dbDatabaseName, $debug = FALSE)
     {
@@ -50,19 +55,19 @@ class MysqlPDO
         }
     }
 
-    public function beginTransaction(): bool
+    public function beginTransaction()
     {
         $this->dbLink->beginTransaction();
         return TRUE;
     }
 
-    public function commit(): bool
+    public function commit()
     {
         $this->dbLink->commit();
         return TRUE;
     }
 
-    public function rollback(): bool
+    public function rollback()
     {
         $this->dbLink->rollBack();
         return TRUE;
@@ -102,7 +107,7 @@ class MysqlPDO
         }
     }
 
-    public function runQuery($preparedString, $preparedValues, $fetch_all = FALSE): array
+    public function runQuery($preparedString, $preparedValues, $fetch_all = FALSE)
     {
         try {
             $sentencia = $this->dbLink->prepare($preparedString);
@@ -139,7 +144,7 @@ class MysqlPDO
         }
     }
 
-    public function executeQuery($preparedString, $preparedValues): array
+    public function executeQuery($preparedString, $preparedValues)
     {
         try {
             $sentencia = $this->dbLink->prepare($preparedString);

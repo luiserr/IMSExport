@@ -8,7 +8,12 @@ use ZipArchive;
 
 class Zip
 {
-    public static function zip($source, $destination): bool
+    /**
+     * @param $source
+     * @param $destination
+     * @return bool
+     */
+    public static function zip($source, $destination)
     {
         if (!extension_loaded('zip') || !file_exists($source)) {
             return false;

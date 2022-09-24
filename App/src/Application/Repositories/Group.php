@@ -6,7 +6,7 @@ use IMSExport\Core\Connection\BaseModel;
 
 class Group extends BaseModel
 {
-    public function findBySeedId($id): array|null
+    public function findBySeedId($id)
     {
         $sql = "select 
 			g.idgrupo as id,
@@ -18,7 +18,7 @@ class Group extends BaseModel
         return $this->query($sql, ['id' => $id]);
     }
 
-    public function findGroupId($id): array|null
+    public function findGroupId($id)
     {
         $sql = "select 
 			g.idgrupo as id,
@@ -30,7 +30,7 @@ class Group extends BaseModel
         return $this->query($sql, ['id' => $id]);
     }
 
-    public function searchFolders(int $groupId): array|null
+    public function searchFolders(int $groupId)
     {
         $sql = "
             select * from temas_clase where idclase = :groupId
@@ -38,7 +38,7 @@ class Group extends BaseModel
         return $this->query($sql, compact('groupId'));
     }
 
-    public function getFolders($groupId): ?array
+    public function getFolders($groupId)
     {
         $sql = "
            SELECT 

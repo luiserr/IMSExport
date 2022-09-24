@@ -7,15 +7,17 @@ use IMSExport\Core\Script;
 
 class ExecScript
 {
+    protected $now;
     /**
      * @param Carbon $now
      */
-    public function __construct(protected Carbon $now)
+    public function __construct($now)
     {
+        $this->now = $now;
         $this->now = Carbon::now();
     }
 
-    public function atMinute(int $minute, Script $script): static
+    public function atMinute(int $minute, Script $script)
     {
         $currentMinute = $this->now->minute;
         if ($currentMinute === $minute) {

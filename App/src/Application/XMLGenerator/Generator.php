@@ -6,9 +6,9 @@ use XMLWriter;
 
 class Generator
 {
-    protected XMLWriter $xml;
+    protected $xml;
 
-    public function __construct(protected bool $memory = false)
+    public function __construct($memory = false)
     {
         $this->xml = new XMLWriter();
     }
@@ -18,7 +18,7 @@ class Generator
         array    $attributes = null,
         string   $text = null,
         callable $children = null
-    ): Generator
+    )
     {
         $this->xml->startElement($key);
         $this
@@ -31,7 +31,7 @@ class Generator
         return $this;
     }
 
-    public function addText(string $text = null): static
+    public function addText(string $text = null)
     {
         if ($text) {
             $this->xml->text($text);
@@ -39,7 +39,7 @@ class Generator
         return $this;
     }
 
-    protected function createAttributes(array $attributes = null): static
+    protected function createAttributes(array $attributes = null)
     {
         if (is_array($attributes)) {
             foreach ($attributes as $key => $value) {
@@ -57,7 +57,7 @@ class Generator
         $content = $this->xml->flush();
     }
 
-    public function init(string $path = null): Generator
+    public function init(string $path = null)
     {
         print_r($path);
         if ($this->memory) {

@@ -10,9 +10,9 @@ use IMSExport\Core\Script;
 
 class ExecuteExport extends Script
 {
-    protected Model $model;
+    protected $model;
 
-    public function __construct(Carbon $now)
+    public function __construct($now)
     {
         parent::__construct($now);
         $this->model = new Model();

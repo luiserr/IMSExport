@@ -12,20 +12,24 @@ use IMSExport\Helpers\Collection;
 
 class QTI extends IMSQTIFormat
 {
-    protected Exam $exam;
+    protected $exam;
     protected $configurate;
-    protected Collection $section;
-    protected Collection $question;
+    protected $section;
+    protected $question;
+    protected $group;
+    protected $data;
 
-    public function __construct(protected Group $group, protected array $data)
+    public function __construct($group, $data)
     {
+        $this->group = $group;
+        $this->data = $data;
         $this->exam = new Exam($this->data['id']);
         $this->section = Collection::create($this->exam->getSection);
         $this->question = Collection::create($this->exam->getQuestion);
         parent::__construct();
     }
 
-    public function export(): bool
+    public function export()
     {
         try {
             $self = $this;
@@ -46,7 +50,7 @@ class QTI extends IMSQTIFormat
         }
     }
 
-    public function finish(): BaseFormat
+    public function finish()
     {
         $this->XMLGenerator->finish();
         return $this;
@@ -106,17 +110,17 @@ class QTI extends IMSQTIFormat
         }
     }
 
-    public function getName(): string
+    public function getName()
     {
         return "{$this->data['identifierRef']}.xml";
     }
 
-    public function getFolderName(): string
+    public function getFolderName()
     {
         return "{$this->group->seedId}/{$this->data['identifierRef']}";
     }
 
-    public function getType(): string
+    public function getType()
     {
         return 'imsqti_xmlv1p2/imscc_xmlv1p1/assessment';
     }

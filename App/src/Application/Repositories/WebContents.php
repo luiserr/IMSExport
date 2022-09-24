@@ -6,7 +6,7 @@ use IMSExport\Core\Connection\BaseModel;
 
 class WebContents extends BaseModel
 {
-    public function getTask($id): ?array
+    public function getTask($id)
     {
         $sql = "
             SELECT 
@@ -35,7 +35,7 @@ class WebContents extends BaseModel
         return $this->query($sql, compact('id'));
     }
 
-    public function getWiki($id): ?array
+    public function getWiki($id)
     {
         $sql = "
             SELECT 

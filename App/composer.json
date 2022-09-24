@@ -16,9 +16,7 @@
   "minimum-stability": "beta",
   "require": {
     "ext-xmlwriter": "*",
-    "tightenco/collect": "^9.25",
     "ext-pdo": "*",
-    "ext-zip": "*",
-    "nesbot/carbon": "^2.62"
+    "ext-zip": "*"
   }
 }

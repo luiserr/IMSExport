@@ -7,12 +7,12 @@ use IMSExport\Application\Constants\Activities;
 class IMSIdentifierRef extends IMSIdentifierBase
 {
 
-    protected int $assessmentId = 0;
-    protected int $webContentId = 0;
-    protected int $discussionId = 0;
+    protected $assessmentId = 0;
+    protected $webContentId = 0;
+    protected $discussionId = 0;
 
 
-    public function getIdentifier(?string $type): ?string
+    public function getIdentifier($type)
     {
         switch ($type) {
             case Activities::exam:

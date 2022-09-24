@@ -14,11 +14,15 @@ use IMSExport\Core\BaseEntity;
  */
 class Group extends BaseEntity
 {
+    public $seedId;
+    protected $typeId;
     /**
      * @throws Exception
      */
-    public function __construct(public string $seedId, protected string $typeId = 'groupId')
+    public function __construct($seedId, $typeId = 'groupId')
     {
+        $this->seedId = $seedId;
+        $this->typeId = $typeId;
         $this->repository = new GroupModel();
         $this->find();
     }
@@ -39,7 +43,7 @@ class Group extends BaseEntity
     /**
      * @throws Exception
      */
-    public function findBySeedId(): self
+    public function findBySeedId()
     {
         $group = $this->repository->firstElement(
             $this->repository->findBySeedId($this->seedId)
@@ -55,7 +59,7 @@ class Group extends BaseEntity
      * @return $this
      * @throws Exception
      */
-    public function findGroupId(): self
+    public function findGroupId()
     {
         $group = $this->repository->firstElement(
             $this->repository->findGroupId($this->seedId)
@@ -67,7 +71,7 @@ class Group extends BaseEntity
         throw new Exception('Grupo no encontrado');
     }
 
-    public function resources(): array
+    public function resources()
     {
         return [
             ['id' => 1, 'parent_id' => 0, 'typeActivity' => null, 'type' => 'assets', 'title' => 'Test Exam', 'description' => 'Test Description'],
@@ -88,7 +92,7 @@ class Group extends BaseEntity
         return $this->getAttribute('scaffolding');
     }
 
-    protected function getScaffolding(): ?array
+    protected function getScaffolding()
     {
         $folders = $this->repository->getData(
             $this->repository->getFolders($this->getAttribute('id'))

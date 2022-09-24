@@ -4,7 +4,7 @@ namespace IMSExport\Core\Connection;
 
 class PDOResultArray extends PDOResult
 {
-    private int $index;
+    private $index;
 
     public function __construct($result, $debug)
     {
@@ -21,7 +21,7 @@ class PDOResultArray extends PDOResult
             return FALSE;
     }
 
-    public function count(): int
+    public function count()
     {
         if (is_array($this->result))
             return count($this->result);
@@ -29,7 +29,7 @@ class PDOResultArray extends PDOResult
             return 0;
     }
 
-    public function close(): void
+    public function close()
     {
         $this->result = array();
     }

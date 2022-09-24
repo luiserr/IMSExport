@@ -6,7 +6,7 @@ use IMSexport\Application\XMLGenerator\Generator;
 abstract class IMSQTIFormat extends BaseFormat
 {
 
-    protected function createQuestestinterop($children): self
+    protected function createQuestestinterop($children)
     {
         $this->XMLGenerator->createElement('questestinterop', [
             'xmlns' => 'http://www.imsglobal.org/xsd/ims_qtiasiv1p2',
@@ -16,7 +16,7 @@ abstract class IMSQTIFormat extends BaseFormat
         return $this;
     }
 
-    protected function createAssessment(string $identifier, string $title, callable $children): self
+    protected function createAssessment(string $identifier, string $title, callable $children)
     {
         $this->XMLGenerator->createElement(
             'assessment',
@@ -30,7 +30,7 @@ abstract class IMSQTIFormat extends BaseFormat
         return $this;
     }
 
-    protected function qtimetadata(?string $attempt): self
+    protected function qtimetadata($attempt)
     {
         $this->XMLGenerator
             ->createElement(
@@ -74,7 +74,7 @@ abstract class IMSQTIFormat extends BaseFormat
         return $this;
     }
 
-    protected function createInitPresentationMaterial($instrucciones): self
+    protected function createInitPresentationMaterial($instrucciones)
     {
 
         $this->XMLGenerator
@@ -105,7 +105,7 @@ abstract class IMSQTIFormat extends BaseFormat
         return $this;
     }
 
-    protected function qtimetadataSection( $numberofitems, $weighting ): self
+    protected function qtimetadataSection( $numberofitems, $weighting )
     {
 
         $this->XMLGenerator
@@ -134,7 +134,7 @@ abstract class IMSQTIFormat extends BaseFormat
 
     }
 
-    public function createDummy(): self
+    public function createDummy()
     {
         $this->XMLGenerator->createElement(
             'Dummy',

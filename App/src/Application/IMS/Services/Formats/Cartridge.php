@@ -7,7 +7,7 @@ use IMSexport\Application\XMLGenerator\Generator;
 abstract class Cartridge extends BaseFormat
 {
 
-    protected function createManifest($children): self
+    protected function createManifest($children)
     {
         $this->XMLGenerator->createElement('manifest', [
             'identifier' => 'man00001',
@@ -21,7 +21,7 @@ abstract class Cartridge extends BaseFormat
         return $this;
     }
 
-    protected function createMetadata(string $title, string $description): self
+    protected function createMetadata(string $title, string $description)
     {
         $this->XMLGenerator
             ->createElement(
@@ -47,7 +47,7 @@ abstract class Cartridge extends BaseFormat
         return $this;
     }
 
-    protected function createOrganization(string $identifier, callable $children): self
+    protected function createOrganization(string $identifier, callable $children)
     {
         $this->XMLGenerator->createElement(
             'organization',
@@ -70,7 +70,7 @@ abstract class Cartridge extends BaseFormat
         return $this;
     }
 
-    protected function createOrganizations(callable $children): self
+    protected function createOrganizations(callable $children)
     {
         $this->XMLGenerator->createElement(
             'organizations',
@@ -81,7 +81,7 @@ abstract class Cartridge extends BaseFormat
         return $this;
     }
 
-    protected function createResourceTag($identifier, $type, $href): self
+    protected function createResourceTag($identifier, $type, $href)
     {
         $this->XMLGenerator->createElement(
             'resource',

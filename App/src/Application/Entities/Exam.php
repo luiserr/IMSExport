@@ -11,8 +11,11 @@ use IMSExport\Core\BaseEntity;
  */
 class Exam extends BaseEntity
 {
-    public function __construct(public string $id)
+    public $id;
+
+    public function __construct($id)
     {
+        $this->id = $id;
         $this->repository = new ExamModel();
         $this->find();
     }
@@ -25,12 +28,12 @@ class Exam extends BaseEntity
         }
     }
 
-    public function getSection(): ?array
+    public function getSection()
     {
         return $this->repository->getData($this->repository->getSection($this->id));
     }
 
-    public function getQuestion(): ?array
+    public function getQuestion()
     {
         return $this->repository->getData($this->repository->getQuestion($this->id));
     }

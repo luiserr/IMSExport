@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_ERROR | E_PARSE);
+//error_reporting(E_ERROR | E_PARSE);
 
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 
@@ -66,10 +66,11 @@ $app->action('delete', '/export', function ($params, $body) {
 });
 
 $app->action('get', '/test', function () {
-    $export = new \IMSExport\Application\ExportIMS\Services\ExportExecutor(
-        ['groupId' => '51250023_3_VIRTUAL_1', 'typeId' => 'seedId']
-    );
-    $export->export();
+//    $export = new \IMSExport\Application\ExportIMS\Services\ExportExecutor(
+//        ['groupId' => '51250023_3_VIRTUAL_1', 'typeId' => 'seedId']
+//    );
+//    $export->export();
+    print_r('Hola mundo');
 });
 
 return $app->exec();

@@ -8,25 +8,29 @@ use IMSExport\Application\Repositories\WebContents as Repository;
 
 abstract class WebContents extends BaseFormat
 {
-    protected Repository $repository;
+    protected $repository;
+    protected $group;
+    protected $data;
 
-    public function __construct(protected Group $group, protected array $data)
+    public function __construct($group, $data)
     {
+        $this->group = $group;
+        $this->data = $data;
         $this->repository = new Repository();
         parent::__construct();
     }
 
-    public function getName(): string
+    public function getName()
     {
         return "{$this->data['identifierRef']}.html";
     }
 
-    public function getFolderName(): string
+    public function getFolderName()
     {
         return "{$this->group->seedId}/{$this->data['identifierRef']}";
     }
 
-    public function getType(): string
+    public function getType()
     {
         return '';
     }
@@ -35,7 +39,7 @@ abstract class WebContents extends BaseFormat
      * @return bool
      * @throws Exception
      */
-    public function export(): bool
+    public function export()
     {
         $content = $this->find();
         if (!$content) {
@@ -47,7 +51,7 @@ abstract class WebContents extends BaseFormat
 
     protected abstract function find();
 
-    protected function template($title, $description): string
+    protected function template($title, $description)
     {
         return "
         <!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>

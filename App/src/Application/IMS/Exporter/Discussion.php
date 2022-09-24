@@ -11,11 +11,15 @@ use IMSExport\Helpers\Collection;
 
 class Discussion extends IMSDiscussionFormat
 {
-    protected Foro $foro;
-    protected Collection $archivos;
+    protected $foro;
+    protected $archivos;
+    protected $group;
+    protected $data;
 
-    public function __construct(protected Group $group, protected array $data)
+    public function __construct($group, $data)
     {
+        $this->group = $group;
+        $this->data = $data;
 //      find Foro
         $this->foro = new Foro($this->data['id']);
 //      $this->foro->forumByPost($this->data['id']);
@@ -24,7 +28,7 @@ class Discussion extends IMSDiscussionFormat
         parent::__construct();
     }
 
-    public function export(): bool
+    public function export()
     {
         try {
             $self = $this;
@@ -39,23 +43,23 @@ class Discussion extends IMSDiscussionFormat
         }
     }
 
-    protected function finish(): BaseFormat
+    protected function finish()
     {
         $this->XMLGenerator->finish();
         return $this;
     }
 
-    public function getName(): string
+    public function getName()
     {
         return "{$this->data['identifierRef']}.xml";
     }
 
-    public function getFolderName(): string
+    public function getFolderName()
     {
         return "{$this->group->seedId}/{$this->data['identifierRef']}";
     }
 
-    public function getType(): string
+    public function getType()
     {
         return 'imsdt_xmlv1p1';
     }

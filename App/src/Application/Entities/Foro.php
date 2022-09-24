@@ -11,9 +11,11 @@ use IMSExport\Core\BaseEntity;
  */
 class Foro extends BaseEntity
 {
+    public $id;
 
-    public function __construct(public string $id)
+    public function __construct($id)
     {
+        $this->id = $id;
         $this->repository = new ForumModel();
         $this->forumByPost();
         $this->forumFile();
@@ -27,7 +29,7 @@ class Foro extends BaseEntity
         }
     }
 
-    public function forumFile(): ?array
+    public function forumFile()
     {
         $files = $this->repository->getData($this->repository->forumFile($this->id));
         if($files) {

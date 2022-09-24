@@ -11,21 +11,23 @@ use IMSExport\Helpers\Collection;
 
 class Cartridge extends Format
 {
-    protected Collection $resources;
-    protected array $queue = [];
+    protected $resources;
+    protected $queue = [];
+    public $group;
 
-    public function __construct(public Group $group)
+    public function __construct($group)
     {
+        $this->group = $group;
         $this->resources = Collection::create($this->group->scaffolding());
         parent::__construct();
     }
 
-    public function getFolderName(): string
+    public function getFolderName()
     {
         return $this->group->seedId;
     }
 
-    protected function createResources(): self
+    protected function createResources()
     {
         foreach ($this->queue as $resource) {
             $driver = Factory::getDriver($this->group, $resource['resourceType'], $resource);
@@ -62,7 +64,7 @@ class Cartridge extends Format
      * @return bool
      * @throws Exception
      */
-    public function export(): bool
+    public function export()
     {
         try {
             $self = $this;
@@ -80,7 +82,7 @@ class Cartridge extends Format
         }
     }
 
-    protected function createOrganizationsStructure(): self
+    protected function createOrganizationsStructure()
     {
         $roots = $this->resources
             ->where('parentId', null)
@@ -100,7 +102,7 @@ class Cartridge extends Format
         return $this;
     }
 
-    protected function createItemResource($parent): void
+    protected function createItemResource($parent)
     {
         $resources = $this
             ->resources
@@ -142,12 +144,12 @@ class Cartridge extends Format
         }
     }
 
-    public function getName(): string
+    public function getName()
     {
         return 'imsmanifest.xml';
     }
 
-    public function getType(): string
+    public function getType()
     {
         return 'ims_cartridge';
     }

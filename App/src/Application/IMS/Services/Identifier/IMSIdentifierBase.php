@@ -4,7 +4,7 @@ namespace IMSExport\Application\IMS\Services\Identifier;
 
 abstract class IMSIdentifierBase implements IdentifierInterface
 {
-    public function createIdentifier(string $prefix, int &$counter): string
+    public function createIdentifier($prefix, &$counter)
     {
         ++$counter;
         return "{$prefix}_{$counter}";

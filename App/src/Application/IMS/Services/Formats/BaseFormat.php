@@ -12,10 +12,10 @@ abstract class BaseFormat implements FormatInterface
 {
     const PATH = STORAGE . 'export/IMS/';
 
-    public Generator $XMLGenerator;
+    public $XMLGenerator;
 
-    protected IMSIdentifier $identifierCreator;
-    protected IMSIdentifierRef $identifierRefCreator;
+    protected $identifierCreator;
+    protected $identifierRefCreator;
 
     public function __construct()
     {
@@ -28,12 +28,12 @@ abstract class BaseFormat implements FormatInterface
             ->init($this->getFullPath());
     }
 
-    protected function getFullPath(): string
+    protected function getFullPath()
     {
         return self::PATH . "{$this->getFolderName()}/{$this->getName()}";
     }
 
-    protected function finish(): self
+    protected function finish()
     {
         $this->XMLGenerator->finish();
         $folderName = self::PATH . $this->getFolderName();

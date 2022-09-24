@@ -15,14 +15,14 @@ class Forum extends BaseModel
         return $this->query($sql, ['id' => $id]);
     }
 */
-    public function forumByPost($id): array|null
+    public function forumByPost($id)
     {
         $sql = "SELECT post.titulo AS title, post.contenido AS description 
                 FROM post WHERE post.idpost = :id;";
         return $this->query($sql, ['id' => $id]);
     }
 
-    public function forumFile($id): array|null
+    public function forumFile($id)
     {
         $sql = "SELECT filepath AS attach FROM archivo WHERE post_idPost = :id;";
         return $this->query($sql, ['id' => $id]);
