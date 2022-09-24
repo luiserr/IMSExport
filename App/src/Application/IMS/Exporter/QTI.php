@@ -20,8 +20,8 @@ class QTI extends IMSQTIFormat
     public function __construct(protected Group $group, protected array $data)
     {
         $this->exam = new Exam($this->data['id']);
-        $this->section = Collection::createCollection($this->exam->getSection);
-        $this->question = Collection::createCollection($this->exam->getQuestion);
+        $this->section = Collection::create($this->exam->getSection);
+        $this->question = Collection::create($this->exam->getQuestion);
         parent::__construct();
     }
 

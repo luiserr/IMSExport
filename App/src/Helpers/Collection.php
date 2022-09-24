@@ -17,7 +17,7 @@ class Collection
         $this->collection = $collection;
     }
 
-    public static function createCollection($array): Collection
+    public static function create($array): Collection
     {
         if (is_array($array)) {
             return new Collection($array);

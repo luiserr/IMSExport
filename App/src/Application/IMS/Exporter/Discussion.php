@@ -19,7 +19,7 @@ class Discussion extends IMSDiscussionFormat
 //      find Foro
         $this->foro = new Foro($this->data['id']);
 //      $this->foro->forumByPost($this->data['id']);
-        $this->archivos = Collection::createCollection($this->foro->forumFile);
+        $this->archivos = Collection::create($this->foro->forumFile);
 
         parent::__construct();
     }

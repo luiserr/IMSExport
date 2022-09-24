@@ -1,0 +1,3 @@
+# must be ended with a new line "LF" (Unix) and not "CRLF" (Windows)
+* * * * * date >> /var/log/time.log
+* * * * * php -f /var/www/html/IMSExport/src/Scripts/script.php >> /var/log/IMSExport.log

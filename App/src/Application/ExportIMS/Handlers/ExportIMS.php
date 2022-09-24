@@ -86,4 +86,14 @@ class ExportIMS extends BaseHandler
             $exports
         );
     }
+
+    public function delete(): bool|string
+    {
+        $this->model->delete($this->body['id']);
+        return self::response(
+            true,
+            $this->body,
+            self::SUCCESS
+        );
+    }
 }

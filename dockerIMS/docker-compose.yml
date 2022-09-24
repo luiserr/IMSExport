@@ -4,12 +4,13 @@ services:
     container_name: IMSExport
     build:
       context: ./
-      dockerfile: Dockerfile 
+      dockerfile: Dockerfile
+    command: [ "cron", "-f" ]
     volumes:
       - '../App:/var/www/html/IMSExport'
       - '../.env:/var/www/.env'
       - './apache_dev.conf:/etc/apache2/apache2.conf'
-      - './crontab:/etc/crontab'
+#      - './crontab:/var/spool/cron/crontabs/root'
     restart: always
     ports:
       - '443:443'

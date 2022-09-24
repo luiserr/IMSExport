@@ -10,7 +10,7 @@ use IMSExport\Helpers\Zip;
 
 abstract class BaseFormat implements FormatInterface
 {
-    const PATH = './storage/export/IMS/';
+    const PATH = STORAGE . 'export/IMS/';
 
     public Generator $XMLGenerator;
 

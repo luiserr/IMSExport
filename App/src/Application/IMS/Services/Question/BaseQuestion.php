@@ -13,7 +13,7 @@ abstract class BaseQuestion
 	public function __construct(public $data, public $root)
     {
     	$this->answer = new Answer($this->data['idPreguntas']);
-		$this->answerCollection = Collection::createCollection($this->answer->find());
+		$this->answerCollection = Collection::create($this->answer->find());
     }
 
     protected function createItem($children): self

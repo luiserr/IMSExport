@@ -16,3 +16,19 @@ RUN apt-get update  \
 RUN a2enmod rewrite \
     && /etc/init.d/apache2 restart \
     && service cron start \
+    && service apache2 start
+
+COPY ./root /etc/cron.d/root-cron
+
+# Give execution rights on the cron job
+RUN chmod 0644  /etc/cron.d/root-cron
+
+# Apply cron job
+RUN crontab /etc/cron.d/root-cron
+
+# Create the log file to be able to run tail
+#RUN touch /var/log/cron.log
+
+# Run the command on container startup
+#CMD cron && tail -f /var/log/cron.log
+

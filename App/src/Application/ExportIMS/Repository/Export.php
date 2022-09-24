@@ -25,15 +25,16 @@ class Export extends BaseModel
     /**
      * @param int $processId
      * @param string $status
+     * @param $exportPath
      * @return array
      * @throws Exception
      */
-    public function finish(int $processId, string $status): array
+    public function finish(int $processId, string $status, $exportPath): array
     {
         $sql = "
-            update group_exports set finishedAt = current_timestamp() , status = :status where id = :processId ;
+            update group_exports set finishedAt = current_timestamp() , status = :status, exportPath = :exportPath where id = :processId ;
         ";
-        return $this->executeOrFail($sql, compact('status', 'processId'));
+        return $this->executeOrFail($sql, compact('status', 'exportPath', 'processId'));
     }
 
     /**
@@ -75,9 +76,17 @@ class Export extends BaseModel
 			ge.finishedAt,
 			ge.typeId,
 			ge.sourceType			
-			from group_exports ge where ge.status = :status
+			from group_exports ge where ge.status = :status and ge.deletedAt is null
             order by ge.id asc 
         ";
         return $this->query($sql, compact('status'));
+    }
+
+    public function delete(int $exportId): array
+    {
+        $sql = "
+            update group_exports set deletedAt = current_timestamp() where id = :exportId;
+        ";
+        return $this->executeOrFail($sql, compact('exportId'));
     }
 }

@@ -33,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 //require_once $_SERVER['DOCUMENT_ROOT'] . '/paths.php';
 
 require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/paths.php';
 
 use IMSExport\Application\ExportIMS\Handlers\ExportIMS;
 use IMSExport\Core\Router\Teeny;
@@ -57,6 +58,11 @@ $app->action('get', '/export/inProgress', function ($params, $body) {
 $app->action('get', '/export/finished', function ($params, $body) {
     $export = new ExportIMS($params, $body);
     $export->getFinished();
+});
+
+$app->action('delete', '/export', function ($params, $body) {
+    $export = new ExportIMS($params, $body);
+    $export->delete();
 });
 
 $app->action('get', '/test', function () {

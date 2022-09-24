@@ -6,6 +6,7 @@ use Exception;
 use IMSExport\Application\Entities\Group;
 use IMSExport\Application\ExportIMS\Repository\Export;
 use IMSExport\Application\IMS\Exporter\Cartridge;
+use IMSExport\Application\IMS\Services\Formats\BaseFormat;
 
 class ExportExecutor
 {
@@ -27,9 +28,13 @@ class ExportExecutor
     public function export()
     {
         $group = $this->createGroup($this->data['groupId'], $this->data['typeId']);
-        $this->init($group);
-        if ($this->data['id']) {
-            $this->finishProcess($this->data['id']);
+        $cartridge = new Cartridge($group);
+        $export = $cartridge->export();
+        if ($export) {
+            $path = $cartridge::PATH . $cartridge->getFolderName() . '.zip';
+            if ($this->data['id']) {
+                $this->finishProcess($this->data['id'], $path);
+            }
         }
     }
 
@@ -45,22 +50,14 @@ class ExportExecutor
     }
 
     /**
-     * @param Group $group
-     * @return bool
-     * @throws Exception
-     */
-    protected function init(Group $group): bool
-    {
-        return (new Cartridge($group))->export();
-    }
-
-    /**
      * @param $processId
+     * @param $path
      * @return void
      * @throws Exception
      */
-    protected function finishProcess($processId)
+    protected function finishProcess($processId, $path)
     {
-        $this->repository->finish($processId, self::finished);
+
+        $this->repository->finish($processId, self::finished, $path);
     }
 }
