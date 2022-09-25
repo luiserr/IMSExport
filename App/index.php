@@ -1,5 +1,5 @@
 <?php
-//error_reporting(E_ERROR | E_PARSE);
+error_reporting(E_ERROR | E_PARSE);
 
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 
@@ -73,6 +73,11 @@ $app->action('get', '/test', function () {
 //    $x = \IMSExport\Helpers\Carbon\Carbon::now();
 //    print_r('Hola mundo');
 //    print_r($x->toDateTimeString());
+});
+
+$app->action('get', '/download/<exportId:alnum>', function ($params, $body) {
+    $export = new ExportIMS($params, $body);
+    $export->download();
 });
 
 return $app->exec();

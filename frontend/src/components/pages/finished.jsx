@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {get} from "../../utils/request";
+import {api, get} from "../../utils/request";
 import MyTable from "../commons/table";
 import {Button, Grid} from "@mui/material";
 import Layout from "../commons/Layuot";
 import DownloadIcon from '@mui/icons-material/Download';
 
 const headers = {
+  'id': 'Id',
   'groupId': 'Id de curso',
   'createdAt': 'Fecha de creación',
   'finishedAt': 'Fecha de finalizado'
@@ -26,10 +27,14 @@ const Finished = () => {
     }
   }
 
+  const downLoad = (id) => {
+    window.open(`${api}/download/${id}`);
+  };
+
   const actions = [{
     title: 'Descargar',
-    component: () => <Button
-      onClick={() => console.log('joder')}
+    component: ({id}) => <Button
+      onClick={() => downLoad(id)}
       startIcon={<DownloadIcon/>}
     />
   }

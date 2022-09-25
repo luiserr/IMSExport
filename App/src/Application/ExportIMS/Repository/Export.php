@@ -89,4 +89,20 @@ class Export extends BaseModel
         ";
         return $this->executeOrFail($sql, compact('exportId'));
     }
+
+    public function find($exportId)
+    {
+        $sql = "
+            select 
+			ge.id,
+			ge.groupId,
+			ge.createdAt,
+			ge.typeId,
+			ge.sourceType,
+            ge.exportPath
+			from group_exports ge where ge.id = :exportId  
+			order by ge.id asc;
+        ";
+        return $this->query($sql, compact('exportId'));
+    }
 }

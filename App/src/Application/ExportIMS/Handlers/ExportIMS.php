@@ -96,4 +96,31 @@ class ExportIMS extends BaseHandler
             self::SUCCESS
         );
     }
+
+    public function download()
+    {
+        $export = $this->model->firstElement(
+            $this->model->find($this->params['exportId'])
+        );
+        if ($export) {
+            $attachment_location = $export['exportPath'];
+            if (file_exists($attachment_location)) {
+                header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
+                header("Cache-Control: public"); // needed for internet explorer
+                header("Content-Type: application/zip");
+                header("Content-Transfer-Encoding: Binary");
+                header("Content-Length:" . filesize($attachment_location));
+                header("Content-Disposition: attachment; filename={$export['groupId']}.zip");
+                readfile($attachment_location);
+                die();
+            } else {
+                die("Error: File not found.");
+            }
+        }
+        return self::response(
+            false,
+            null,
+            'No hay datos para descargar'
+        );
+    }
 }
