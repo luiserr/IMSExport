@@ -66,11 +66,13 @@ $app->action('delete', '/export', function ($params, $body) {
 });
 
 $app->action('get', '/test', function () {
-//    $export = new \IMSExport\Application\ExportIMS\Services\ExportExecutor(
-//        ['groupId' => '51250023_3_VIRTUAL_1', 'typeId' => 'seedId']
-//    );
-//    $export->export();
-    print_r('Hola mundo');
+    $export = new \IMSExport\Application\ExportIMS\Services\ExportExecutor(
+        ['groupId' => '51250023_3_VIRTUAL_1', 'typeId' => 'seedId']
+    );
+    $export->export();
+//    $x = \IMSExport\Helpers\Carbon\Carbon::now();
+//    print_r('Hola mundo');
+//    print_r($x->toDateTimeString());
 });
 
 return $app->exec();

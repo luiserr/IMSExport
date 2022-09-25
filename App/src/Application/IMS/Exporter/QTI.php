@@ -4,10 +4,8 @@ namespace IMSExport\Application\IMS\Exporter;
 
 use Exception;
 use IMSExport\Application\Entities\Exam;
-use IMSExport\Application\Entities\Group;
-use IMSExport\Application\IMS\Services\Formats\BaseFormat;
 use IMSExport\Application\IMS\Services\Formats\IMSQTIFormat;
-use IMSExport\Application\IMS\Services\Question\Factory;
+use IMSExport\Application\IMS\Services\Question\Factory as FactoryQTI;
 use IMSExport\Helpers\Collection;
 
 class QTI extends IMSQTIFormat
@@ -100,7 +98,7 @@ class QTI extends IMSQTIFormat
             foreach ($questions as $question) {
                 $question = array_merge($question, compact('identifier'));
 
-                $driver = Factory::getDriver(
+                $driver = FactoryQTI::getDriver(
                     $question['tipo'],
                     $question,
                     $root

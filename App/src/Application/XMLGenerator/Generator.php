@@ -14,10 +14,10 @@ class Generator
     }
 
     public function createElement(
-        string   $key,
-        array    $attributes = null,
-        string   $text = null,
-        callable $children = null
+        $key,
+        $attributes = null,
+        $text = null,
+        $children = null
     )
     {
         $this->xml->startElement($key);
@@ -31,7 +31,7 @@ class Generator
         return $this;
     }
 
-    public function addText(string $text = null)
+    public function addText($text = null)
     {
         if ($text) {
             $this->xml->text($text);
@@ -39,7 +39,7 @@ class Generator
         return $this;
     }
 
-    protected function createAttributes(array $attributes = null)
+    protected function createAttributes($attributes = null)
     {
         if (is_array($attributes)) {
             foreach ($attributes as $key => $value) {
@@ -57,7 +57,7 @@ class Generator
         $content = $this->xml->flush();
     }
 
-    public function init(string $path = null)
+    public function init($path = null)
     {
         print_r($path);
         if ($this->memory) {

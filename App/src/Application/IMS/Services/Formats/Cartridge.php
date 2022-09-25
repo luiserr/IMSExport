@@ -21,7 +21,7 @@ abstract class Cartridge extends BaseFormat
         return $this;
     }
 
-    protected function createMetadata(string $title, string $description)
+    protected function createMetadata($title, $description)
     {
         $this->XMLGenerator
             ->createElement(
@@ -47,7 +47,7 @@ abstract class Cartridge extends BaseFormat
         return $this;
     }
 
-    protected function createOrganization(string $identifier, callable $children)
+    protected function createOrganization($identifier, $children)
     {
         $this->XMLGenerator->createElement(
             'organization',
@@ -70,7 +70,7 @@ abstract class Cartridge extends BaseFormat
         return $this;
     }
 
-    protected function createOrganizations(callable $children)
+    protected function createOrganizations($children)
     {
         $this->XMLGenerator->createElement(
             'organizations',

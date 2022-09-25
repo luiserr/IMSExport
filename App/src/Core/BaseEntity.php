@@ -42,7 +42,7 @@ class BaseEntity
         return $this;
     }
 
-    public function getAttribute(string $attribute)
+    public function getAttribute($attribute)
     {
         return $this->data[$attribute];
     }

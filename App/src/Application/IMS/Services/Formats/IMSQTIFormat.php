@@ -16,7 +16,7 @@ abstract class IMSQTIFormat extends BaseFormat
         return $this;
     }
 
-    protected function createAssessment(string $identifier, string $title, callable $children)
+    protected function createAssessment($identifier, $title, $children)
     {
         $this->XMLGenerator->createElement(
             'assessment',

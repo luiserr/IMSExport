@@ -9,7 +9,7 @@ $sourceDir = $dirSplit[0];
 require_once $sourceDir . '/paths.php';
 require_once VENDOR . 'autoload.php';
 
-use Carbon\Carbon;
+use IMSExport\Helpers\Carbon\Carbon;
 use IMSExport\Application\ExportIMS\Scripts\ExecuteExport;
 
 $now = Carbon::now();

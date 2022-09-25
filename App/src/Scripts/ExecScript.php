@@ -2,12 +2,12 @@
 
 namespace IMSExport\Scripts;
 
-use Carbon\Carbon;
-use IMSExport\Core\Script;
+use IMSExport\Helpers\Carbon\Carbon;
 
 class ExecScript
 {
     protected $now;
+
     /**
      * @param Carbon $now
      */
@@ -17,7 +17,7 @@ class ExecScript
         $this->now = Carbon::now();
     }
 
-    public function atMinute(int $minute, Script $script)
+    public function atMinute($minute, $script)
     {
         $currentMinute = $this->now->minute;
         if ($currentMinute === $minute) {
@@ -26,7 +26,7 @@ class ExecScript
         return $this;
     }
 
-    public function atHour(int $hour, Script $script): static
+    public function atHour($hour, $script)
     {
         $currentHour = $this->now->hour;
         if ($currentHour === $hour) {
