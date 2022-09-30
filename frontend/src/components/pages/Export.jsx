@@ -18,7 +18,7 @@ const Export = () => {
   }, []);
 
   const getExports = async () => {
-    const response = await get('export');
+    const response = await get('exportGroups/export');
     if (response.success) {
       setExports(response.data);
     }

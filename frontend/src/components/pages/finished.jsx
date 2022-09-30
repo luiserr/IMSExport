@@ -21,7 +21,7 @@ const Finished = () => {
   }, []);
 
   const getExports = async () => {
-    const response = await get('export/finished');
+    const response = await get('exportGroups/export/finished');
     if (response.success) {
       setExports(response.data);
     }

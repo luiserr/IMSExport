@@ -1,8 +1,8 @@
 import CSVReader from "../commons/CSVReader";
-import {utf8Decode} from "../../utils/tools";
 import {myAlert} from "../../utils/alerts";
 import {Box, Grid, TextField} from "@mui/material";
 import {useEffect} from "react";
+import SearchName from "./SearchName";
 
 const useSearch = (sourceType, payload, setPayload) => {
   useEffect(() => {
@@ -31,6 +31,9 @@ const useSearch = (sourceType, payload, setPayload) => {
     return (<Grid item xs={4}>
       <CSVReader handleReader={handleReader}/>
     </Grid>)
+  }
+  if (sourceType === 'name') {
+    return <SearchName setPayload={setPayload}/>
   }
   return (<Grid item xs={4}>
     <Box

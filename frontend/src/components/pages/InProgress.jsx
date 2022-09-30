@@ -19,7 +19,7 @@ const InProgress = () => {
   }, []);
 
   const getExports = async () => {
-    const response = await get('export/inProgress');
+    const response = await get('exportGroups/export/inProgress');
     if (response.success) {
       setExports(response.data);
     }

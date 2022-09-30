@@ -7,13 +7,15 @@ import Finished from "../components/pages/finished";
 
 const MyRoutes = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Body/>}>
-        <Route path="/" element={<Export/>}/>
-        <Route path="/inProgress" element={<InProgress/>}/>
-        <Route path="/finished" element={<Finished/>}/>
-      </Route>
-    </Routes>
+    <>
+      <Routes>
+        <Route name="home" path="/admin/exports/" exact element={<Body/>}>
+          <Route name="export" path="/admin/exports/" exact element={<Export/>}/>
+          <Route name="inProgress" path="/admin/exports/inProgress" exact element={<InProgress/>}/>
+          <Route name="finished" path="/admin/exports/finished" exact element={<Finished/>}/>
+        </Route>
+      </Routes>
+    </>
   );
 }
 

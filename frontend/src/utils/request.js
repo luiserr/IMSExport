@@ -1,6 +1,18 @@
 import {loading, toast} from './alerts';
+import {getDomain} from "./tools";
 
-export const api = `http://localhost/IMSExport`;
+const domain = getDomain('admin');
+
+export const dev = 'https://sena.dev.tests.mx';
+export const test = 'https://sena.pruebas.territorio.la';
+export const staging = 'https://sena.tests.mx';
+export const prod = 'https://sena.territorio.la';
+export const local = 'https://sena.pruebas.local';
+
+// export const api = dev;
+export const api = `${domain}`;
+
+// export const api = `https://sena.pruebas.local/exportGroups`;
 
 //Se crea headers
 const myHeaders = new Headers();

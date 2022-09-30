@@ -4,11 +4,54 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import {createTheme, ThemeProvider} from '@mui/material/styles';
+import {esES} from '@mui/material/locale';
+import {BrowserRouter} from "react-router-dom";
+
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      light: '#757ce8',
+      main: '#1976d2',
+      dark: '#115293',
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#ff7961',
+      main: '#f44336',
+      dark: '#ba000d',
+      contrastText: '#000',
+    },
+
+    transparent: {
+      main: "#ffffff00",
+      contrastText: "#ffffff",
+    },
+
+    overrides: {
+      MuiButton: {
+        color: 'inherit',
+        backgroundColor: "#ffffff00"
+      },
+      MuiSvgIcon: {
+        color: 'inherit',
+      },
+      MuiPaper: {
+        color: 'inherit',
+      },
+    },
+  },
+}, esES,);
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <BrowserRouter basename="/">
+    <ThemeProvider theme={theme}>
+      <App/>
+    </ThemeProvider>
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -23,3 +23,9 @@ export function utf8Decode(utftext) {
 
   return string;
 }
+
+export function getDomain(split) {
+  const locationSplit = document.location.href.split(split);
+  const host = locationSplit[0];
+  return host ? host : 'https://sena.pruebas.local.la/';
+}

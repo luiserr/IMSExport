@@ -9,7 +9,7 @@ const createMenu = (label, route, icon)=> ({
 })
 
 export default [
-  createMenu('Crear exportación', '/', <CreateNewFolderIcon />),
-  createMenu('Exportaciones en progreso', '/inProgress', <CloudSyncIcon />),
-  createMenu('Exportación finalizadas', '/finished', <CloudDownloadIcon />),
+  createMenu('Crear exportación', '/admin/exports/', <CreateNewFolderIcon />),
+  createMenu('Exportaciones en progreso', '/admin/exports/inProgress', <CloudSyncIcon />),
+  createMenu('Exportación finalizadas', '/admin/exports/finished', <CloudDownloadIcon />),
 ];
