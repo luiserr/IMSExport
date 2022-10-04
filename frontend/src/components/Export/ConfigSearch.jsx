@@ -49,7 +49,7 @@ const ConfigSearch = (
             label="Buscar por:"
             onChange={(e) => setTypeId(e.target.value)}
           >
-            <MenuItem value="seedId">Id de semilla</MenuItem>
+            <MenuItem value="seedId">Código de semilla</MenuItem>
             <MenuItem value="groupId">Id de grupo</MenuItem>
           </Select>
         </FormControl>

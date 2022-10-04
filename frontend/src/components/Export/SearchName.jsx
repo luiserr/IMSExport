@@ -6,7 +6,6 @@ import {toast} from "../../utils/alerts";
 
 const SearchName = ({setPayload}) => {
 
-  const [term, setTerm] = useState('');
   const [groups, setGroups] = useState([]);
 
 
@@ -38,7 +37,7 @@ const SearchName = ({setPayload}) => {
         return null;
       }
 
-      post(`api/assignQuestionnaires/groups`, {name: value})
+      post(`api/assignQuestionnaires/groups`, {name: value, id: value, groupId: value})
         .then(response => {
           if (response.success && response.data) {
             return setGroups(response.data);

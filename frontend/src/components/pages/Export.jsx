@@ -28,7 +28,7 @@ const Export = () => {
   const component = useSearch(sourceType, payload, setPayload);
 
   const handleSearch = async () => {
-    const response = await post(`export`, {typeId, payload, sourceType}, 'post', false, true);
+    const response = await post(`exportGroups/export`, {typeId, payload, sourceType}, 'post', false, true);
     await getExports();
   };
 

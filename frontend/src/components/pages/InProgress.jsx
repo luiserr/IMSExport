@@ -5,6 +5,7 @@ import {Container, Grid, Typography} from "@mui/material";
 import Layout from "../commons/Layuot";
 
 const headers = {
+  'id': 'Id',
   'groupId': 'Id de curso',
   'createdAt': 'Fecha de creación',
   'startedAt': 'Fecha de inicio'

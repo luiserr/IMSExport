@@ -44,7 +44,7 @@ const useSearch = (sourceType, payload, setPayload) => {
       <TextField
         fullWidth
         id="id"
-        label="Id de semilla"
+        label="Código de semilla"
         variant="outlined"
         value={payload}
         onChange={(e) => {

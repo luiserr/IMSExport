@@ -4,6 +4,7 @@ import {post} from "../../utils/request";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const headers = {
+  'id': 'Id',
   'groupId': 'Id de curso',
   'createdAt': 'Fecha de creación',
 };
@@ -11,7 +12,7 @@ const headers = {
 const Exports = ({exports, searchExports}) => {
 
   const handleDelete = async (id) => {
-    await post('export', {id}, 'delete', false, true);
+    await post('exportGroups/export', {id}, 'DELETE', false, true);
     await searchExports();
   };
 
@@ -20,18 +21,23 @@ const Exports = ({exports, searchExports}) => {
       title: 'Eliminar',
       component: ({id}) => (
         <Button
-          startIcon={<DeleteIcon />}
+          startIcon={<DeleteIcon/>}
           onClick={() => handleDelete(id)}
         />
       )
     }
   ];
 
-  return (<MyTable
-    data={exports}
-    headers={headers}
-    actions={actions}
-  />);
+  return (
+    <>
+      <h3>Exportaciones creadas</h3>
+      <MyTable
+        data={exports}
+        headers={headers}
+        actions={actions}
+      />
+    </>
+  );
 }
 
 export default Exports;

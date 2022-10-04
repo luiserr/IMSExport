@@ -23,11 +23,16 @@ const TableGroups = ({groups, setGroups, setPayload}) => {
   ];
 
 
-  return (<MyTable
-    headers={headers}
-    actions={actions}
-    data={groups}
-  />);
+  return (
+    <>
+      <h3>Resultado búsqueda de fichas</h3>
+      <MyTable
+        headers={headers}
+        actions={actions}
+        data={groups}
+      />
+    </>
+  );
 };
 
 export default TableGroups;

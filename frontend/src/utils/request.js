@@ -3,11 +3,11 @@ import {getDomain} from "./tools";
 
 const domain = getDomain('admin');
 
-export const dev = 'https://sena.dev.tests.mx';
-export const test = 'https://sena.pruebas.territorio.la';
-export const staging = 'https://sena.tests.mx';
-export const prod = 'https://sena.territorio.la';
-export const local = 'https://sena.pruebas.local';
+export const dev = 'https://sena.dev.tests.mx/';
+export const test = 'https://sena.pruebas.territorio.la/';
+export const staging = 'https://sena.tests.mx/';
+export const prod = 'https://sena.territorio.la/';
+export const local = 'https://sena.pruebas.local/';
 
 // export const api = dev;
 export const api = `${domain}`;
@@ -31,7 +31,7 @@ myHeaders.append("Access-Control-Request-Method", "*");
 export const get = async (url, showMessage = false) => {
   loading();
   // const urlAPI = replaceAPI ? url : `${api}/${prefix}/${url}`;
-  const urlAPI = `${api}/${url}`;
+  const urlAPI = `${api}${url}`;
   try {
     const response = await fetch(urlAPI);
     loading(false);

@@ -27,14 +27,14 @@ const Finished = () => {
     }
   }
 
-  const downLoad = (id) => {
-    window.open(`${api}/download/${id}`);
+  const downLoad = (url) => {
+    window.open(url);
   };
 
   const actions = [{
     title: 'Descargar',
-    component: ({id}) => <Button
-      onClick={() => downLoad(id)}
+    component: ({exportPath}) => <Button
+      onClick={() => downLoad(exportPath)}
       startIcon={<DownloadIcon/>}
     />
   }
