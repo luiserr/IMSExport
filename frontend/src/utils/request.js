@@ -12,7 +12,7 @@ export const local = 'https://sena.pruebas.local/';
 // export const api = dev;
 export const api = `${domain}`;
 
-// export const api = `https://sena.pruebas.local/exportGroups`;
+// export const api = `https://sena.pruebas.local/`;
 
 //Se crea headers
 const myHeaders = new Headers();
@@ -61,7 +61,7 @@ export const post = async (url, payload = {}, method = 'POST', replaceAPI = fals
   const body = JSON.stringify(payload);
   loading();
   // const urlAPI = replaceAPI ? url : `${api}/${prefix}/${url}`;
-  const urlAPI = replaceAPI ? url : `${api}/${url}`;
+  const urlAPI = replaceAPI ? url : `${api}${url}`;
   const options = {
     headers: myHeaders,
     method: method ? method : 'POST',

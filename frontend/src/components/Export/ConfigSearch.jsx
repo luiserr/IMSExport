@@ -41,7 +41,7 @@ const ConfigSearch = (
       </Grid>
       <Grid item xs={6}>
         <FormControl fullWidth>
-          <InputLabel id="label-seedId">Buscar por:</InputLabel>
+          <InputLabel id="label-seedId">Indice a usar: </InputLabel>
           <Select
             labelId="label-seedId"
             value={typeId}
@@ -49,8 +49,8 @@ const ConfigSearch = (
             label="Buscar por:"
             onChange={(e) => setTypeId(e.target.value)}
           >
-            <MenuItem value="seedId">Código de semilla</MenuItem>
-            <MenuItem value="groupId">Id de grupo</MenuItem>
+            <MenuItem value="groupId">Id primario <i>(Id primario de la tabla de cursos)</i></MenuItem>
+            <MenuItem value="seedId">Código de semilla <i>(Ej: 12310175_1_VIRTUAL_2)</i></MenuItem>
           </Select>
         </FormControl>
       </Grid>

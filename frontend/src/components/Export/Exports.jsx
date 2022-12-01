@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const headers = {
   'id': 'Id',
   'groupId': 'Id de curso',
+  'name': 'Nombre del curso',
   'createdAt': 'Fecha de creación',
 };
 

@@ -8,6 +8,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 const headers = {
   'id': 'Id',
   'groupId': 'Id de curso',
+  'name': 'Nombre del curso',
   'createdAt': 'Fecha de creación',
   'finishedAt': 'Fecha de finalizado'
 };

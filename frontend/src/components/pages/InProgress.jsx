@@ -7,6 +7,7 @@ import Layout from "../commons/Layuot";
 const headers = {
   'id': 'Id',
   'groupId': 'Id de curso',
+  'name': 'Nombre del curso',
   'createdAt': 'Fecha de creación',
   'startedAt': 'Fecha de inicio'
 };
